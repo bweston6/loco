@@ -13,3 +13,11 @@ The API interface will look something like the following:
 * `email[] get_users_from_group(groupID)`
 * `bool set_attendance(email, eventID, attended)`
 * `bool get_attendance(email, eventID)`
+
+## Backend
+To setup your environment for the backend:
+
+1. Install pip
+1. Install flask with `pip install flask`
+1. Export the location of the flask app with `export FLASK_APP=test.py`
+1. Run the server with `flask run`
