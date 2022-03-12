@@ -20,4 +20,4 @@ def addUser():
 @api.route(baseurl + "/webhook", methods=["POST"])
 def webook():
     system("export GIT_SSH_COMMAND='ssh -i /home/ben/.ssh/loco-backend -o IdentitiesOnly=yes'; git fetch; git reset origin/base --hard; git pull")
-    return "ok"
+    return "done"
