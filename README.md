@@ -1,6 +1,8 @@
 # Loco
 This is the repository for Loco - the location based attendance app.
 
+
+## API Endpoint Plan
 The API interface will look something like the following:
 
 * `bool create_user(fullName, email, hostFlag)`
@@ -14,10 +16,20 @@ The API interface will look something like the following:
 * `bool set_attendance(email, eventID, attended)`
 * `bool get_attendance(email, eventID)`
 
-## Backend
-To setup your environment for the backend:
+## Back-End
+To run the server locally:
 
-1. Install pip
-1. Install flask with `pip install flask`
-1. Export the location of the flask app with `export FLASK_APP=test.py`
-1. Run the server with `flask run`
+1. Install `pipenv`.
+1. Install the dependencies using `pipenv`:
+	
+	```
+	$ cd backend
+	$ pipenv install
+	```
+1. Run the server using the `bootstrap.sh` script:
+	
+	```
+	$ bootstrap.sh
+	```
+	
+	You can access the server from port 5000; it hosts from 0.0.0.0 so you can access it from all devices on your local network.
