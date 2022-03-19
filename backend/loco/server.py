@@ -10,10 +10,12 @@ users = []
 
 @api.route(baseurl + "/users")
 def getUsers():
-    #Returns the users.
+    '''
+	Returns the users.
 
-    #Returns:
-    #  users: a list of registers users.
+    Returns:
+      users: a list of registers users.
+	'''
 
     return jsonify(users)
 
