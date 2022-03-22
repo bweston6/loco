@@ -42,5 +42,5 @@ def webook():
     Returns:
       
     '''
-    system("export GIT_SSH_COMMAND='ssh -i /home/loco/.ssh/loco-backend -o IdentitiesOnly=yes'; git fetch; git reset origin/base --hard; git pull")
+    system("export GIT_SSH_COMMAND='ssh -i /home/loco/.ssh/loco -o IdentitiesOnly=yes'; git fetch; git reset origin/base --hard; git pull")
     return "ok"
