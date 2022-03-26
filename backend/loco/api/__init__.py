@@ -1,4 +1,5 @@
 from flask import Blueprint
+from os import system
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
