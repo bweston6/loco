@@ -1,4 +1,5 @@
-from mysql.connector import connect, Error, errorcode
+from mariadb import connect, Error
+from mysql.connector import errorcode
 
 TABLES = {}
 TABLES['users'] = (
@@ -39,7 +40,7 @@ def openConnection():
                 user = "loco",
                 database = "loco")
         return conn
-    except Error
+    except Error:
         return None
 
 def createTables(cursor):
