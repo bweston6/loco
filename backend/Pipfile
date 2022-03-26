@@ -6,8 +6,10 @@ name = "pypi"
 [packages]
 flask = "*"
 hupper = "*"
-watchdog = "*"
+mariadb = "*"
+mysql-connector-python = "*"
 waitress = "*"
+watchdog = "*"
 
 [dev-packages]
 
