@@ -1,19 +1,5 @@
 from mysql.connector import connect, Error, errorcode
 
-try:
-    conn = connect(
-            host = "localhost",
-            user = "loco",
-            unix_socket = "/var/lib/mysql/mysql.sock")
-    cursor = conn.cursor()
-except Error as err:
-    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-        print("Incorrect username or password")
-    else:
-        print(err)
-    exit(1)
-
-DATABASE = 'loco'
 TABLES = {}
 TABLES['users'] = (
         "CREATE TABLE `users` ("
@@ -45,22 +31,16 @@ TABLES['groups'] = (
         "  CONSTRAINT PRIMARY KEY (`group_ID`)"
         ")")
 
-def createDatabase(cursor):
+def openConnection():
     try:
-        cursor.execute("USE {}".format(DATABASE))
-    except Error as err:
-        print("Database {} does not exist.".format(DATABASE))
-        if err.errno == errorcode.ER_BAD_DB_ERROR:
-            try:
-                cursor.execute("CREATE DATABASE {}".format(DATABASE))
-            except Error as err:
-                print("Database creation failed: {}".format(err))
-                exit(1)
-            print("Database {} successfully created".format(DATABASE))
-            conn.database = DATABASE
-        else:
-            print(err)
-            exit(1)
+        conn = connect(
+                host = "localhost",
+                unix_socket = "/var/lib/mysql/mysql.sock",
+                user = "loco",
+                database = "loco")
+        return conn
+    except Error
+        return None
 
 def createTables(cursor):
     for tableName in TABLES:
@@ -68,18 +48,14 @@ def createTables(cursor):
         try:
             print("creating table {}: ".format(tableName), end='')
             cursor.execute(tableDescription)
-        except Error as err:
-            if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-                print("already exists.")
+        except Error as e:
+            if e.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+                return True
             else:
-                print(err.msg)
+                return True
         else:
-            print("created.")
+            return True
 
-def main():
-    createDatabase(cursor)
-    createTables(cursor)
-
-main()
-cursor.close()
-conn.close()
+def closeConnection(conn):
+    conn.cursor.close()
+    conn.close()
