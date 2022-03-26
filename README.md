@@ -3,18 +3,18 @@ This is the repository for Loco - the location based attendance app.
 
 
 ## API Endpoint Plan
-The API interface will look something like the following:
+The API interface will look something like the following (these have now been implemented as stubs under [https://loco.bweston.uk/api/...](https://loco.bweston.uk/api/getUser)):
 
-* `bool create_user(fullName, email, hostFlag)`
-* `user get_user(email)`
-* `bool create_event(eventID, eventName, startTimeInUnixMillis, durationInUnixMillis, locationLat, locationLong, radiusInMeters, description, email[])`
+* `bool createUser(fullName, email, hostFlag)`
+* `user getUser(email)`
+* `bool createEvent(eventID, eventName, startTimeInUnixMillis, durationInUnixMillis, locationLat, locationLong, radiusInMeters, description, email[])`
   *  If `eventID` already exists then we change the value. If not all fields must be present.
-* `event get_event(eventID)`
-* `bool create_group(groupID, groupName, email[])`
+* `event getEvent(eventID)`
+* `bool createGroup(groupID, groupName, email[])`
   *  If `groupID` already exists then we change the value. If not all fields must be present.
-* `email[] get_users_from_group(groupID)`
-* `bool set_attendance(email, eventID, attended)`
-* `bool get_attendance(email, eventID)`
+* `email[] getUsersFromGroup(groupID)`
+* `bool setAttendance(email, eventID, attended)`
+* `bool getAttendance(email, eventID)`
 
 ## Back-End
 To run the server locally:
@@ -32,4 +32,4 @@ To run the server locally:
 	$ bootstrap.sh
 	```
 	
-	You can access the server from port 5000; it hosts from 0.0.0.0 so you can access it from all devices on your local network.
+	You can access the server from port 55580; it hosts from 0.0.0.0 so you can access it from all devices on your local network. If you want to connect to a local instance on your own computer you can use the address `127.0.0.1:55580`.
