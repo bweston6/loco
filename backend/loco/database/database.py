@@ -59,3 +59,4 @@ def createTables(cursor):
 def closeConnection(conn):
     conn.cursor.close()
     conn.close()
+    return True
