@@ -1,4 +1,3 @@
 #!/bin/sh
 source $(pipenv --venv)/bin/activate
-cd loco
-hupper -m waitress --port=55580 server:api
+hupper -m waitress --port=55580 --call loco:create_app
