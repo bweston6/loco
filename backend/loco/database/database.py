@@ -33,13 +33,10 @@ TABLES['groups'] = (
         ")")
 
 def openConnection():
-    try:
-        conn = connect(
-                unix_socket = "/run/mysqld/mysqld.sock",
-                database = "loco")
-        return conn
-    except Error:
-        return None
+    conn = connect(
+            unix_socket = "/run/mysqld/mysqld.sock",
+            database = "loco")
+    return conn
 
 def createTables(cursor):
     for tableName in TABLES:
@@ -49,7 +46,7 @@ def createTables(cursor):
             cursor.execute(tableDescription)
         except Error as e:
             if e.errno != errorcode.ER_TABLE_EXISTS_ERROR:
-                return False
+                raise e
     return True
 
 def closeConnection(conn):
