@@ -15,7 +15,6 @@ def createUser():
     """
     try:
         conn = db.openConnection()
-        db.createTables(conn.cursor())
         requestData = request.get_json()
         if 'fullName' in requestData and 'email' in requestData and 'hostFlag' in requestData:
             token = auth.generateToken(requestData['email'])
