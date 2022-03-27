@@ -5,16 +5,16 @@ This is the repository for Loco - the location based attendance app.
 ## API Endpoint Plan
 The API interface will look something like the following (these have now been implemented as stubs under [https://loco.bweston.uk/api/...](https://loco.bweston.uk/api/getUser)):
 
-* `bool createUser(fullName, email, hostFlag)`
-* `user getUser(email)`
-* `bool createEvent(eventID, eventName, startTimeInUnixMillis, durationInUnixMillis, locationLat, locationLong, radiusInMeters, description, email[])`
+* `token createUser(fullName, email, hostFlag)`
+* `user getUser(token, email)`
+* `bool createEvent(token, eventID, eventName, startTimeInUnixMillis, durationInUnixMillis, locationLat, locationLong, radiusInMeters, description, email[])`
   *  If `eventID` already exists then we change the value. If not all fields must be present.
-* `event getEvent(eventID)`
-* `bool createGroup(groupID, groupName, email[])`
+* `event getEvent(token, eventID)`
+* `bool createGroup(token, groupID, groupName, email[])`
   *  If `groupID` already exists then we change the value. If not all fields must be present.
-* `email[] getUsersFromGroup(groupID)`
-* `bool setAttendance(email, eventID, attended)`
-* `bool getAttendance(email, eventID)`
+* `email[] getUsersFromGroup(token, groupID)`
+* `bool setAttendance(token, email, eventID, attended)`
+* `bool getAttendance(token, email, eventID)`
 
 ## Back-End
 To run the server locally:
