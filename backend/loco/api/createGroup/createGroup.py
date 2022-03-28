@@ -4,6 +4,7 @@ from loco.api import api
 def createGroup():
 	"""
     	Ensures group is created
+	
     	:returns: the key and value of the group
 	:rtype: dictionary
     	"""
