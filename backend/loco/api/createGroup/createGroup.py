@@ -5,7 +5,6 @@ def createGroup():
 	"""
     	Ensures group is created
 	
-    	:returns: the key and value of the group
-	:rtype: dictionary
+    	:returns: dictionary with key and value of the group
     	"""
 	return {'key' : 'value'}
