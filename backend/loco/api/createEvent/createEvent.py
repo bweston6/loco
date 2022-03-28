@@ -4,6 +4,7 @@ from loco.api import api
 def createEvent():
 	"""
     	Ensures event is created
+	
     	:returns: the key and value of the event
 	:rtype: dictionary
     	"""
