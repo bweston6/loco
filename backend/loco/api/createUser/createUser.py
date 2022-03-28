@@ -11,6 +11,7 @@ import loco.auth as auth
 def createUser():
     """
     Creates a user, generates an authentication token and adds the information to the database.
+	
     :returns: The generated authentication token or an error page if there has been an error.
     """
     try:
