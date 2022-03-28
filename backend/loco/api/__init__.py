@@ -16,8 +16,9 @@ import loco.api.setAttendance
 def webook():
     """
     Updates the repository to the HEAD of the base branch, triggering a restart.
-    
-    :returns: The string "ok" to indicate success for GitHub.       
+   
+    :returns: "ok" to indicate success for GitHub.
+	:rtype: string
     """
     system("export GIT_SSH_COMMAND='ssh -i /home/loco/.ssh/loco -o IdentitiesOnly=yes'; git fetch; git reset origin/base --hard; git pull")
     return "ok"
