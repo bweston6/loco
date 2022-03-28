@@ -8,6 +8,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', None)
 def generateToken(userEmail):
     """
     Generates authentication token
+	
     :param: an allowed email for a user which hasn't registered yet
     :return: the authentication token or None if there is an exception
     """
