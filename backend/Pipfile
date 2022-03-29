@@ -6,11 +6,12 @@ name = "pypi"
 [packages]
 flask = "*"
 hupper = "*"
-pyjwt = "*"
 mariadb = "*"
 mysql-connector-python = "*"
+pyjwt = "*"
 waitress = "*"
 watchdog = "*"
+yagmail = "*"
 
 [dev-packages]
 
