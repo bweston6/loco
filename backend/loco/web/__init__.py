@@ -6,7 +6,7 @@ web = Blueprint('web', __name__, static_folder='static')
 def index():
     """
     Description
-    
+
     :returns: 
     """
     return web.send_static_file('index.html')
