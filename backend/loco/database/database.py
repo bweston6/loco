@@ -33,12 +33,24 @@ TABLES['groups'] = (
         ")")
 
 def openConnection():
+    """
+    Description
+    
+    :returns: 
+    """
     conn = connect(
             unix_socket = "/run/mysqld/mysqld.sock",
             database = "loco")
     return conn
 
 def createTables(cursor):
+    """
+    Description
+    
+    :param: 
+    :raise: 
+    :returns: 
+    """
     for tableName in TABLES:
         tableDescription = TABLES[tableName]
         try:
@@ -50,5 +62,11 @@ def createTables(cursor):
     return True
 
 def closeConnection(conn):
+    """
+    Description
+    
+    :param: 
+    :returns: 
+    """
     conn.close()
     return True
