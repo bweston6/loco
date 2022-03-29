@@ -29,3 +29,11 @@ def createUser():
         return jsonify(error='invalid OTP'), 400
     except Error as e:
         return jsonify(error='database error'), 500
+
+#   "outline for the data insertion data can be of any type"
+#   addUser = ("INSERT INTO users"
+#              "(first_name, email, host_flag)"
+#              "VALUES (%s, %s, %s)")
+#   dataUser = (data, data, data)
+#   cursor.execute(addUser, dataUser)
+#   cnx.commit()
