@@ -31,8 +31,8 @@ def createUser():
         return jsonify(error='database error'), 500
 
 #   "outline for the data insertion data can be of any type"
-#   addUser = ("INSERT INTO users"
-#              "(first_name, email, auth, host_flag)"
+#   addUser = ("INSERT INTO users "
+#              "(first_name, email, auth, host_flag) "
 #              "VALUES (%s, %s, %s, %s)")
 #   dataUser = (data, data, data, data)
 #   cursor.execute(addUser, dataUser)
