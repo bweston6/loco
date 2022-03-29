@@ -4,7 +4,7 @@ web = Blueprint('web', __name__, static_folder='static')
 
 @web.route('/')
 def index():
-	"""
+    """
     Description
     
     :returns: 
