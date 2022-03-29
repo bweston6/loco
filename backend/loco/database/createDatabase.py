@@ -12,7 +12,7 @@ TABLES['users'] = (
 
 TABLES['events'] = (
         "CREATE TABLE `events` ("
-        "  `event_ID` int NOT NULL,"
+        "  `event_ID` int NOT NULL AUTO_INCREMENT,"
         "  `event_name` varchar(50) NOT NULL,"
         "  `start_time` datetime NOT NULL,"
         "  `duration` time NOT NULL,"
@@ -26,7 +26,7 @@ TABLES['events'] = (
 
 TABLES['groups'] = (
         "CREATE TABLE `groups` ("
-        "  `group_ID` int NOT NULL,"
+        "  `group_ID` int NOT NULL AUTO_INCREMENT,"
         "  `group_name` varchar(50) NOT NULL,"
         "  `emails` JSON NOT NULL,"
         "  CONSTRAINT PRIMARY KEY (`group_ID`)"
