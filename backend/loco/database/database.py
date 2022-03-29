@@ -6,6 +6,7 @@ TABLES['users'] = (
         "CREATE TABLE `users` ("
         "  `full_name` varchar(100) NOT NULL,"
         "  `email` varchar(100) NOT NULL,"
+        "  `auth` varchar(100) NOT NULL"
         "  `host_flag` BIT NOT NULL,"
         "  CONSTRAINT PRIMARY KEY (`email`)"
         ")")
