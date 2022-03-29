@@ -3,6 +3,7 @@ from os import system
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
+import loco.api.authenticateEmail
 import loco.api.createEvent
 import loco.api.createGroup
 import loco.api.createUser
