@@ -32,8 +32,8 @@ def createUser():
 
 #   "outline for the data insertion data can be of any type"
 #   addUser = ("INSERT INTO users"
-#              "(first_name, email, host_flag)"
-#              "VALUES (%s, %s, %s)")
-#   dataUser = (data, data, data)
+#              "(first_name, email, auth, host_flag)"
+#              "VALUES (%s, %s, %s, %s)")
+#   dataUser = (data, data, data, data)
 #   cursor.execute(addUser, dataUser)
-#   cnx.commit()
+#   conn.commit()
