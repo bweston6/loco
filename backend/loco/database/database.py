@@ -53,19 +53,20 @@ def createTables(cursor):
     :returns: 
     """
     for tableName in TABLES:
+        dropTable = "DROP TABLE IF EXISTS " + tableName
         tableDescription = TABLES[tableName]
         try:
-            print("creating table {}: ".format(tableName), end='')
+            cursor.execute(dropTable) # todo - remove me after table schema are finalised
             cursor.execute(tableDescription)
         except Error as e:
-            if e.errno != errorcode.ER_TABLE_EXISTS_ERROR:
-                raise e
+            # if e.errno != errorcode.ER_TABLE_EXISTS_ERROR:
+            raise e
     return True
 
 def closeConnection(conn):
     """
     Description
-    
+
     :param: 
     :returns: 
     """
