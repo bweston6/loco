@@ -1,8 +1,12 @@
 from flask import Flask
 
 import loco.database as db
+import logging
 from .api import api
 from .web import web
+
+# todo - set to WARNING for release
+logging.basicConfig(level=logging.INFO)
 
 def create_app():
     """

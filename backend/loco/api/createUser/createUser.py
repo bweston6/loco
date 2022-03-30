@@ -4,6 +4,7 @@
 from flask import jsonify, request
 from mariadb import Error
 from loco.api import api
+import logging
 import loco.database as db
 import loco.auth as auth
 
@@ -42,8 +43,11 @@ def createUser():
         else: 
             return jsonify(error='missing parameters'), 400
     except KeyError as e:
+        logging.info(requestData['email'] + ' tried to create a user before authenticating their email.')
         return jsonify(error='email not authenticated'), 401
     except ValueError as e:
+        logging.info(requestData['email'] + ' tried to create a user with the wrong OTP.')
         return jsonify(error='invalid OTP'), 401
-#    except Error as e:
-#        return jsonify(error='database error'), 500
+    except Error as e:
+        logging.error(e)
+        return jsonify(error='database error'), 500
