@@ -13,6 +13,6 @@ def authenticateEmail():
     requestData = request.get_json()
     if 'email' in requestData:
         auth.authenticateEmail(requestData['email'])
-        return jsonify(success = true), 200
+        return jsonify(success = True), 200
     else: 
         return jsonify(error = 'missing parameters'), 400
