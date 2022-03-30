@@ -51,6 +51,6 @@ def authenticateEmail(userEmail):
             "otp": random.randint(100000, 999999),
             "iat": datetime.utcnow()
             }
-    email.send(to=userEmail, subject="Your OTP for Loco", contents="Your one-time password is:" + str(OTPs[userEmail]['otp'])
+    email.send(to=userEmail, subject="Your OTP for Loco", contents="Your one-time password is: " + str(OTPs[userEmail]['otp'])
         )
     return True
