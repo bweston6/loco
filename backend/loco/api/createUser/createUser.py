@@ -12,28 +12,38 @@ def createUser():
     """
     Creates a user, generates an authentication token and adds the information to the database.
 
-    :returns: The generated authentication token or an error page if there has been an error.
+    :returns: The token with a HTTP sucess code, or an error with appropriate HTTP error code.
     """
     try:
-        conn = db.openConnection()
         requestData = request.get_json()
         if 'OTP' in requestData and 'fullName' in requestData and 'email' in requestData and 'hostFlag' in requestData:
             token = auth.generateToken(int(requestData['OTP']), requestData['email'])
+            conn = db.openConnection()
+            cursor = conn.cursor()
+            addUser = ("""REPLACE INTO users (
+                    full_name,
+                    email,
+                    token,
+                    host_flag
+                )
+                VALUES (?, ?, ?, ?)"""
+            )
+            userData = (
+                requestData['fullName'],
+                requestData['email'],
+                token,
+                requestData['hostFlag']
+            )
+            print(token)
+            cursor.execute(addUser, userData)
+            conn.commit()
+            db.closeConnection(conn)
+            return jsonify(token=token), 200
         else: 
             return jsonify(error='missing parameters'), 400
-        db.closeConnection(conn)
-        return jsonify(token)
     except KeyError as e:
-        return jsonify(error='email not authenticated'), 400
+        return jsonify(error='email not authenticated'), 401
     except ValueError as e:
-        return jsonify(error='invalid OTP'), 400
-    except Error as e:
-        return jsonify(error='database error'), 500
-
-#   "outline for the data insertion data can be of any type"
-#   addUser = ("INSERT INTO users "
-#              "(first_name, email, auth, host_flag) "
-#              "VALUES (%s, %s, %s, %s)")
-#   dataUser = (data, data, data, data)
-#   cursor.execute(addUser, dataUser)
-#   conn.commit()
+        return jsonify(error='invalid OTP'), 401
+#    except Error as e:
+#        return jsonify(error='database error'), 500
