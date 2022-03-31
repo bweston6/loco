@@ -1,7 +1,7 @@
 from flask import Flask
 
-import loco.database as db
 import logging
+from . import database as db
 from .api import api
 from .web import web
 

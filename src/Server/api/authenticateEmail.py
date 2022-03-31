@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from mariadb import Error
-from loco.api import api
-import loco.auth as auth
+from . import api
+from .. import auth
 
 @api.route('/authenticateEmail', methods=['POST'])
 def authenticateEmail():

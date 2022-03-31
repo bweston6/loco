@@ -1,6 +1,6 @@
 # being worked on by Noushin
 
-from loco.api import api
+from . import api
 
 @api.route('/createEvent')
 def createEvent():

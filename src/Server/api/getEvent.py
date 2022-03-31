@@ -1,4 +1,4 @@
-from loco.api import api
+from . import api
 
 @api.route('/getEvent')
 def getEvent():

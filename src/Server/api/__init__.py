@@ -3,15 +3,15 @@ from os import system
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
-import loco.api.authenticateEmail
-import loco.api.createEvent
-import loco.api.createGroup
-import loco.api.createUser
-import loco.api.getAttendance
-import loco.api.getEvent
-import loco.api.getUser
-import loco.api.getUsersFromGroup
-import loco.api.setAttendance
+from . import authenticateEmail
+from . import createEvent
+from . import createGroup
+from . import createUser
+from . import getAttendance
+from . import getEvent
+from . import getUser
+from . import getUsersFromGroup
+from . import setAttendance
 
 @api.route("/webhook", methods=["POST"])
 def webook():
