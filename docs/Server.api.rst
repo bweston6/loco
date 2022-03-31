@@ -7,79 +7,59 @@ Submodules
 Server.api.authenticateEmail module
 -----------------------------------
 
-.. automodule:: Server.api.authenticateEmail
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.authenticateEmail
 
 Server.api.createEvent module
 -----------------------------
 
-.. automodule:: Server.api.createEvent
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.createEvent
 
 Server.api.createGroup module
 -----------------------------
 
-.. automodule:: Server.api.createGroup
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.createGroup
 
 Server.api.createUser module
 ----------------------------
 
-.. automodule:: Server.api.createUser
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.createUser
 
 Server.api.getAttendance module
 -------------------------------
 
-.. automodule:: Server.api.getAttendance
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.getAttendance
 
 Server.api.getEvent module
 --------------------------
 
-.. automodule:: Server.api.getEvent
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.getEvent
 
 Server.api.getUser module
 -------------------------
 
-.. automodule:: Server.api.getUser
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.getUser
 
 Server.api.getUsersFromGroup module
 -----------------------------------
 
-.. automodule:: Server.api.getUsersFromGroup
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.getUsersFromGroup
 
 Server.api.setAttendance module
 -------------------------------
 
-.. automodule:: Server.api.setAttendance
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api.setAttendance
 
 Module contents
 ---------------
 
-.. automodule:: Server.api
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :modules: Server.api

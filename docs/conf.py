@@ -31,7 +31,8 @@ extensions = [
         'sphinx.ext.autodoc',
         'sphinx.ext.todo',
         'sphinx.ext.viewcode',
-        'sphinx_rtd_theme'
+        'sphinx_rtd_theme',
+        'sphinxcontrib.autohttp.flask'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
