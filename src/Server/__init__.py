@@ -9,9 +9,10 @@ from .web import web
 logging.basicConfig(level=logging.INFO)
 
 def create_app():
-    """
-    Ensures database tables are created, creates the main flask app and registers blueprints to the main app.
-    :returns: the main flask app
+    """Creates the database tables using :obj:`Server.database.createTables`, creates the flask instance ``app`` and registers all blueprints under that instance.
+    
+    :return: The flask instance ``app``
+    :rtype: flask.app.Flask
     """
     conn = db.openConnection()
     db.createTables(conn.cursor())
