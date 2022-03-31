@@ -7,7 +7,7 @@ Welcome to Loco's documentation!
 ================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    
    host_manual
    attendee_manual
