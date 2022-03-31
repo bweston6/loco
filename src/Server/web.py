@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-web = Blueprint('web', __name__, static_folder='static')
+web = Blueprint('web', __name__, static_folder='_static')
 
 @web.route('/')
 def index():

@@ -3,10 +3,9 @@
 
 from flask import jsonify, request
 from mariadb import Error
-from loco.api import api
+from . import api
+from .. import auth, database as db
 import logging
-import loco.database as db
-import loco.auth as auth
 
 @api.route('/createUser', methods=['POST'])
 def createUser():

@@ -5,8 +5,8 @@ After=network-online.target
 [Service]
 User=loco
 Group=loco
-WorkingDirectory=/home/loco/group69_comp208/backend
-ExecStart=/home/loco/group69_comp208/backend/bootstrap.sh
+WorkingDirectory=/home/loco/group69_comp208/
+ExecStart=/home/loco/group69_comp208/bootstrap.sh
 Restart=on-failure
 
 [Install]
