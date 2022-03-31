@@ -12,11 +12,15 @@ KEY = os.getenv('KEY', None)
 OTPs = {}
 
 def generateToken(userOTP, userEmail):
-    """
-    Generates authentication token
+    """Generates authentication token provided that ``userOTP`` and ``userEmail`` are valid. This is checked using the ``OTPs`` dictionary (see :func:`authenticateEmail`). ``userOTP`` must be under 1 hour old and ``userOTP`` and ``userEmail`` must match in the dictionary
 
-    :param: an allowed email for a user which hasn't registered yet
-    :return: the authentication token or None if there is an exception
+    :param userOTP: The user's one time password
+    :type userOTP: str
+    :param userEmail: The user's email
+    :type userEmail: str
+    :raises ValueError: If the ``userOTP`` or ``userEmail`` are invalid, or don't match
+    :return: An authentication token encoding the issued time and ``userEmail``
+    :rtype: str
     """
     if (OTPs[userEmail]['otp'] != userOTP):
         raise ValueError
@@ -33,19 +37,25 @@ def generateToken(userOTP, userEmail):
             )
 
 def decodeToken(token):
+    """Decodes ``token``
+    
+    :param token: The token to decode
+    :type token: str
+    :raises jwt.InvalidTokenError: If ``token`` is invalid
+    :return: The subject field of the token (see ``userEmail`` in :func:`generateToken`)
+    :rtype: str
     """
-    Decodes a given authentication token
-    :param: the authentication token to decode
-    :return: the user's email or None if the token is invalid
-    """
-    try:
-        payload = jwt.decode(token, SECRET_KEY)
-    except jwt.InvalidTokenError:
-        return None
-    else:
-        return payload['sub'] # subject (userEmail)
+    payload = jwt.decode(token, SECRET_KEY)
+    return payload['sub'] # subject (userEmail)
 
 def authenticateEmail(userEmail):
+    """Sends a one time password to the email ``userEmail``. The combination of OTP, ``userEmail`` and the issued time are saved in the dictionary ``OTPs``
+    
+    :param userEmail: The email to send the OTP to
+    :type useremail: str
+    :return: True when the action is complete
+    :rtype: bool
+    """
     email = yagmail.SMTP(EMAIL, KEY)
     OTPs[userEmail] = {
             "otp": random.randint(100000, 999999),
