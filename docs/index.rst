@@ -11,7 +11,7 @@ Welcome to Loco's documentation!
    
    host_manual
    attendee_manual
-   modules
+   Server
 
 Indices and tables
 ==================

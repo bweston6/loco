@@ -1,4 +1,4 @@
-Server package
+Server
 ==============
 
 Subpackages
