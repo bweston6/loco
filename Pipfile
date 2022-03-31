@@ -14,6 +14,7 @@ sphinx-rtd-theme = "*"
 waitress = "*"
 watchdog = "*"
 yagmail = "*"
+sphinxcontrib-httpdomain = "*"
 
 [dev-packages]
 

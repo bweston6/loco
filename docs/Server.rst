@@ -31,10 +31,10 @@ Server.database module
 Server.web module
 -----------------
 
-.. automodule:: Server.web
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autoflask:: Server:create_app()
+   :blueprints: web
+   :undoc-static:
+
 
 Module contents
 ---------------
