@@ -34,10 +34,11 @@ TABLES['groups'] = (
         ")")
 
 def openConnection():
-    """
-    Description
+    """Opens a connection to the ``loco`` database using a unix socket
     
-    :returns: 
+    :rasies mariadb.Error: If there is an error connecting to the database
+    :return: The connection to the database
+    :rtype: mariadb.connection
     """
     conn = connect(
             unix_socket = "/run/mysqld/mysqld.sock",
@@ -45,12 +46,13 @@ def openConnection():
     return conn
 
 def createTables(cursor):
-    """
-    Description
+    """Creates the tables defined in the dictionary ``TABLES``. If the tables exist then there is no change to the database
     
-    :param: 
-    :raise: 
-    :returns: 
+    :param cursor: A ``cursor`` in the database you want to write to
+    :type cursor: mariadb.connection.cursor
+    :raises mariadb.Error: If there is an error writing to the database.
+    :return: True if the funcntion is successful
+    :rtype: bool 
     """
     for tableName in TABLES:
         dropTable = "DROP TABLE IF EXISTS " + tableName
@@ -64,11 +66,13 @@ def createTables(cursor):
     return True
 
 def closeConnection(conn):
-    """
-    Description
-
-    :param: 
-    :returns: 
+    """Closes an open database connection object
+    
+    :param conn: The connection you want to close
+    :type conn: mariadb.connection
+    :raises mariadb.Error: If there is no connection to close
+    :return: True when the action is complete
+    :rtype: bool
     """
     conn.close()
     return True
