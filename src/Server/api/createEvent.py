@@ -10,7 +10,7 @@ import logging
 def createEvent():
 	 """Creates an event and adds the information to the database.
     
-    	:<json int eventId: 
+    	:<json number eventId: 
     	:<json string eventName: 
     	:<json number startTime: 
     	:<json number duration: 
@@ -18,7 +18,7 @@ def createEvent():
     	:<json number locationLat: 
 	:<json number radius: 
 	:<json string description: 
-	:<json array email: 
+	:<json string email: 
    
     	:>json string error: An error message if the action cannot complete
     
