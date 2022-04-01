@@ -34,12 +34,12 @@ def createEvent():
 			conn = db.openConnection()
 			cursor = conn.cursor()
 			addEvent = ("""REPLACE INTO event (
-			event_id, 
+			event_ID, 
 			event_name, 
 			start_time, 
 			duration, 
-			longitude,
 			latitude,
+			longitude,
 			radius,
 			description,
 			emails
@@ -51,8 +51,8 @@ def createEvent():
                 requestData['eventName'],
 		requestData['startTime'],
 		requestData['duration'],
-		requestData['locationLong'],
 		requestData['locationLat'],
+		requestData['locationLong'],
 		requestData['radius'],
 		requestData['description'],
 		requestData['email']
@@ -66,11 +66,3 @@ def createEvent():
     	except Error as e:
         logging.error(e)
         return jsonify(error='database error'), 500
-
-
-#   "outline for the data insertion data can be of any type"
-#   addEvents = ("INSERT INTO events "
-#              "(event_ID, event_name, start_time, duration, latitude, longitude, radius, description, emails) "
-#              "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
-#   dataEvents = (data, data, data, data, data, data, data, data, data)
-
