@@ -33,7 +33,7 @@ def createEvent():
 		and 'description' in requestData and 'email' in requestData:
 			conn = db.openConnection()
 			cursor = conn.cursor()
-			addEvent = ("""REPLACE INTO event (
+			addEvent = ("""REPLACE INTO events (
 			event_ID, 
 			event_name, 
 			start_time, 
