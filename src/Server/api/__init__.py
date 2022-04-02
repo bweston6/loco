@@ -30,7 +30,7 @@ def webook():
     if ('action' in requestData and
         'name' in requestData['workflow'] and
         requestData['action'] == "completed" and
-        requestData['workflow']['name'] == "Testing"
+        requestData['workflow']['name'] == "server_tests"
     ):
         Thread(target = update).start()
         return "updated to HEAD", 201
