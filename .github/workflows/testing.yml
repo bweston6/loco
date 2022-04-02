@@ -15,7 +15,14 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
+    services:
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_USER: loco
+          MYSQL_DATABASE: loco
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
