@@ -16,7 +16,7 @@ def createEvent():
     :<json number duration: 
     :<json number locationLong: 
     :<json number locationLat: 
-    :<json number radius: 
+    :<json number radius: The radius around an event's coordinates where attendance is accepted.
     :<json string description: 
     :<json string email: 
 
