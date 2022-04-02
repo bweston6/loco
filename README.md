@@ -1,4 +1,7 @@
 # Loco
+
+![Tests Badge](https://github.com/bweston6/group69_comp208/actions/workflows/testing.yml/badge.svg)
+
 This is the repository for Loco - the location based attendance app.
 
 
