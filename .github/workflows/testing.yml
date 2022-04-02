@@ -36,10 +36,8 @@ jobs:
       uses: dschep/install-pipenv-action@v1
     - name: Installing mariadb
       run: |
-        sudo systemctl mask mariadb.service
         sudo apt-get update
         sudo apt-get install -y libmariadb-dev
-        which mariadb_config
         pipenv install --dev
     - name: Lint with flake8
       run: |
