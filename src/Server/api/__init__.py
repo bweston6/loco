@@ -25,7 +25,11 @@ def webook():
     :status 200: Request completed or ignored successfully
     """
     requestData = request.get_json()
-    if requestData['action'] == "completed" and requestData['workflow']['name'] == "Testing":
+    if ('action' in requestData and
+        'name' in requestData['workflow'] and
+        requestData['action'] == "completed" and
+        requestData['workflow']['name'] == "Testing"
+    ):
         system("git fetch; git reset origin/base --hard; git pull")
         return "updated to HEAD", 200
     return "request ignored", 200
