@@ -41,7 +41,7 @@ def openConnection():
     :rtype: mariadb.connection
     """
     conn = connect(
-            unix_socket = "/run/mysqld/mysqld.sock",
+            unix_socket = "/var/run/mysqld/mysqld.sock",
             database = "loco")
     return conn
 
