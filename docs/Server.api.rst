@@ -63,3 +63,5 @@ Module contents
 
 .. autoflask:: Server:create_app()
    :modules: Server.api
+   
+.. autofunction:: Server.api.update()

@@ -16,7 +16,7 @@ from . import setAttendance
 
 @api.route("/webhook", methods=["POST"])
 def webook():
-    """Asyncronously updates the repository to the HEAD of the base branch triggering a restart, provided that tests pass
+    """Asyncronously calls :obj:`Server.api.update` triggering a restart, provided that tests pass
 
     :<json str action: The current status of the workflow
     :<json str workflow.name: The name of the workflow
