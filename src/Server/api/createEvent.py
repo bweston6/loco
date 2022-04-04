@@ -10,15 +10,15 @@ import logging
 def createEvent():
     """Creates an event and adds the information to the database.
 
-    :<json number eventId: 
-    :<json string eventName: 
-    :<json number startTime: 
-    :<json number duration: 
-    :<json number locationLong: 
-    :<json number locationLat: 
+    :<json number eventId: The event id.
+    :<json string eventName: The event name.
+    :<json number startTime: The time the event is expected to start, after which attendance will be marked.
+    :<json number duration: The duration of an event.
+    :<json number locationLong: The longitute coordinate of an event's location.
+    :<json number locationLat: The latitude coordinate of an event's location.
     :<json number radius: The radius around an event's coordinates where attendance is accepted.
-    :<json string description: 
-    :<json string email: 
+    :<json string description: A description of the event for users.
+    :<json string email: A list of emails signed up that are expected to attend the event.
 
     :>json string error: An error message if the action cannot complete
 
