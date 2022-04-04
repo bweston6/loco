@@ -1,6 +1,13 @@
 # being worked on by timi
 
+
 from . import api
+from flask import jsonify, request
+from mariadb import Error
+import logging, 
+from .. import auth, database as db
+
+
 
 @api.route('/getEvent')
 def getEvent():
