@@ -6,15 +6,16 @@ name = "pypi"
 [packages]
 flask = "*"
 hupper = "*"
+importlib-metadata = "*"
 mariadb = "*"
 mysql-connector-python = "*"
 pyjwt = "*"
 sphinx = "*"
 sphinx-rtd-theme = "*"
+sphinxcontrib-httpdomain = "*"
 waitress = "*"
 watchdog = "*"
 yagmail = "*"
-sphinxcontrib-httpdomain = "*"
 
 [dev-packages]
 flake8 = "*"
