@@ -5,11 +5,11 @@ from . import api
 from .. import auth, database as db
 from flask import jsonify, request
 from mariadb import Error
-import logging, 
+import logging, jwt
 
 
 
-@api.route('/getEvent')
+@api.route('/getEvent' , methods=['POST'] )
 def getEvent():
 	"""Gets event from database
 	
@@ -28,8 +28,6 @@ def getEvent():
 	:statuscode 200: Operation completed successfully
     	:statuscode 400: JSON parameters are missing
     	:statuscode 500: Server database error
-	
-    	:returns: dictionary with the key and value of the event
     	"""
 	try:
 		requestData = request.get_json()
