@@ -11,7 +11,8 @@ from .. import auth, database as db
 
 @api.route('/getEvent')
 def getEvent():
-	"""
+	"""Gets event from database
+	
     	Returns the event
 	
     	:returns: dictionary with the key and value of the event
