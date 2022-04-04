@@ -2,10 +2,10 @@
 
 
 from . import api
+from .. import auth, database as db
 from flask import jsonify, request
 from mariadb import Error
 import logging, 
-from .. import auth, database as db
 
 
 
@@ -64,7 +64,7 @@ def getEvent():
 			"description": event[7],
 			"emails": event[8],)
                         }
-                    return jsonify(user), 200
+                    return jsonify(event), 200
 		
 		else:
             	    return jsonify(error='missing parameters'), 400
