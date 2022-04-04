@@ -18,7 +18,7 @@ def createEvent():
     :<json number locationLat: The latitude coordinate of an event's location.
     :<json number radius: The radius around an event's coordinates where attendance is accepted.
     :<json string description: A description of the event for users.
-    :<json string email: A list of emails signed up that are expected to attend the event.
+    :<json string[] emails: An array of emails signed up that are expected to attend the event.
 
     :>json string error: An error message if the action cannot complete
 
@@ -36,7 +36,7 @@ def createEvent():
             'locationLat' in requestData and
             'radius' in requestData and
             'description' in requestData and
-            'email' in requestData
+            'emails' in requestData
         ):
             conn = db.openConnection()
             cursor = conn.cursor()
@@ -62,7 +62,7 @@ def createEvent():
                 requestData['locationLong'],
                 requestData['radius'],
                 requestData['description'],
-                requestData['email']
+                requestData['emails']
             )
             cursor.execute(addEvent, eventData)
             conn.commit()
