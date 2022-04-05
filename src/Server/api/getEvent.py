@@ -39,34 +39,27 @@ def getEvent():
                 'radius' in requestData and
                 'description' in requestData and
                 'emails' in requestData):
-
-
             query = ("""SELECT *
                     FROM events
                     WHERE eventId = ?
                 """)
-
             conn = db.openConnection()
-                    cursor = conn.cursor()
+            cursor = conn.cursor()
             cursor.execute(query, (requestData['eventId'], ))
-
             event = cursor.fetchone()
-                    event = {"eventId": event[0],
-                            "eventName": event[1],
-                            "startTime": event[2],
-                            "duration": event[3],
-                            "locationLong": event[4],
-                            "locationLat": event[5],
-                            "radius": event[6],
-                            "description": event[7],
-                            "emails": event[8],)
-                    }
-                    return jsonify(event), 200
-
+            event = {"eventId": event[0],
+                    "eventName": event[1],
+                    "startTime": event[2],
+                    "duration": event[3],
+                    "locationLong": event[4],
+                    "locationLat": event[5],
+                    "radius": event[6],
+                    "description": event[7],
+                    "emails": event[8],)
+            }
+            return jsonify(event), 200
         else:
             return jsonify(error='missing parameters'), 400
-
-
     except Error as e:
         logging.error(e)
             return jsonify(error='database error'), 500
