@@ -29,15 +29,15 @@ def createEvent():
     try:
         requestData = request.get_json()
         if ('eventId' in requestData and 
-            'eventName' in requestData and
-            'startTime' in requestData and
-            'duration' in requestData and
-            'locationLong' in requestData and
-            'locationLat' in requestData and
-            'radius' in requestData and
-            'description' in requestData and
-            'emails' in requestData
-        ):
+                'eventName' in requestData and
+                'startTime' in requestData and
+                'duration' in requestData and
+                'locationLong' in requestData and
+                'locationLat' in requestData and
+                'radius' in requestData and
+                'description' in requestData and
+                'emails' in requestData
+                ):
             conn = db.openConnection()
             cursor = conn.cursor()
             addEvent = ("""REPLACE INTO events (
@@ -52,18 +52,18 @@ def createEvent():
                     emails
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
-            )
+                )
             eventData = (
-                requestData['eventId'],
-                requestData['eventName'],
-                requestData['startTime'],
-                requestData['duration'],
-                requestData['locationLat'],
-                requestData['locationLong'],
-                requestData['radius'],
-                requestData['description'],
-                requestData['emails']
-            )
+                    requestData['eventId'],
+                    requestData['eventName'],
+                    requestData['startTime'],
+                    requestData['duration'],
+                    requestData['locationLat'],
+                    requestData['locationLong'],
+                    requestData['radius'],
+                    requestData['description'],
+                    requestData['emails']
+                    )
             cursor.execute(addEvent, eventData)
             conn.commit()
             db.closeConnection(conn)
