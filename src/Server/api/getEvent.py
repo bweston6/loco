@@ -55,11 +55,11 @@ def getEvent():
                     "locationLat": event[5],
                     "radius": event[6],
                     "description": event[7],
-                    "emails": event[8],)
+                    "emails": event[8]
             }
             return jsonify(event), 200
         else:
             return jsonify(error='missing parameters'), 400
     except Error as e:
         logging.error(e)
-            return jsonify(error='database error'), 500
+        return jsonify(error='database error'), 500
