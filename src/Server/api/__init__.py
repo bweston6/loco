@@ -28,10 +28,10 @@ def webook():
     :status 201: Update to HEAD started
     """
     requestData = request.get_json()
-    if ('action' in requestData and
-        'name' in requestData['workflow'] and
-        requestData['action'] == "completed" and
-        requestData['workflow']['name'] == "server_tests"
+    if ('conclusion' in requestData['workflow_run'] and
+        'name' in requestData['workflow_run'] and
+        requestData['workflow_run']['conclusion'] == "success" and
+        requestData['workflow_run']['name'] == "server_tests"
     ):
         Thread(target = update).start()
         return "updated to HEAD", 201
