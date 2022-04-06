@@ -4,7 +4,7 @@ from . import api
 from .. import auth, database as db
 from flask import jsonify, request
 from mariadb import Error
-import logging
+import logging, jwt
 
 @api.route('/createGroup', methods=['POST'])
 def createGroup():
