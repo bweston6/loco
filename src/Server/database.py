@@ -37,6 +37,7 @@ TABLES['attendance'] = (
         "CREATE TABLE `attendance` ("
         "  `email` varchar(100),"
         "  `event_ID` int,"
+        "  CONSTRAINT PK_attendance PRIMARY KEY(email, event_ID),"
         "  CONSTRAINT FK_attendance_email FOREIGN KEY (email) REFERENCES users(email),"
         "  CONSTRAINT FK_attendance_event_ID FOREIGN KEY (event_ID) REFERENCES events(event_ID)"
         ")")
