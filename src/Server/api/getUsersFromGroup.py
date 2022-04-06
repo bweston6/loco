@@ -21,13 +21,13 @@ def getUsersFromGroup():
 		requestData = request.get_json()
 		if ('token' in requestData and 'groupID' in requestData):
 			queryValidate = ("SELECT EXISTS ( "
-                             "SELECT * "
-                             "FROM users "
-                             "WHERE token = ? "
-                             "LIMIT 1)")
+				"SELECT * "
+				"FROM users "
+				"WHERE token = ? "
+				"LIMIT 1)")
 			queryUsers = ("SELECT emails "
-                          "FROM groups "
-                          "WHERE group_ID = ? ")
+				"FROM groups "
+				"WHERE group_ID = ? ")
 			conn = db.openConnection()
 			cursor = conn.cursor()
 			cursor.execute(queryValidate, (requestData['token'], ))
@@ -41,7 +41,7 @@ def getUsersFromGroup():
 				db.closeConnection(conn)
 				raise jwt.InvalidTokenError
 		else:
-            return jsonify(error='missing parameters'), 400
+			return jsonify(error='missing parameters'), 400
 	except jwt.InvalidTokenError as e:
 		logging.info('User query attempted with invalid token')
 		return jsonify(error='invalid token'), 401
