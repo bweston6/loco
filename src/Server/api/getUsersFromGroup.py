@@ -35,7 +35,7 @@ def getUsersFromGroup():
 			if (tokenValid == 1):
 				cursor.execute(queryUsers, (requestData['groupID'], ))
 				user = cursor.fetchone()
-				user = {"emails": user[2]}
+				user = {"emails": user[0]}
 				return jsonify(user), 200
 			else:
 				db.closeConnection(conn)
