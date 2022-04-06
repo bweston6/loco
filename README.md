@@ -13,7 +13,7 @@ The API interface will look something like the following (these have now been im
 * `token|expired OTP createUser(fullName, email, hostFlag, OTP)`
 	* One time password from `authenticateEmail` is passed to this endpoint.
 * `user getUser(token, email)`
-* `bool createEvent(token, eventID, eventName, startTimeInUnixMillis, durationInUnixMillis, locationLat, locationLong, radiusInMeters, description, email[])`
+* `eventID createEvent(token, eventID, eventName, startTimeInUnixMillis, durationInUnixMillis, locationLat, locationLong, radiusInMeters, description, email[])`
   *  If `eventID` already exists then we change the value. If not all fields must be present.
 * `event getEvent(token, eventID)`
 * `bool createGroup(token, groupID, groupName, email[])`
