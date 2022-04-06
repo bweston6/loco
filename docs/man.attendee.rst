@@ -1,3 +1,5 @@
+.. _man.attendee:
+
 Attendee Manual
 ===============
 
