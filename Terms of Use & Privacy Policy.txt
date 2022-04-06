@@ -1,0 +1,106 @@
+LOCO’s Terms Of Use & Privacy Policy
+ 
+ We are LOCO (“Loco”, “we”, “us” or “our”), an application provider. We operate the mobile application of the same name through which we provide you (“You”, “client” or “user”) our services.
+ 
+You can contact us by e-mail at loco.uol69@gmail.com. 
+
+AGREEMENT TO TERMS
+ 
+These Terms of Use are a legally binding agreement regarding your access to and use of the Website and the Services provided by us. You agree that by accessing the services, you have read, understood, and agree to be bound by all of the below stated Terms of Use. If you disagree you are prohibited from accessing our services and you must discontinue the use of it. 
+
+Prohibited Conduct
+
+You agree to use Loco in accordance with the Terms of Use. You will not violate any applicable law or intellectual property right. You are responsible for every action of yours. 
+Whilst using the app you agree to not:
+- Enter false information
+- Impersonate another person or log into an account you are unauthorised to use
+- Misuse the services provided
+- Using the app unlawfully
+- Interfere or attempt to interfere with the service provided or any user of the application
+- Alter any data
+- Develop or use any third-party applications that interact with Loco without our permission
+
+Termination Right
+
+If you are found to be in breach of any of the terms stated, we reserve the right, to terminate your right to access or use of Loco.
+
+Cancellation Right
+
+Users can request cancellations of their account by contacting us through our e-mail. Cancellation will be effective within one week. This will lead to deletion of all data related to them. Users can also make a request through e-mail to export their data.
+
+Intellectual Property Rights
+
+We are the sole owners or the licensee of all intellectual property rights in this application, which is protected by copyright laws. All rights are reserved. 
+
+Right to Modify
+
+We reserve the rights to modify the Terms of Use given the necessity. After modification, every user needs to agree with the new terms in order to continue the use of the services provided.
+
+Liability
+ 
+You understand and agree that Loco will not be held liable for the following:
+- Data loss
+- Inability to access the app
+- Conduct of third-parties
+- Any other damages 
+
+Governing Law
+
+These Terms are governed by the laws of Great Britain. These laws will apply no matter where in the world you live.
+
+
+PRIVACY POLICY
+
+This policy describes how we utilise your personal data at Loco.
+
+Personal data rights
+
+Privacy laws, including the General Data Protection Regulation (“GDPR”), control how personal information is used by organisations and businesses.
+
+It is your right to:
+- be informed of your personal data and request access to it
+- amend or update inaccurate or incomplete personal Dara
+- request to delete certain personal data
+- restrict the use of your personal data temporarily or permanently
+- request a copy of your personal data
+
+You can excercise the above stated rights by e-mailing us. 
+
+Collected personal data
+
+The following describes the data we collect:
+- User data: name, e-mail address
+- Usage data: location, attendance, events created
+
+To get the precise user location, users will be asked allow us access to it through their core location library. This information will be used to fulfil the main purpose of our service, attendance tracking. Users can withdraw from sharing location information with us any time, however, this will prevent the app from fully functioning.
+
+None of the collected data will be passed on to third-parties.
+
+Purpose of data
+
+We use the personal data to:
+- provide our promised services
+- understand, diagnose and fix issues
+- evaluate and develop new features
+- use for promotion purposes
+- comply with legal obligation
+
+Sharing your personal data
+
+Your data won’t be shared with other users or third parties. 
+We may share your data with law enforcement to comply with legal obligation.
+
+Data retention and deletion
+
+Loco will only keep your personal data as long as it’s necessary. If you close your account we’ll delete all data linked to you unless we are required to keep it or need to use it for a legally justifiable reason.
+
+Data safety
+
+We’re committed to protect our users’ personal data. We have implemented appropriate measures to keep your data safe, however, no system is perfect and we will not be held liable.
+
+Right to Modify
+
+We reserve the rights to modify the Privacy Policy given the necessity. After modification, every user needs to agree with the new policy in order to continue the use of the services provided.
+
+
+
