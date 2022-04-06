@@ -18,31 +18,43 @@ def createGroup():
 
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
+    :statuscode 401: Invalid authentication token
     :statuscode 500: Server database error
     """
     try:
         requestData = request.get_json()
-        if ('groupID' in requestData and 'groupName' in requestData and 'emails' in requestData):
+        if ('token' in requestData and 'groupID' in requestData and 'groupName' in requestData and 'emails' in requestData):
+            queryValidate = ("SELECT EXISTS ( "
+                "SELECT * "
+                "FROM users "
+                "WHERE token = ? "
+                "LIMIT 1)")
+            addGroup = ("REPLACE INTO group ("
+                "group_id, " 
+                "group_name, " 
+                "emails) " 
+                "VALUES (?, ?, ?)")
+            groupData = (
+                requestData['groupID'],
+                requestData['groupName'],
+                requestData['emails'])
             conn = db.openConnection()
             cursor = conn.cursor()
-            addGroup = ("""REPLACE INTO group (
-                    group_id, 
-                    group_name, 
-                    emails
-                ) 
-                VALUES (?, ?, ?)"""
-            )
-            groupData = (
-            requestData['groupID'],
-            requestData['groupName'],
-            requestData['emails']
-            )
-            cursor.execute(addGroup, groupData)
-            conn.commit()
-            db.closeConnection(conn)
-            return jsonify(groupData), 200
+            cursor.execute(queryValidate, (requestData['token'], ))
+            tokenValid = cursor.fetchone()[0]
+            if (tokenValid == 1):
+                cursor.execute(addGroup, groupData)
+                conn.commit()
+                db.closeConnection(conn)
+                return jsonify(groupData), 200
+            else:
+                db.closeConnection(conn)
+                raise jwt.InvalidTokenError
         else: 
             return jsonify(error='missing parameters'), 400
+    except jwt.InvalidTokenError as e:
+        logging.info('User query attempted with invalid token')
+        return jsonify(error='invalid token'), 401
     except Error as e:
         logging.error(e)
         return jsonify(error='database error'), 500
