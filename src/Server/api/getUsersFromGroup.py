@@ -4,7 +4,7 @@ from flask import jsonify, request
 from mariadb import Error
 import logging, jwt
 
-@api.route('/getUsersFromGroup')
+@api.route('/getUsersFromGroup', methods=['POST'])
 def getUsersFromGroup():
 	"""Returns the users from the selected group
 	:<json str token: A valid authentication token (see :http:post:`/api/createUser`)
