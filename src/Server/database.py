@@ -37,8 +37,8 @@ TABLES['attendance'] = (
         "CREATE TABLE `attendance` ("
         "  `email` varchar(100),"
         "  `event_ID` int,"
-        "  FOREIGN KEY email REFERENCES users(email),"
-        "  FOREIGN KEY event_ID REFERENCES events(event_ID)"
+        "  CONSTRAINT FK_attendance_email FOREIGN KEY (email) REFERENCES users(email),"
+        "  CONSTRAINT FK_attendance_event_ID FOREIGN KEY (event_ID) REFERENCES events(event_ID)"
         ")")
 
 def openConnection():
@@ -62,6 +62,7 @@ def createTables(cursor):
     :return: True if the funcntion is successful
     :rtype: bool 
     """
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
     for tableName in TABLES:
         dropTable = "DROP TABLE IF EXISTS " + tableName
         tableDescription = TABLES[tableName]
@@ -71,6 +72,7 @@ def createTables(cursor):
         except Error as e:
             # if e.errno != errorcode.ER_TABLE_EXISTS_ERROR:
             raise e
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
     return True
 
 def closeConnection(conn):
