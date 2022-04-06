@@ -9,13 +9,13 @@ import logging
 @api.route('/createGroup', methods=['POST'])
 def createGroup():
     """Creates a group with a set of emails to allow for quicker repeating event creation
-    
+
     :<json int groupID: The groups unique ID
     :<json string groupName: The groups name
     :<json string[] emails: All the users emails that are in the group
 
     :>json string error: An error message if the action cannot complete
-    
+
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
     :statuscode 500: Server database error
@@ -27,15 +27,15 @@ def createGroup():
             cursor = conn.cursor()
             addGroup = ("""REPLACE INTO group (
                     group_id, 
-		    group_name, 
-		    emails
+                    group_name, 
+                    emails
                 ) 
                 VALUES (?, ?, ?)"""
             )
             groupData = (
-		    requestData['groupID'],
-		    requestData['groupName'],
-		    requestData['emails']
+            requestData['groupID'],
+            requestData['groupName'],
+            requestData['emails']
             )
             cursor.execute(addGroup, groupData)
             conn.commit()
