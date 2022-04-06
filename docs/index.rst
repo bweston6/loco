@@ -13,8 +13,10 @@ Welcome to Loco's documentation!
    man.attendee
    Server
 
-Indices and tables
-==================
+.. only:: html
 
-* :ref:`genindex`
-* :ref:`modindex`
+   Indices and tables
+   ==================
+
+   * :ref:`genindex`
+   * :ref:`modindex`
