@@ -33,6 +33,14 @@ TABLES['groups'] = (
         "  CONSTRAINT PRIMARY KEY (`group_ID`)"
         ")")
 
+TABLES['attendance'] = (
+        "CREATE TABLE `attendance` ("
+        "  `email` varchar(100),"
+        "  `event_ID` int,"
+        "  FOREIGN KEY email REFERENCES users(email),"
+        "  FOREIGN KEY event_ID REFERENCES events(event_ID)"
+        ")")
+
 def openConnection():
     """Opens a connection to the ``loco`` database using a unix socket
     
