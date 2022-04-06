@@ -9,8 +9,8 @@ Welcome to Loco's documentation!
 .. toctree::
    :maxdepth: 4
    
-   host_manual
-   attendee_manual
+   man.host
+   man.attendee
    Server
 
 Indices and tables
