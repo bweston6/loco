@@ -9,11 +9,11 @@ import logging
 
 @api.route('/getAttendance')
 def getAttendance():
-	"""
-	Returns attendance 
-
-	:returns: dictionary with the key and value of the attendance
-	"""
+    """
+    Returns attendance 
+    
+    :returns: dictionary with the key and value of the attendance
+    """
     try:
         requestData = request.get_json()
         if ('token' in requestData and 'email' in requestData and 'eventID' in requestData):
