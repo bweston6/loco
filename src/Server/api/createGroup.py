@@ -6,7 +6,7 @@ from flask import jsonify, request
 from mariadb import Error
 import logging
 
-@api.route('/createGroup', methods=['POST'])
+@api.route('/createGroup')
 def createGroup():
     """Creates a group with a set of emails to allow for quicker repeating event creation
     
@@ -27,15 +27,15 @@ def createGroup():
             cursor = conn.cursor()
             addGroup = ("""REPLACE INTO group (
                     group_id, 
-					group_name, 
-					emails
+		    group_name, 
+		    emails
                 ) 
                 VALUES (?, ?, ?)"""
             )
             groupData = (
-				requestData['groupID'],
-				requestData['groupName'],
-				requestData['emails']
+		    requestData['groupID'],
+		    requestData['groupName'],
+		    requestData['emails']
             )
             cursor.execute(addGroup, groupData)
             conn.commit()
