@@ -1,3 +1,5 @@
+.. _man.host:
+
 Host Manual
 ===========
 

@@ -1,3 +1,5 @@
+.. _Server.api:
+
 Server.api package
 ==================
 
