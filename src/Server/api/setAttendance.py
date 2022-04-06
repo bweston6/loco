@@ -9,11 +9,10 @@ import logging
 
 @api.route('/setAttendance')
 def setAttendance():
-	"""
-    	Ensures attendance is set
-	
-    	:returns: dictionary with the key and value of the attendance
-    	"""
+    """Ensures attendance is set
+
+    :returns: dictionary with the key and value of the attendance
+    """
     try:
         requestData = request.get_json()
         if ('token' in requestData and 'email' in requestData and 'eventID' in requestData):
@@ -24,10 +23,10 @@ def setAttendance():
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(q1, (requestData['EventID'], ))
-        
+
         else:
             return jsonify(error='missing parameters'), 400      
-    
+
     except Error as e:
         logging.error(e)
         return jsonify(error='database error'), 500
