@@ -9,7 +9,7 @@ import logging, jwt
 
 @api.route('/getUser', methods=['POST'])
 def getUser():
-    """When used on an attendee, this returns the user's details and a list of enrolled events. The enrolled ``eventIDs`` are only returned if the ``email`` matches the ``token`` or if a *host* ``token`` is used. When used on a host, this returns the host's details, list of created ``groupIDs`` and list of created ``eventIDs``. The host group and event IDs are only returned if the ``email`` matches the ``token``. An error is returned if the ``email`` is not registered.
+    """When used on an attendee, this returns the user's details and a list of enrolled events. The enrolled ``eventIDs`` are only returned if the ``email`` matches the ``token`` or if a *host* ``token`` is used. When used on a host, this returns the host's details, list of created ``groupIDs`` and list of created ``eventIDs``. The host ``groupIDs`` and ``eventIDs`` are only returned if the ``email`` matches the ``token``. An error is returned if the ``email`` is not registered.
 
     :<json str token: A valid authentication token (see :http:post:`/api/createUser`)
     :<json str email: The email of the user you want to get
@@ -49,10 +49,53 @@ def getUser():
             if tokenValid == 1:
                 cursor.execute(query2, (requestData['email'], ))
                 user = cursor.fetchone()
+                # check if user exists
+                if user == None:
+                    return jsonify(error = "email is not registered"), 400
                 user = {"fullName": user[0],
                         "email": user[1],
                         "hostFlag": bool(user[2])
                         }
+                # if requesting host
+                print("Checking email")
+                if checkHostEmail(requestData['email'], cursor):
+                    print("Email is host")
+                    if requestData['email'] == auth.decodeToken(requestData['token']):
+                        # find all groups this host has made
+                        query3 = ("""SELECT group_ID
+                            FROM groups
+                            WHERE hostEmail = ?
+                        """)
+                        # find all events this host has made
+                        query4 = ("""SELECT event_ID
+                            FROM events
+                            WHERE hostEmail = ?
+                        """)
+                        print("Queries are set")
+                        cursor.execute(query3, (requestData['email'], ))
+                        print("Executed q3")
+                        user['groupIDs'] = cursor.fetchall()
+                        print("got groups")
+                        cursor.execute(query4, (requestData['email'], ))
+                        print("Executed q4")
+                        user['eventIDs'] = cursor.fetchall()
+                        print("got events")
+                # if requesting attendee
+                else:
+                    print("Email is attendee")
+                    # add eventIDs if email matches token or host
+                    if requestData['email'] == auth.decodeToken(requestData['token']) or checkHostToken(requestData['token'], cursor):
+                        print("Queries are set")
+                        query5 = ("""
+                            SELECT event_ID
+                            FROM attendance 
+                            WHERE email = ?
+                        """)
+                        cursor.execute(query5, (requestData['email'], ))
+                        print("Executed q5")
+                        user['eventIDs'] = cursor.fetchall()
+                        print("got events")
+
                 return jsonify(user)
             else:
                 db.closeConnection(conn)
@@ -65,3 +108,24 @@ def getUser():
     except Error as e:
         logging.error(e)
         return jsonify(error='database error'), 500
+
+def checkHostEmail(email, cursor):
+    """Checks whether the user is a host from their email. The user must exist in the database or an exception will be thrown.
+    """
+    query1 = ("""SELECT host_flag
+        FROM users
+        WHERE email = ?
+    """)
+    cursor.execute(query1, (email, ))
+    hostFlag = cursor.fetchone()[0]
+    if hostFlag != None:
+        return hostFlag
+    else:
+        raise Error
+
+def checkHostToken(token, cursor):
+    """Checks whether the user is a host from their token. The user must exist in the database or an exception will be thrown.
+    """
+    email = auth.decodeToken(token)
+    hostFlag = checkHostEmail(email, cursor)
+    return hostFlag
