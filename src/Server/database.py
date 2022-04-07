@@ -15,13 +15,14 @@ TABLES['events'] = (
         "CREATE TABLE `events` ("
         "  `event_ID` int NOT NULL AUTO_INCREMENT,"
         "  `event_name` varchar(50) NOT NULL,"
-        "  `start_time` datetime NOT NULL,"
-        "  `duration` time NOT NULL,"
+        "  `start_time` bigint NOT NULL,"
+        "  `duration` bigint NOT NULL,"
         "  `latitude` decimal(8,6) NOT NULL,"
         "  `longitude` decimal(9,6) NOT NULL,"
         "  `radius` int NOT NULL,"
         "  `description` varchar(1000),"
-        "  `emails` JSON NOT NULL,"
+        "  `hostEmail` varchar(100) NOT NULL,"
+        "  CONSTRAINT FK_Events FOREIGN KEY (hostEmail) REFERENCES users(email),"
         "  CONSTRAINT PRIMARY KEY (`event_ID`)"
         ")")
 
@@ -29,14 +30,16 @@ TABLES['groups'] = (
         "CREATE TABLE `groups` ("
         "  `group_ID` int NOT NULL AUTO_INCREMENT,"
         "  `group_name` varchar(50) NOT NULL,"
+        "  `hostEmail` varchar(100) NOT NULL,"
         "  `emails` JSON NOT NULL,"
-        "  CONSTRAINT PRIMARY KEY (`group_ID`)"
+        "  CONSTRAINT PRIMARY KEY (`group_ID`),"
+        "  CONSTRAINT FK_Groups FOREIGN KEY (hostEmail) REFERENCES users(email)"
         ")")
 
 TABLES['attendance'] = (
         "CREATE TABLE `attendance` ("
-        "  `email` varchar(100),"
-        "  `event_ID` int,"
+        "  `email` varchar(100) NOT NULL,"
+        "  `event_ID` int NOT NULL,"
         "  `attendance_flag` BOOLEAN NOT NULL,"
         "  CONSTRAINT PK_attendance PRIMARY KEY(email, event_ID),"
         "  CONSTRAINT FK_attendance_email FOREIGN KEY (email) REFERENCES users(email),"
@@ -44,7 +47,7 @@ TABLES['attendance'] = (
         ")")
 
 def openConnection():
-    """Opens a connection to the ``loco`` database using a unix socket
+    """Opens a connection to the ``loco`` database using a Unix socket.
     
     :rasies mariadb.Error: If there is an error connecting to the database
     :return: The connection to the database
@@ -56,12 +59,12 @@ def openConnection():
     return conn
 
 def createTables(cursor):
-    """Creates the tables defined in the dictionary ``TABLES``. If the tables exist then there is no change to the database
+    """Creates the tables defined in the dictionary ``TABLES``. If the tables exist then there is no change to the database.
     
     :param cursor: A ``cursor`` in the database you want to write to
     :type cursor: mariadb.connection.cursor
-    :raises mariadb.Error: If there is an error writing to the database.
-    :return: True if the funcntion is successful
+    :raises mariadb.Error: If there is an error writing to the database
+    :return: True if the function is successful
     :rtype: bool 
     """
     cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
@@ -78,7 +81,7 @@ def createTables(cursor):
     return True
 
 def closeConnection(conn):
-    """Closes an open database connection object
+    """Closes an open database connection object.
     
     :param conn: The connection you want to close
     :type conn: mariadb.connection

@@ -17,7 +17,7 @@ def createUser():
     :<json bool hostFlag: Defines where the user is a host or an attendee 
 
     :>json str token: The authentication ``token`` for the new user
-    :>json str error: An error message if the action cannot complete
+    :>json str error: optional An error message if the action cannot complete
     
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing

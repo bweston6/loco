@@ -9,7 +9,7 @@ import logging, jwt
 
 @api.route('/getUser', methods=['POST'])
 def getUser():
-    """Gets a user from the database via their email
+    """When used on an attendee, this returns the user's details and a list of enrolled events. The enrolled ``eventIDs`` are only returned if the ``email`` matches the ``token`` or if a *host* ``token`` is used. When used on a host, this returns the host's details, list of created ``groupIDs`` and list of created ``eventIDs``. The host group and event IDs are only returned if the ``email`` matches the ``token``. An error is returned if the ``email`` is not registered.
 
     :<json str token: A valid authentication token (see :http:post:`/api/createUser`)
     :<json str email: The email of the user you want to get
@@ -17,9 +17,12 @@ def getUser():
     :>json str fullName: The full name of the user
     :>json str email: The email of the user
     :>json bool hostFlag: A flag to represent whether this is an attendee or host account
+    :>json int[] eventIDs: optional A list of created or enrolled events for the user. Only shown if the user is authenticated to see them
+    :>json int[] groupIDs: optional A list of created groups. Only shown if the user is authenticated to see them
+    :>json string error: optional An error message if the action cannot complete
 
     :statuscode 200: Operation completed successfully
-    :statuscode 400: JSON parameters are missing
+    :statuscode 400: JSON parameters are missing or invalid
     :statuscode 401: Invalid authentication token
     :statuscode 500: Server database error
     """

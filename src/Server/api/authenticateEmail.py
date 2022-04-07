@@ -5,12 +5,12 @@ from .. import auth
 
 @api.route('/authenticateEmail', methods=['POST'])
 def authenticateEmail():
-    """Emails a user with an one time password using :obj:`Server.auth.authenticateEmail`
+    """Emails a user with an one time password using :obj:`Server.auth.authenticateEmail`.
 
-    :>json string email: The email that you want to authenticate
+    :<json string email: The email that you want to authenticate
     
-    :<json bool success: Indicates that the email has been sent to ``email``
-    :<json string error: An error message if the action cannot complete
+    :>json bool success: Indicates that the email has been sent to ``email``
+    :>json string error: optional An error message if the action cannot complete
     
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
@@ -20,4 +20,4 @@ def authenticateEmail():
         auth.authenticateEmail(requestData['email'])
         return jsonify(success = True), 200
     else: 
-        return jsonify(error = 'missing parameters'), 400
+        return jsonify(success = False, error = 'missing parameters'), 400

@@ -6,29 +6,33 @@ from . import api
 from .. import auth, database as db
 import logging
 
-@api.route('/createEvent')
+@api.route('/createEvent', methods=['POST'])
 def createEvent():
-    """Creates an event and adds the information to the database.
+    """Creates an event, or updates an existing event if ``eventID`` is supplied.
 
-    :<json number eventId: The event id.
-    :<json string eventName: The event name.
-    :<json number startTime: The time the event is expected to start, after which attendance will be marked.
-    :<json number duration: The duration of an event.
-    :<json number locationLong: The longitute coordinate of an event's location.
-    :<json number locationLat: The latitude coordinate of an event's location.
-    :<json number radius: The radius around an event's coordinates where attendance is accepted.
-    :<json string description: A description of the event for users.
-    :<json string[] emails: An array of emails signed up that are expected to attend the event.
+    :<json str token: A valid *host* authentication token (see :http:post:`/api/createUser`)
+    :<json int eventID: optional The `eventID` if you want to change an existing event
+    :<json str eventName: The event name. Maximum of 100 characters
+    :<json int startTime: The date and time the event is expected to start as a Unix timestamp: (``1649329200`` for ``Thu Apr 07 2022 11:00:00 UTC+0000``)
+    :<json int duration: The duration of an event in Unix millis since the ``startTime``
+    :<json float locationLong: The longitudinal coordinate of an event's location as a fixed point decimal in the format: ``±99.999999``
+    :<json float locationLat: The latitudinal coordinate of an event's location as a fixed point decimal in the format: ``±999.999999``
+    :<json int radius: The radius around an event's coordinates where attendance is accepted in meters
+    :<json str description: A description of the event for users. Maximum of 1000 characters
+    :<json str hostEmail: The email of the host of the event. This email must have an account created by using :http:post:`/api/createUser`
+    :<json str[] emails: An array of emails to enrol in the event
 
-    :>json string error: An error message if the action cannot complete
+    :>json int eventID: The ``eventID`` of the created or updated event
+    :>json string error: optional An error message if the action cannot complete
 
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
+    :statuscode 401: Invalid authentication token
     :statuscode 500: Server database error
     """
     try:
         requestData = request.get_json()
-        if ('eventId' in requestData and 
+        if ('eventID' in requestData and 
                 'eventName' in requestData and
                 'startTime' in requestData and
                 'duration' in requestData and
@@ -54,7 +58,7 @@ def createEvent():
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
                 )
             eventData = (
-                    requestData['eventId'],
+                    requestData['eventID'],
                     requestData['eventName'],
                     requestData['startTime'],
                     requestData['duration'],

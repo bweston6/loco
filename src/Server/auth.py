@@ -12,7 +12,7 @@ KEY = os.getenv('KEY', None)
 OTPs = {}
 
 def generateToken(userOTP, userEmail):
-    """Generates authentication token provided that ``userOTP`` and ``userEmail`` are valid. This is checked using the ``OTPs`` dictionary (see :func:`authenticateEmail`). ``userOTP`` must be under 1 hour old and ``userOTP`` and ``userEmail`` must match in the dictionary
+    """Generates authentication token provided that ``userOTP`` and ``userEmail`` are valid. This is checked using the ``OTPs`` dictionary (see :func:`authenticateEmail`). ``userOTP`` must be under 1 hour old and ``userOTP`` and ``userEmail`` must match in the dictionary.
 
     :param userOTP: The user's one time password
     :type userOTP: str
@@ -49,10 +49,10 @@ def decodeToken(token):
     return payload['sub'] # subject (userEmail)
 
 def authenticateEmail(userEmail):
-    """Sends a one time password to the email ``userEmail``. The combination of OTP, ``userEmail`` and the issued time are saved in the dictionary ``OTPs``
+    """Sends a one time password to the email ``userEmail``. The combination of OTP, ``userEmail`` and the issued time are saved in the dictionary ``OTPs``.
     
     :param userEmail: The email to send the OTP to
-    :type useremail: str
+    :type userEmail: str
     :return: True when the action is complete
     :rtype: bool
     """
@@ -61,6 +61,6 @@ def authenticateEmail(userEmail):
             "otp": random.randint(100000, 999999),
             "iat": datetime.utcnow()
             }
-    email.send(to=userEmail, subject="Your OTP for Loco", contents="Your one-time password is: " + str(OTPs[userEmail]['otp'])
+    email.send(to=userEmail, subject="Your OTP for Loco", contents=str(OTPs[userEmail]['otp'] + " is your one-time password.")
         )
     return True
