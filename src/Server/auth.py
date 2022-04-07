@@ -100,6 +100,6 @@ def checkHostToken(token, cursor):
     :return: The ``hostFlag`` of the user identified by ``token``.
     :rtype: bool
     """
-    email = auth.decodeToken(token)
+    email = decodeToken(token)
     hostFlag = checkHostEmail(email, cursor)
     return hostFlag
