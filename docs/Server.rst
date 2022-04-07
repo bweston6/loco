@@ -2,14 +2,19 @@
 
 Server
 ==============
+This section documents the :ref:`Server` python package.
 
-Subpackages
------------
+All documentation relating to the API itself is in the :ref:`Server.api`. This includes exact details of all the endpoints and how to make requests using the command line tool curl_.
 
-.. toctree::
-   :maxdepth: 4
+.. _curl: https://curl.se/
 
-   Server.api
+Module contents
+---------------
+
+.. automodule:: Server
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Submodules
 ----------
@@ -37,11 +42,10 @@ Server.web module
    :blueprints: web
    :undoc-static:
 
+Subpackages
+-----------
 
-Module contents
----------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: Server
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   Server.api
