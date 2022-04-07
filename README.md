@@ -6,7 +6,7 @@ This is the repository for Loco - the location based attendance app.
 
 
 ## API Endpoint Plan
-See the latest build of the docs in the releases tab. You can find downloads under the `assets` dropdown.
+See the latest build of the docs under releases on the sidebar. You can find downloads under the `assets` dropdown.
 
 ## Installing Dependencies
 To install all project dependancies:
