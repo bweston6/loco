@@ -8,13 +8,15 @@ import logging, jwt
 
 @api.route('/createGroup', methods=['POST'])
 def createGroup():
-    """Creates a group with a set of emails to allow for quicker repeating event creation
+    """Creates a group with a set of emails to allow for quicker repeating event creation.
 
-    :<json int groupID: The groups unique ID
-    :<json string groupName: The groups name
-    :<json string[] emails: All the users emails that are in the group
+    :<json str token: A valid host authentication token (see :http:post:`/api/createUser`)
+    :<json int groupID: optional The group's unique ID if you want to change an existing group
+    :<json string groupName: The group's name. Maximum of 50 characters
+    :<json string[] emails: All the user's emails that are in the group
 
-    :>json string error: An error message if the action cannot complete
+    :>json int groupID: The ``groupID`` of the created or modified group
+    :>json str error: optional An error message if the action cannot complete
 
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
@@ -25,19 +27,19 @@ def createGroup():
         requestData = request.get_json()
         if ('token' in requestData and 'groupID' in requestData and 'groupName' in requestData and 'emails' in requestData):
             queryValidate = ("SELECT EXISTS ( "
-                "SELECT * "
-                "FROM users "
-                "WHERE token = ? "
-                "LIMIT 1)")
+                    "SELECT * "
+                    "FROM users "
+                    "WHERE token = ? "
+                    "LIMIT 1)")
             addGroup = ("REPLACE INTO group ("
-                "group_id, " 
-                "group_name, " 
-                "emails) " 
-                "VALUES (?, ?, ?)")
+                    "group_id, " 
+                    "group_name, " 
+                    "emails) " 
+                    "VALUES (?, ?, ?)")
             groupData = (
-                requestData['groupID'],
-                requestData['groupName'],
-                requestData['emails'])
+                    requestData['groupID'],
+                    requestData['groupName'],
+                    requestData['emails'])
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData['token'], ))
