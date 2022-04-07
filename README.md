@@ -6,21 +6,7 @@ This is the repository for Loco - the location based attendance app.
 
 
 ## API Endpoint Plan
-The API interface will look something like the following (these have now been implemented as stubs under [https://loco.bweston.uk/api/...](https://loco.bweston.uk/api/getUser)):
-
-* `bool authenticateEmail(email)`
-	* Sends an OTP to the email and remembers it to validate against `createUser`.
-* `token|expired OTP createUser(fullName, email, hostFlag, OTP)`
-	* One time password from `authenticateEmail` is passed to this endpoint.
-* `user getUser(token, email)`
-* `eventID createEvent(token, eventID, eventName, startTimeInUnixMillis, durationInUnixMillis, locationLat, locationLong, radiusInMeters, description, email[])`
-  *  If `eventID` already exists then we change the value. If not all fields must be present.
-* `event getEvent(token, eventID)`
-* `bool createGroup(token, groupID, groupName, email[])`
-  *  If `groupID` already exists then we change the value. If not all fields must be present.
-* `email[] getUsersFromGroup(token, groupID)`
-* `bool setAttendance(token, email, eventID, attended)`
-* `bool getAttendance(token, email, eventID)`
+See the latest build of the docs in the releases tab. You can find downloads under the `assets` dropdown.
 
 ## Installing Dependencies
 To install all project dependancies:
