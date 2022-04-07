@@ -1,6 +1,7 @@
-import os, jwt, random, yagmail
 from datetime import datetime
 from datetime import timedelta
+from mariadb import Error
+import os, jwt, random, yagmail
 
 
 # get encryption key from environment variables for testing this is set in bootstrap
@@ -65,3 +66,40 @@ def authenticateEmail(userEmail):
             }
     email.send(to=userEmail, subject="Your OTP for Loco", contents=str(OTPs[userEmail]['otp']) + " is your one-time password.")
     return True
+
+def checkHostEmail(email, cursor):
+    """Checks whether the user is a host from their email. The user must exist in the database or an exception will be thrown.
+
+    :param email: An ``email`` of an existing user.
+    :type email: str
+    :param cursor: A ``cursor`` in the database you want to check against
+    :type cursor: mariadb.connection.cursor
+    :raises mariadb.Error: If there is an error with the database or the email doesn't exist
+    :return: The ``hostFlag`` of the user identified by ``email``.
+    :rtype: bool
+    """
+    query1 = ("""SELECT host_flag
+        FROM users
+        WHERE email = ?
+    """)
+    cursor.execute(query1, (email, ))
+    hostFlag = cursor.fetchone()[0]
+    if hostFlag != None:
+        return hostFlag
+    else:
+        raise Error
+
+def checkHostToken(token, cursor):
+    """Checks whether the user is a host from their token. The user must exist in the database or an exception will be thrown.
+
+    :param token: An ``token`` of an existing user.
+    :type token: str
+    :param cursor: A ``cursor`` in the database you want to check against
+    :type cursor: mariadb.connection.cursor
+    :raises mariadb.Error: If there is an error with the database or the email doesn't exist
+    :return: The ``hostFlag`` of the user identified by ``token``.
+    :rtype: bool
+    """
+    email = auth.decodeToken(token)
+    hostFlag = checkHostEmail(email, cursor)
+    return hostFlag

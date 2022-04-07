@@ -56,10 +56,9 @@ def getUser():
                         "email": user[1],
                         "hostFlag": bool(user[2])
                         }
-                # if requesting host
-                print("Checking email")
-                if checkHostEmail(requestData['email'], cursor):
-                    print("Email is host")
+                if auth.checkHostEmail(requestData['email'], cursor):
+                    # if requesting host
+                    # if email matches token then add extra info
                     if requestData['email'] == auth.decodeToken(requestData['token']):
                         # find all groups this host has made
                         query3 = ("""SELECT group_ID
@@ -71,30 +70,21 @@ def getUser():
                             FROM events
                             WHERE hostEmail = ?
                         """)
-                        print("Queries are set")
                         cursor.execute(query3, (requestData['email'], ))
-                        print("Executed q3")
                         user['groupIDs'] = cursor.fetchall()
-                        print("got groups")
                         cursor.execute(query4, (requestData['email'], ))
-                        print("Executed q4")
                         user['eventIDs'] = cursor.fetchall()
-                        print("got events")
-                # if requesting attendee
                 else:
-                    print("Email is attendee")
+                    # if requesting attendee
                     # add eventIDs if email matches token or host
-                    if requestData['email'] == auth.decodeToken(requestData['token']) or checkHostToken(requestData['token'], cursor):
-                        print("Queries are set")
+                    if requestData['email'] == auth.decodeToken(requestData['token']) or auth.checkHostToken(requestData['token'], cursor):
                         query5 = ("""
                             SELECT event_ID
                             FROM attendance 
                             WHERE email = ?
                         """)
                         cursor.execute(query5, (requestData['email'], ))
-                        print("Executed q5")
                         user['eventIDs'] = cursor.fetchall()
-                        print("got events")
 
                 return jsonify(user)
             else:
@@ -108,24 +98,3 @@ def getUser():
     except Error as e:
         logging.error(e)
         return jsonify(error='database error'), 500
-
-def checkHostEmail(email, cursor):
-    """Checks whether the user is a host from their email. The user must exist in the database or an exception will be thrown.
-    """
-    query1 = ("""SELECT host_flag
-        FROM users
-        WHERE email = ?
-    """)
-    cursor.execute(query1, (email, ))
-    hostFlag = cursor.fetchone()[0]
-    if hostFlag != None:
-        return hostFlag
-    else:
-        raise Error
-
-def checkHostToken(token, cursor):
-    """Checks whether the user is a host from their token. The user must exist in the database or an exception will be thrown.
-    """
-    email = auth.decodeToken(token)
-    hostFlag = checkHostEmail(email, cursor)
-    return hostFlag
