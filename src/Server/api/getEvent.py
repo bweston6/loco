@@ -10,18 +10,18 @@ import logging, jwt
 
 @api.route('/getEvent' , methods=['POST'] )
 def getEvent():
-"""Gets event from database
+	"""Gets event from database
 
-:<json number eventId: The event id.
-:<json str token: A valid authentication token (see :http:post:`/api/createUser`)
+	:<json number eventId: The event id.
+	:<json str token: A valid authentication token (see :http:post:`/api/createUser`)
 
-:>json string error: An error message if the action cannot complete
+	:>json string error: An error message if the action cannot complete
 
-:statuscode 200: Operation completed successfully
-:statuscode 400: JSON parameters are missing
-:statuscode 401: Invalid authentication token
-:statuscode 500: Server database error
-"""
+	:statuscode 200: Operation completed successfully
+	:statuscode 400: JSON parameters are missing
+	:statuscode 401: Invalid authentication token
+	:statuscode 500: Server database error
+	"""
 	try:
 		requestData = request.get_json()
 		if ('eventId' in requestData and 'token' in requestData):
