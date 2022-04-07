@@ -26,6 +26,8 @@ def generateToken(userOTP, userEmail):
         raise ValueError
     if ((datetime.utcnow() - OTPs[userEmail]['iat']) > timedelta(hours=1)):
         raise ValueError
+    # delete OTP now it has been used
+    del OTPs[userEmail]
     payload = {
             'iat' : datetime.utcnow(), # issued at
             'sub' : userEmail # subject
@@ -45,7 +47,7 @@ def decodeToken(token):
     :return: The subject field of the token (see ``userEmail`` in :func:`generateToken`)
     :rtype: str
     """
-    payload = jwt.decode(token, SECRET_KEY)
+    payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
     return payload['sub'] # subject (userEmail)
 
 def authenticateEmail(userEmail):
