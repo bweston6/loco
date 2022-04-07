@@ -1,2 +1,2 @@
-docs/* -linguist-documentation
+docs/*.rst -linguist-documentation
 *.rst linguist-detectable
