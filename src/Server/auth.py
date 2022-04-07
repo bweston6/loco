@@ -38,7 +38,7 @@ def generateToken(userOTP, userEmail):
 
 def decodeToken(token):
     """Decodes ``token``
-    
+
     :param token: The token to decode
     :type token: str
     :raises jwt.InvalidTokenError: If ``token`` is invalid
@@ -50,7 +50,7 @@ def decodeToken(token):
 
 def authenticateEmail(userEmail):
     """Sends a one time password to the email ``userEmail``. The combination of OTP, ``userEmail`` and the issued time are saved in the dictionary ``OTPs``.
-    
+
     :param userEmail: The email to send the OTP to
     :type userEmail: str
     :return: True when the action is complete
@@ -61,6 +61,5 @@ def authenticateEmail(userEmail):
             "otp": random.randint(100000, 999999),
             "iat": datetime.utcnow()
             }
-    email.send(to=userEmail, subject="Your OTP for Loco", contents=str(OTPs[userEmail]['otp'] + " is your one-time password.")
-        )
+    email.send(to=userEmail, subject="Your OTP for Loco", contents=str(OTPs[userEmail]['otp']) + " is your one-time password.")
     return True
