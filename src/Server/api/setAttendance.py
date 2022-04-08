@@ -27,16 +27,16 @@ def setAttendance():
     try:
         requestData = request.get_json()
         if ('token' in requestData and 'email' in requestData and 'eventID' in requestData):
-            q1 = (""" UPDATE user
-                SET attendance = "True"
-                WHERE eventID = ?
+            q1 = (""" UPDATE attendance
+                SET attendance_flag = "True"
+                WHERE eventID = ? AND email = ?
             """)
             conn = db.openConnection()
             cursor = conn.cursor()
-            cursor.execute(q1, (requestData['EventID'], ))
-
+            cursor.execute(q1, (requestData['eventID'], requestData['email'],))
+        
         else:
-            return jsonify(error='missing parameters'), 400      
+            return jsonify(error='missing parameters'), 400         
 
     except Error as e:
         logging.error(e)
