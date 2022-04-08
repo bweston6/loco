@@ -32,20 +32,18 @@ def createEvent():
     """
     try:
         requestData = request.get_json()
-        if ('eventID' in requestData and 
-                'eventName' in requestData and
+        if ('eventName' in requestData and
                 'startTime' in requestData and
                 'duration' in requestData and
                 'locationLong' in requestData and
                 'locationLat' in requestData and
                 'radius' in requestData and
                 'description' in requestData and
-                'emails' in requestData
+                'hostEmail' in requestData
                 ):
             conn = db.openConnection()
             cursor = conn.cursor()
             addEvent = ("""REPLACE INTO events (
-                    event_ID, 
                     event_name, 
                     start_time, 
                     duration, 
@@ -53,12 +51,11 @@ def createEvent():
                     longitude,
                     radius,
                     description,
-                    emails
+                    hostEmail
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
                 )
             eventData = (
-                    requestData['eventID'],
                     requestData['eventName'],
                     requestData['startTime'],
                     requestData['duration'],
@@ -66,7 +63,7 @@ def createEvent():
                     requestData['locationLong'],
                     requestData['radius'],
                     requestData['description'],
-                    requestData['emails']
+                    requestData['hostEmail']
                     )
             cursor.execute(addEvent, eventData)
             conn.commit()
