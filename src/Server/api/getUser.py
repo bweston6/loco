@@ -62,7 +62,7 @@ def getUser():
                     if requestData['email'] == auth.decodeToken(requestData['token']):
                         # find all groups this host has made
                         query3 = ("""SELECT group_ID
-                            FROM groups
+                            FROM `groups`
                             WHERE hostEmail = ?
                         """)
                         # find all events this host has made
