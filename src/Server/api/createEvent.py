@@ -51,7 +51,7 @@ def createEvent():
                     LIMIT 1)"""
                     )
             addEvent = ("""REPLACE INTO events (
-                    event_id
+                    event_ID,
                     event_name, 
                     start_time, 
                     duration, 
