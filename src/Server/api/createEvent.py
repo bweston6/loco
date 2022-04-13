@@ -4,7 +4,7 @@ from flask import jsonify, request
 from mariadb import Error
 from . import api
 from .. import auth, database as db
-import logging
+import logging, jwt
 
 @api.route('/createEvent', methods=['POST'])
 def createEvent():
@@ -22,7 +22,7 @@ def createEvent():
     :<json str hostEmail: The email of the host of the event. This email must have an account created by using :http:post:`/api/createUser`
     :<json str[] emails: An array of emails to enrol in the event
 
-    :>json int eventID: The ``eventID`` of the created or updated event
+    :>json str token: The authentication ``token`` for the new event
     :>json string error: optional An error message if the action cannot complete
 
     :statuscode 200: Operation completed successfully
@@ -32,18 +32,26 @@ def createEvent():
     """
     try:
         requestData = request.get_json()
-        if ('eventName' in requestData and
+        if ('token' in requestData and
+                'eventID' in requestData and
+                'eventName' in requestData and
                 'startTime' in requestData and
                 'duration' in requestData and
                 'locationLong' in requestData and
                 'locationLat' in requestData and
                 'radius' in requestData and
                 'description' in requestData and
-                'hostEmail' in requestData
+                'hostEmail' in requestData and
+                'emails' in requestData
                 ):
-            conn = db.openConnection()
-            cursor = conn.cursor()
+            queryValidate = ("""SELECT EXISTS (
+                    SELECT * 
+                    FROM users 
+                    WHERE token = ? AND host_flag = true
+                    LIMIT 1)"""
+                    )
             addEvent = ("""REPLACE INTO events (
+                    event_id
                     event_name, 
                     start_time, 
                     duration, 
@@ -53,9 +61,10 @@ def createEvent():
                     description,
                     hostEmail
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
                 )
             eventData = (
+                    requestData['eventID'],
                     requestData['eventName'],
                     requestData['startTime'],
                     requestData['duration'],
@@ -65,12 +74,36 @@ def createEvent():
                     requestData['description'],
                     requestData['hostEmail']
                     )
-            cursor.execute(addEvent, eventData)
-            conn.commit()
-            db.closeConnection(conn)
-            return jsonify(eventData), 200
+            addAttendance = ("""REPLACE INTO attendance (
+                    email,
+                    event_ID,
+                    attendance_flag
+                )
+                VALUES (?, ?, false)"""
+                )
+            conn = db.openConnection()
+            cursor = conn.cursor()
+            cursor.execute(queryValidate, (requestData['token'], ))
+            tokenValid = cursor.fetchone()[0]
+            if (tokenValid == 1):
+                cursor.execute(addEvent, eventData)
+                for i in requestData['emails']:
+                    attendanceData = (
+                        requestData(requestData['emails'])[i],
+                        requestData['eventID']
+                        )
+                    cursor.execute(addAttendance, attendanceData)
+                conn.commit()
+                db.closeConnection(conn)
+                return jsonify(eventData), 200
+            else:
+                db.closeConnection(conn)
+                raise jwt.InvalidTokenError
         else: 
             return jsonify(error='missing parameters'), 400
+    except jwt.InvalidTokenError as e:
+        logging.info('User query attempted with invalid token')
+        return jsonify(error='invalid token'), 401
     except Error as e:
         logging.error(e)
         return jsonify(error='database error'), 500
