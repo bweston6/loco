@@ -112,7 +112,7 @@ def createEvent():
                 cursor.execute(addEvent, eventData)
                 for i in requestData['emails']:
                     attendanceData = (
-                        requestData['emails'])[i],
+                        (requestData['emails'])[i],
                         requestData['eventID']
                         )
                     cursor.execute(addAttendance, attendanceData)
