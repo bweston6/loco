@@ -89,7 +89,7 @@ def createEvent():
                 cursor.execute(addEvent, eventData)
                 for i in requestData['emails']:
                     attendanceData = (
-                        requestData(requestData['emails'])[i],
+                        json.dumps((requestData['emails'])[i]),
                         requestData['eventID']
                         )
                     cursor.execute(addAttendance, attendanceData)
