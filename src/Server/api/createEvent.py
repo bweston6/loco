@@ -102,7 +102,7 @@ def createEvent():
                     event_ID,
                     attendance_flag
                 )
-                VALUES (?, ?, false)"""
+                VALUES (?, ?, FALSE)"""
                 )
             conn = db.openConnection()
             cursor = conn.cursor()
@@ -110,9 +110,10 @@ def createEvent():
             tokenValid = cursor.fetchone()[0]
             if (tokenValid == 1):
                 cursor.execute(addEvent, eventData)
-                for i in requestData['emails']:
+                emailArray = (requestData['emails'])
+                for i in emailArray:
                     attendanceData = (
-                        (requestData['emails'])[i],
+                        emailArray[i],
                         requestData['eventID']
                         )
                     cursor.execute(addAttendance, attendanceData)
