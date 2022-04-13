@@ -26,19 +26,19 @@ def getAttendance():
     try:
         requestData = request.get_json()
         if ('token' in requestData and 'email' in requestData and 'eventID' in requestData):
-            q1 = (""" SELECT attendance 
-                FROM Users
-                WHERE token = ?
+            q1 = (""" SELECT attendance_flag
+                FROM attendance
+                WHERE email = ?
             """)
             conn = db.openConnection()
             cursor = conn.cursor()
-            cursor.execute(q1, (requestData['token'], ))
+            cursor.execute(q1, (requestData['email'], ))
             attendance = cursor.fetchone()[0]
-
+            
             return attendance
-
+        
         else:
-            return jsonify(error='missing parameters'), 400      
+            return jsonify(error='missing parameters'), 400    
 
     except Error as e:
         logging.error(e)

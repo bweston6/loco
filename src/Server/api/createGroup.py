@@ -5,6 +5,7 @@ from .. import auth, database as db
 from flask import jsonify, request
 from mariadb import Error
 import logging, jwt
+import json
 
 @api.route('/createGroup', methods=['POST'])
 def createGroup():
@@ -21,25 +22,39 @@ def createGroup():
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
     :statuscode 401: Invalid authentication token
+    :statuscode 403: Attendees not allowed to make groups
     :statuscode 500: Server database error
     """
     try:
         requestData = request.get_json()
-        if ('token' in requestData and 'groupID' in requestData and 'groupName' in requestData and 'emails' in requestData):
+        if ('token' in requestData and 'groupName' in requestData and 'emails' in requestData):
             queryValidate = ("SELECT EXISTS ( "
                     "SELECT * "
                     "FROM users "
                     "WHERE token = ? "
                     "LIMIT 1)")
-            addGroup = ("REPLACE INTO group ("
-                    "group_id, " 
-                    "group_name, " 
-                    "emails) " 
-                    "VALUES (?, ?, ?)")
-            groupData = (
-                    requestData['groupID'],
-                    requestData['groupName'],
-                    requestData['emails'])
+            if ('groupID' in requestData):
+                addGroup = ("REPLACE INTO `groups` ("
+                        "group_ID, "
+                        "group_name, " 
+                        "hostEmail, "
+                        "emails) " 
+                        "VALUES (?, ?, ?, ?)")
+                groupData = (
+                        requestData['groupID'],
+                        requestData['groupName'],
+                        requestData['hostEmail'],
+                        json.dumps(requestData['emails']))
+            else:
+                addGroup = ("INSERT INTO `groups` ("
+                        "group_name, " 
+                        "hostEmail, "
+                        "emails) " 
+                        "VALUES (?, ?, ?)")
+                groupData = (
+                        requestData['groupName'],
+                        requestData['hostEmail'],
+                        json.dumps(requestData['emails']))
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData['token'], ))
