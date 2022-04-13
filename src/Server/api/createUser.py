@@ -30,21 +30,46 @@ def createUser():
             token = auth.generateToken(int(requestData['OTP']), requestData['email'])
             conn = db.openConnection()
             cursor = conn.cursor()
-            addUser = ("""REPLACE INTO users (
-                    full_name,
-                    email,
-                    token,
-                    host_flag
+            findExistingUser = ("""SELECT EXISTS (
+                SELECT *
+                FROM users
+                WHERE email = ?
+                LIMIT 1
+            )
+            """)
+            cursor.execute(findExistingUser, (requestData['email'], ))
+            # test if user exists
+            userExists = cursor.fetchone()[0]
+            if userExists == 1:
+                updateUser = ("""UPDATE users
+                    SET full_name = ?,
+                        token = ?,
+                        host_flag = ?
+                    WHERE email = ?"""
                 )
-                VALUES (?, ?, ?, ?)"""
-            )
-            userData = (
-                requestData['fullName'],
-                requestData['email'],
-                token,
-                requestData['hostFlag']
-            )
-            cursor.execute(addUser, userData)
+                userData = (
+                    requestData['fullName'],
+                    token,
+                    requestData['hostFlag'],
+                    requestData['email']
+                )
+                cursor.execute(updateUser, userData)
+            else:
+                addUser = ("""REPLACE INTO users (
+                        full_name,
+                        email,
+                        token,
+                        host_flag
+                    )
+                    VALUES (?, ?, ?, ?)"""
+                )
+                userData = (
+                    requestData['fullName'],
+                    requestData['email'],
+                    token,
+                    requestData['hostFlag']
+                )
+                cursor.execute(addUser, userData)
             conn.commit()
             db.closeConnection(conn)
             return jsonify(token=token), 200
