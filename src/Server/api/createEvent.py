@@ -33,7 +33,6 @@ def createEvent():
     try:
         requestData = request.get_json()
         if ('token' in requestData and
-                'eventID' in requestData and
                 'eventName' in requestData and
                 'startTime' in requestData and
                 'duration' in requestData and
@@ -51,6 +50,18 @@ def createEvent():
                     LIMIT 1)"""
                     )
             addEvent = ("""REPLACE INTO events (
+                    event_name, 
+                    start_time, 
+                    duration, 
+                    latitude,
+                    longitude,
+                    radius,
+                    description,
+                    hostEmail
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
+                )
+            changeEvent = ("""REPLACE INTO events (
                     event_ID,
                     event_name, 
                     start_time, 
@@ -64,6 +75,16 @@ def createEvent():
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
                 )
             eventData = (
+                    requestData['eventName'],
+                    requestData['startTime'],
+                    requestData['duration'],
+                    requestData['locationLat'],
+                    requestData['locationLong'],
+                    requestData['radius'],
+                    requestData['description'],
+                    requestData['hostEmail']
+                    )            
+            changeData = (
                     requestData['eventID'],
                     requestData['eventName'],
                     requestData['startTime'],
@@ -86,7 +107,10 @@ def createEvent():
             cursor.execute(queryValidate, (requestData['token'], ))
             tokenValid = cursor.fetchone()[0]
             if (tokenValid == 1):
-                cursor.execute(addEvent, eventData)
+                if ('eventID' in requestData):
+                    cursor.execute(changeEvent, changeData)
+                else:
+                    cursor.execute(addEvent, eventData)
                 for i in requestData['emails']:
                     attendanceData = (
                         json.dumps((requestData['emails'])[i]),
