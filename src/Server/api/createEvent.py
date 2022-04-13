@@ -49,19 +49,8 @@ def createEvent():
                     WHERE token = ? AND host_flag = true
                     LIMIT 1)"""
                     )
-            addEvent = ("""REPLACE INTO events (
-                    event_name, 
-                    start_time, 
-                    duration, 
-                    latitude,
-                    longitude,
-                    radius,
-                    description,
-                    hostEmail
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
-                )
-            changeEvent = ("""REPLACE INTO events (
+            if ('groupID' in requestData):
+                addEvent = ("""REPLACE INTO events (
                     event_ID,
                     event_name, 
                     start_time, 
@@ -74,17 +63,7 @@ def createEvent():
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
                 )
-            eventData = (
-                    requestData['eventName'],
-                    requestData['startTime'],
-                    requestData['duration'],
-                    requestData['locationLat'],
-                    requestData['locationLong'],
-                    requestData['radius'],
-                    requestData['description'],
-                    requestData['hostEmail']
-                    )            
-            changeData = (
+                eventData = (
                     requestData['eventID'],
                     requestData['eventName'],
                     requestData['startTime'],
@@ -95,6 +74,29 @@ def createEvent():
                     requestData['description'],
                     requestData['hostEmail']
                     )
+            else:
+                addEvent = ("""REPLACE INTO events (
+                    event_name, 
+                    start_time, 
+                    duration, 
+                    latitude,
+                    longitude,
+                    radius,
+                    description,
+                    hostEmail
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
+                )
+                eventData = (
+                    requestData['eventName'],
+                    requestData['startTime'],
+                    requestData['duration'],
+                    requestData['locationLat'],
+                    requestData['locationLong'],
+                    requestData['radius'],
+                    requestData['description'],
+                    requestData['hostEmail']
+                    )            
             addAttendance = ("""REPLACE INTO attendance (
                     email,
                     event_ID,
@@ -107,13 +109,10 @@ def createEvent():
             cursor.execute(queryValidate, (requestData['token'], ))
             tokenValid = cursor.fetchone()[0]
             if (tokenValid == 1):
-                if ('eventID' in requestData):
-                    cursor.execute(changeEvent, changeData)
-                else:
-                    cursor.execute(addEvent, eventData)
+                cursor.execute(addEvent, eventData)
                 for i in requestData['emails']:
                     attendanceData = (
-                        json.dumps((requestData['emails'])[i]),
+                        requestData['emails'])[i],
                         requestData['eventID']
                         )
                     cursor.execute(addAttendance, attendanceData)
