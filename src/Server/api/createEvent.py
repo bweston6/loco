@@ -75,7 +75,7 @@ def createEvent():
                     requestData['hostEmail']
                     )
             else:
-                addEvent = ("""REPLACE INTO events (
+                addEvent = ("""INSERT INTO events (
                     event_name, 
                     start_time, 
                     duration, 
