@@ -27,12 +27,17 @@ def createGroup():
     """
     try:
         requestData = request.get_json()
+        requestData['emails'] = json.dumps(requestData['emails'])
         if ('token' in requestData and 'groupName' in requestData and 'emails' in requestData):
             queryValidate = ("SELECT EXISTS ( "
                     "SELECT * "
                     "FROM users "
                     "WHERE token = ? "
                     "LIMIT 1)")
+            getHostEmail = ("SELECT email "
+                    "FROM users "
+                    "WHERE token = ? ")
+            groupIDExists = False
             if ('groupID' in requestData):
                 addGroup = ("REPLACE INTO `groups` ("
                         "group_ID, "
@@ -40,26 +45,30 @@ def createGroup():
                         "hostEmail, "
                         "emails) " 
                         "VALUES (?, ?, ?, ?)")
-                groupData = (
-                        requestData['groupID'],
-                        requestData['groupName'],
-                        requestData['hostEmail'],
-                        json.dumps(requestData['emails']))
+                groupIDExists = True
             else:
                 addGroup = ("INSERT INTO `groups` ("
                         "group_name, " 
                         "hostEmail, "
                         "emails) " 
                         "VALUES (?, ?, ?)")
-                groupData = (
-                        requestData['groupName'],
-                        requestData['hostEmail'],
-                        json.dumps(requestData['emails']))
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData['token'], ))
             tokenValid = cursor.fetchone()[0]
             if (tokenValid == 1):
+                cursor.execute(getHostEmail, (requestData['token'], ))
+                if (groupIDExists):
+                    groupData = (
+                        requestData['groupID'],
+                        requestData['groupName'],
+                        cursor.fetchone()[0],
+                        requestData['emails'])
+                else:
+                    groupData = (
+                        requestData['groupName'],
+                        cursor.fetchone()[0],
+                        requestData['emails'])
                 cursor.execute(addGroup, groupData)
                 conn.commit()
                 db.closeConnection(conn)
