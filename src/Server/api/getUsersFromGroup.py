@@ -3,6 +3,7 @@ from .. import auth, database as db
 from flask import jsonify, request
 from mariadb import Error
 import logging, jwt
+import json
 
 @api.route('/getUsersFromGroup', methods=['POST'])
 def getUsersFromGroup():
@@ -28,16 +29,16 @@ def getUsersFromGroup():
                 "WHERE token = ? "
                 "LIMIT 1)")
             queryUsers = ("SELECT emails "
-                "FROM groups "
+                "FROM `groups` "
                 "WHERE group_ID = ? ")
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData['token'], ))
             tokenValid = cursor.fetchone()[0]
-            if (tokenValid == 1):
+            if tokenValid == 1:
                 cursor.execute(queryUsers, (requestData['groupID'], ))
                 user = cursor.fetchone()
-                user = {"emails": user[0]}
+                user = {"emails": json.loads(user[0])}
                 return jsonify(user), 200
             else:
                 db.closeConnection(conn)
