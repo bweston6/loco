@@ -38,10 +38,11 @@ def webook():
     return "request ignored", 200
 
 def update():
-    """Updates the repository to the HEAD of the base branch.
+    """Updates the repository to the HEAD of the base branch and rebuilds the documentation.
 
     :return: Confirmation that the task completed successfully
     :rtype: bool
     """
     system("git fetch; git reset origin/base --hard; git pull")
+    system("make -C docs clean; make -C docs html latexpdf")
     return True
