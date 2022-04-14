@@ -21,3 +21,6 @@ def create_app():
     app.register_blueprint(api)
     app.register_blueprint(web)
     return app
+
+# create public varaible for hupper
+app = create_app()
