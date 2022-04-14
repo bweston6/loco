@@ -11,6 +11,7 @@ Welcome to Loco's documentation!
    
    man.host
    man.attendee
+   man.glossary
    Server
 
 .. only:: html
