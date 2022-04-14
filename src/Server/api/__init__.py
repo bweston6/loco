@@ -43,5 +43,12 @@ def update():
     :return: Confirmation that the task completed successfully
     :rtype: bool
     """
-    system("git fetch; git reset origin/base --hard; git pull --ff-only; make -C docs clean; make -C docs html latexpdf")
+    system("git fetch; git reset origin/base --hard; git pull --ff-only")
+    Thread(target = compileDocs).start()
     return True
+
+def compileDocs():
+    system("make -C ../docs html latexpdf")
+    return True
+
+
