@@ -1,5 +1,7 @@
 #!/bin/bash
 source $(pipenv --venv)/bin/activate
+# building documentation
+make -C docs html latexpdf
 # todo - remove envvars from here
 export SECRET_KEY="***REMOVED***"
 export EMAIL="***REMOVED***"
