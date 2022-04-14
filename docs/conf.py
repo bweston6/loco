@@ -58,11 +58,13 @@ html_static_path = ['_static']
 
 # -- Options for PDF output -------------------------------------------------
 
+# Allow referencing figures by label
+numfig = True
+
 # Grouping the document tree into LaTeX files.
 # List of tuples:
 #   (source start file, target name, title, author,
 #    document class [howto/manual])
-
 latex_documents = [
     ('index', 'loco.tex', 'Loco',
      'Oluwatimileyin (Timi) Bello\\and Rostom Benhamada\\and Noushin Islam\\and Gunan Singh\\and Leon Szabo\\and Ben Weston', 'manual')
