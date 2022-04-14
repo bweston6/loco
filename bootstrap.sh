@@ -5,4 +5,4 @@ export SECRET_KEY="***REMOVED***"
 export EMAIL="***REMOVED***"
 export KEY="***REMOVED***"
 cd src
-hupper -m waitress --port=55580 --call Server:create_app "$@"
+hupper -m waitress --port=55580 Server:create_app
