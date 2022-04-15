@@ -46,7 +46,7 @@ def createEvent():
             queryValidate = ("""SELECT EXISTS (
                     SELECT * 
                     FROM users 
-                    WHERE token = ?
+                    WHERE token = ? AND host_flag IS TRUE
                     LIMIT 1)"""
                     )
             if ('groupID' in requestData):
