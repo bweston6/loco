@@ -32,90 +32,99 @@ def createEvent():
     """
     try:
         requestData = request.get_json()
-        if ('token' in requestData and
-                'eventName' in requestData and
+        if ('token' in requestData and 
+                'eventName' in requestData and 
                 'startTime' in requestData and
-                'duration' in requestData and
+                'duration' in requestData and 
+                'locationLat' in requestData and 
                 'locationLong' in requestData and
-                'locationLat' in requestData and
-                'radius' in requestData and
-                'description' in requestData and
-                'hostEmail' in requestData and
+                'radius' in requestData and 
+                'description' in requestData and 
                 'emails' in requestData
                 ):
             queryValidate = ("""SELECT EXISTS (
-                    SELECT * 
-                    FROM users 
-                    WHERE token = ? AND host_flag IS TRUE
-                    LIMIT 1)"""
-                    )
-            if ('groupID' in requestData):
-                addEvent = ("""REPLACE INTO events (
-                    event_ID,
-                    event_name, 
-                    start_time, 
-                    duration, 
-                    latitude,
-                    longitude,
-                    radius,
-                    description,
-                    hostEmail
+                SELECT * 
+                FROM users 
+                WHERE token = ? AND host_flag IS TRUE
+                LIMIT 1)"""
                 )
+            getHostEmail = ("""SELECT email
+                FROM users
+                WHERE token = ?"""
+                )
+           addEventOne = ("""REPLACE INTO events (
+                event_ID,
+                event_name, 
+                start_time, 
+                duration, 
+                latitude,
+                longitude,
+                radius,
+                description,
+                hostEmail
+                ) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
                 )
-                eventData = (
-                    requestData['eventID'],
-                    requestData['eventName'],
-                    requestData['startTime'],
-                    requestData['duration'],
-                    requestData['locationLat'],
-                    requestData['locationLong'],
-                    requestData['radius'],
-                    requestData['description'],
-                    requestData['hostEmail']
-                    )
-            else:
-                addEvent = ("""INSERT INTO events (
-                    event_name, 
-                    start_time, 
-                    duration, 
-                    latitude,
-                    longitude,
-                    radius,
-                    description,
-                    hostEmail
+            addEventTwo = ("""INSERT INTO events (
+                event_name, 
+                start_time, 
+                duration, 
+                latitude,
+                longitude,
+                radius,
+                description,
+                hostEmail
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
                 )
-                eventData = (
-                    requestData['eventName'],
-                    requestData['startTime'],
-                    requestData['duration'],
-                    requestData['locationLat'],
-                    requestData['locationLong'],
-                    requestData['radius'],
-                    requestData['description'],
-                    requestData['hostEmail']
-                    )            
+            eventDataOne = (
+                requestData['eventID'],
+                requestData['eventName'],
+                requestData['startTime'],
+                requestData['duration'],
+                requestData['locationLat'],
+                requestData['locationLong'],
+                requestData['radius'],
+                requestData['description'],
+                hostEmail)
+            eventDataTwo = (
+                requestData['eventName'],
+                requestData['startTime'],
+                requestData['duration'],
+                requestData['locationLat'],
+                requestData['locationLong'],
+                requestData['radius'],
+                requestData['description'],
+                hostEmail) 
             addAttendance = ("""REPLACE INTO attendance (
-                    email,
-                    event_ID,
-                    attendance_flag
+                email,
+                event_ID,
+                attendance_flag
                 )
                 VALUES (?, ?, FALSE)"""
+                )
+            getEventID = ("""SELECT event_ID
+                FROM events
+                WHERE event_name = ? AND start_time = ? AND duration = ? AND latitude = ? AND longitude = ? AND radius = ? AND description = ? AND hostEmail = ?"""
                 )
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData['token'], ))
             tokenValid = cursor.fetchone()[0]
-            print(tokenValid)
             if (tokenValid == 1):
-                cursor.execute(addEvent, eventData)
+                cursor.execute(getHostEmail, (requestData['token'], )
+                hostEmail = cursor.fetchone()[0],
+                if ('eventID' in requestData):
+                    cursor.execute(addEventOne, eventDataOne)
+                else:
+                    cursor.execute(addEventTwo, eventDataTwo)
+                cursor.execute(getEventID, eventDataTwo)
+                eventID = cursor.fetchone()[0],
                 emailArray = (requestData['emails'])
                 for email in emailArray:
                     attendanceData = (
                         email,
-                        requestData['eventID']
+                        eventID
                         )
                     cursor.execute(addAttendance, attendanceData)
                 conn.commit()
