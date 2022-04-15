@@ -129,7 +129,7 @@ def createEvent():
                     cursor.execute(addAttendance, attendanceData)
                 conn.commit()
                 db.closeConnection(conn)
-                return jsonify(eventData), 200
+                return jsonify(eventID), 200
             else:
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
