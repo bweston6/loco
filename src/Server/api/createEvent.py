@@ -108,12 +108,13 @@ def createEvent():
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData['token'], ))
             tokenValid = cursor.fetchone()[0]
+            print(tokenValid)
             if (tokenValid == 1):
                 cursor.execute(addEvent, eventData)
                 emailArray = (requestData['emails'])
-                for i in emailArray:
+                for email in emailArray:
                     attendanceData = (
-                        emailArray[i],
+                        email,
                         requestData['eventID']
                         )
                     cursor.execute(addAttendance, attendanceData)
