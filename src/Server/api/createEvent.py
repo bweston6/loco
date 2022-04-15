@@ -52,7 +52,7 @@ def createEvent():
                 FROM users
                 WHERE token = ?"""
                 )
-           addEventOne = ("""REPLACE INTO events (
+            addEventOne = ("""REPLACE INTO events (
                 event_ID,
                 event_name, 
                 start_time, 
