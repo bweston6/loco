@@ -9,7 +9,6 @@ import logging, jwt
 @api.route('/createEvent', methods=['POST'])
 def createEvent():
     """Creates an event, or updates an existing event if ``eventID`` is supplied.
-
     :<json str token: A valid *host* authentication token (see :http:post:`/api/createUser`)
     :<json int eventID: optional The `eventID` if you want to change an existing event
     :<json str eventName: The event name. Maximum of 100 characters
@@ -21,10 +20,8 @@ def createEvent():
     :<json str description: A description of the event for users. Maximum of 1000 characters
     :<json str hostEmail: The email of the host of the event. This email must have an account created by using :http:post:`/api/createUser`
     :<json str[] emails: An array of emails to enrol in the event
-
     :>json str token: The authentication ``token`` for the new event
     :>json string error: optional An error message if the action cannot complete
-
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
     :statuscode 401: Invalid authentication token
@@ -32,26 +29,26 @@ def createEvent():
     """
     try:
         requestData = request.get_json()
-        if ('token' in requestData and 
-                'eventName' in requestData and 
+        if ('token' in requestData and
+                'eventName' in requestData and
                 'startTime' in requestData and
-                'duration' in requestData and 
-                'locationLat' in requestData and 
+                'duration' in requestData and
                 'locationLong' in requestData and
-                'radius' in requestData and 
-                'description' in requestData and 
+                'locationLat' in requestData and
+                'radius' in requestData and
+                'description' in requestData and
                 'emails' in requestData
                 ):
             queryValidate = ("""SELECT EXISTS (
-                SELECT * 
-                FROM users 
-                WHERE token = ? AND host_flag IS TRUE
-                LIMIT 1)"""
-                )
+                    SELECT * 
+                    FROM users 
+                    WHERE token = ? AND host_flag IS TRUE
+                    LIMIT 1)"""
+                    )
             getHostEmail = ("""SELECT email
                 FROM users
                 WHERE token = ?"""
-                )
+            )
             addEventOne = ("""REPLACE INTO events (
                 event_ID,
                 event_name, 
@@ -62,8 +59,19 @@ def createEvent():
                 radius,
                 description,
                 hostEmail
-                ) 
+                )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+                )
+            eventDataOne = (
+                requestData['eventID'],
+                requestData['eventName'],
+                requestData['startTime'],
+                requestData['duration'],
+                requestData['locationLat'],
+                requestData['locationLong'],
+                requestData['radius'],
+                requestData['description'],
+                hostEmail
                 )
             addEventTwo = ("""INSERT INTO events (
                 event_name, 
@@ -77,16 +85,6 @@ def createEvent():
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
                 )
-            eventDataOne = (
-                requestData['eventID'],
-                requestData['eventName'],
-                requestData['startTime'],
-                requestData['duration'],
-                requestData['locationLat'],
-                requestData['locationLong'],
-                requestData['radius'],
-                requestData['description'],
-                hostEmail)
             eventDataTwo = (
                 requestData['eventName'],
                 requestData['startTime'],
@@ -95,11 +93,12 @@ def createEvent():
                 requestData['locationLong'],
                 requestData['radius'],
                 requestData['description'],
-                hostEmail) 
+                hostEmail
+                )            
             addAttendance = ("""REPLACE INTO attendance (
-                email,
-                event_ID,
-                attendance_flag
+                    email,
+                    event_ID,
+                    attendance_flag
                 )
                 VALUES (?, ?, FALSE)"""
                 )
@@ -111,9 +110,10 @@ def createEvent():
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData['token'], ))
             tokenValid = cursor.fetchone()[0]
+            print(tokenValid)
             if (tokenValid == 1):
-                cursor.execute(getHostEmail, (requestData['token'], )
-                hostEmail = cursor.fetchone()[0],
+                cursor.execute(getHostEmail, (requestData['token'], ))
+                hostEmail = cursor.fetchone()[0]
                 if ('eventID' in requestData):
                     cursor.execute(addEventOne, eventDataOne)
                 else:
@@ -129,7 +129,7 @@ def createEvent():
                     cursor.execute(addAttendance, attendanceData)
                 conn.commit()
                 db.closeConnection(conn)
-                return jsonify(eventID), 200
+                return jsonify(eventData), 200
             else:
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
