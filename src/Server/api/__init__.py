@@ -54,5 +54,5 @@ def update():
 
 
 def compileDocs():
-    system("make -C ../docs html latexpdf")
+    system("make -C ../docs clean; make -C ../docs html latexpdf")
     return True
