@@ -36,7 +36,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y libmariadb-dev
-        pipenv install --dev
+    - name: Installing python dependancies
+      run: pipenv install --dev
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
