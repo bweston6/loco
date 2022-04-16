@@ -36,7 +36,6 @@ jobs:
         sudo apt-get install -y libmariadb-dev
     - name: Setting up python venv
       run: |
-        pip install --upgrade pip
         python -m venv venv
         source venv/bin/activate      
     - name: Installing python dependancies
