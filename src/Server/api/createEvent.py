@@ -12,6 +12,7 @@ import jwt
 @api.route("/createEvent", methods=["POST"])
 def createEvent():
     """Creates an event, or updates an existing event if ``eventID`` is supplied.
+    
     :<json str token: A valid *host* authentication token (see :http:post:`/api/createUser`)
     :<json int eventID: optional The `eventID` if you want to change an existing event
     :<json str eventName: The event name. Maximum of 100 characters
@@ -23,8 +24,10 @@ def createEvent():
     :<json str description: A description of the event for users. Maximum of 1000 characters
     :<json str hostEmail: The email of the host of the event. This email must have an account created by using :http:post:`/api/createUser`
     :<json str[] emails: An array of emails to enrol in the event
+    
     :>json str token: The authentication ``token`` for the new event
     :>json string error: optional An error message if the action cannot complete
+    
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
     :statuscode 401: Invalid authentication token
