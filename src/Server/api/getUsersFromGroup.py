@@ -1,11 +1,14 @@
 from . import api
-from .. import auth, database as db
-from flask import jsonify, request
+from .. import database as db
+from flask import jsonify
+from flask import request
 from mariadb import Error
-import logging, jwt
+import logging
+import jwt
 import json
 
-@api.route('/getUsersFromGroup', methods=['POST'])
+
+@api.route("/getUsersFromGroup", methods=["POST"])
 def getUsersFromGroup():
     """Returns the users from the selected group, provided that the ``email`` encoded in the ``token`` matches the ``hostEmail`` for the group.
 
@@ -22,21 +25,21 @@ def getUsersFromGroup():
     """
     try:
         requestData = request.get_json()
-        if ('token' in requestData and 'groupID' in requestData):
-            queryValidate = ("SELECT EXISTS ( "
+        if "token" in requestData and "groupID" in requestData:
+            queryValidate = (
+                "SELECT EXISTS ( "
                 "SELECT * "
                 "FROM users "
                 "WHERE token = ? "
-                "LIMIT 1)")
-            queryUsers = ("SELECT emails "
-                "FROM `groups` "
-                "WHERE group_ID = ? ")
+                "LIMIT 1)"
+            )
+            queryUsers = "SELECT emails " "FROM `groups` " "WHERE group_ID = ? "
             conn = db.openConnection()
             cursor = conn.cursor()
-            cursor.execute(queryValidate, (requestData['token'], ))
+            cursor.execute(queryValidate, (requestData["token"],))
             tokenValid = cursor.fetchone()[0]
             if tokenValid == 1:
-                cursor.execute(queryUsers, (requestData['groupID'], ))
+                cursor.execute(queryUsers, (requestData["groupID"],))
                 user = cursor.fetchone()
                 user = {"emails": json.loads(user[0])}
                 return jsonify(user), 200
@@ -44,10 +47,10 @@ def getUsersFromGroup():
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
         else:
-            return jsonify(error='missing parameters'), 400
-    except jwt.InvalidTokenError as e:
-        logging.info('User query attempted with invalid token')
-        return jsonify(error='invalid token'), 401
+            return jsonify(error="missing parameters"), 400
+    except jwt.InvalidTokenError:
+        logging.info("User query attempted with invalid token")
+        return jsonify(error="invalid token"), 401
     except Error as e:
         logging.error(e)
-        return jsonify(error='database error'), 500
+        return jsonify(error="database error"), 500
