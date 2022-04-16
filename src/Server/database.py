@@ -73,7 +73,8 @@ def createTables(cursor):
     for tableName in TABLES:
         dropTable = "DROP TABLE IF EXISTS " + tableName
         tableDescription = TABLES[tableName]
-        cursor.execute(dropTable)  # todo - remove me after table schema are finalised
+        # todo - remove me after table schema are finalised
+        cursor.execute(dropTable)
         cursor.execute(tableDescription)
     cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
     return True

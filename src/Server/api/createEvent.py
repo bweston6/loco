@@ -44,16 +44,16 @@ def createEvent():
             and "emails" in requestData
         ):
             queryValidate = """SELECT EXISTS (
-                    SELECT * 
-                    FROM users 
+                    SELECT *
+                    FROM users
                     WHERE token = ? AND host_flag IS TRUE
                     LIMIT 1)"""
             hostEmail = auth.decodeToken(requestData["token"])
             addEventOne = """REPLACE INTO events (
                 event_ID,
-                event_name, 
-                start_time, 
-                duration, 
+                event_name,
+                start_time,
+                duration,
                 latitude,
                 longitude,
                 radius,
@@ -62,9 +62,9 @@ def createEvent():
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
             addEventTwo = """INSERT INTO events (
-                event_name, 
-                start_time, 
-                duration, 
+                event_name,
+                start_time,
+                duration,
                 latitude,
                 longitude,
                 radius,
