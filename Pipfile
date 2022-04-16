@@ -18,6 +18,7 @@ watchdog = "*"
 yagmail = "*"
 
 [dev-packages]
+black = "*"
 flake8 = "*"
 pytest = "*"
 
