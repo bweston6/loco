@@ -33,7 +33,8 @@ def generateToken(userOTP, userEmail):
         raise ValueError
     # delete OTP now it has been used
     del OTPs[userEmail]
-    payload = {"iat": datetime.utcnow(), "sub": userEmail}  # issued at  # subject
+    # issued at  # subject
+    payload = {"iat": datetime.utcnow(), "sub": userEmail}
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
 
