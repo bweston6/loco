@@ -3,10 +3,13 @@
 from flask import jsonify, request
 from mariadb import Error
 from . import api
-from .. import auth, database as db
-import logging, jwt
+from .. import auth
+from .. import database as db
+import logging
+import jwt
 
-@api.route('/createEvent', methods=['POST'])
+
+@api.route("/createEvent", methods=["POST"])
 def createEvent():
     """Creates an event, or updates an existing event if ``eventID`` is supplied.
     :<json str token: A valid *host* authentication token (see :http:post:`/api/createUser`)
@@ -29,24 +32,24 @@ def createEvent():
     """
     try:
         requestData = request.get_json()
-        if ('token' in requestData and
-                'eventName' in requestData and
-                'startTime' in requestData and
-                'duration' in requestData and
-                'locationLong' in requestData and
-                'locationLat' in requestData and
-                'radius' in requestData and
-                'description' in requestData and
-                'emails' in requestData
-                ):
-            queryValidate = ("""SELECT EXISTS (
+        if (
+            "token" in requestData
+            and "eventName" in requestData
+            and "startTime" in requestData
+            and "duration" in requestData
+            and "locationLong" in requestData
+            and "locationLat" in requestData
+            and "radius" in requestData
+            and "description" in requestData
+            and "emails" in requestData
+        ):
+            queryValidate = """SELECT EXISTS (
                     SELECT * 
                     FROM users 
                     WHERE token = ? AND host_flag IS TRUE
                     LIMIT 1)"""
-                    )
-            hostEmail = auth.decodeToken(requestData['token'])
-            addEventOne = ("""REPLACE INTO events (
+            hostEmail = auth.decodeToken(requestData["token"])
+            addEventOne = """REPLACE INTO events (
                 event_ID,
                 event_name, 
                 start_time, 
@@ -58,8 +61,7 @@ def createEvent():
                 hostEmail
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
-                )
-            addEventTwo = ("""INSERT INTO events (
+            addEventTwo = """INSERT INTO events (
                 event_name, 
                 start_time, 
                 duration, 
@@ -70,56 +72,50 @@ def createEvent():
                 hostEmail
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
-                )
             eventDataTwo = (
-                requestData['eventName'],
-                requestData['startTime'],
-                requestData['duration'],
-                requestData['locationLat'],
-                requestData['locationLong'],
-                requestData['radius'],
-                requestData['description'],
-                hostEmail
-                )            
-            addAttendance = ("""REPLACE INTO attendance (
+                requestData["eventName"],
+                requestData["startTime"],
+                requestData["duration"],
+                requestData["locationLat"],
+                requestData["locationLong"],
+                requestData["radius"],
+                requestData["description"],
+                hostEmail,
+            )
+            addAttendance = """REPLACE INTO attendance (
                     email,
                     event_ID,
                     attendance_flag
                 )
                 VALUES (?, ?, FALSE)"""
-                )
-            getEventID = ("""SELECT event_ID
+            getEventID = """SELECT event_ID
                 FROM events
                 WHERE event_name = ? AND start_time = ? AND duration = ? AND latitude = ? AND longitude = ? AND radius = ? AND description = ? AND hostEmail = ?"""
-                )
             conn = db.openConnection()
             cursor = conn.cursor()
-            cursor.execute(queryValidate, (requestData['token'], ))
+            cursor.execute(queryValidate, (requestData["token"],))
             tokenValid = cursor.fetchone()[0]
-            if (tokenValid == 1):
-                if ('eventID' in requestData):
+            if tokenValid == 1:
+                if "eventID" in requestData:
                     eventDataOne = (
-                            requestData['eventID'],
-                            requestData['eventName'],
-                            requestData['startTime'],
-                            requestData['duration'],
-                            requestData['locationLat'],
-                            requestData['locationLong'],
-                            requestData['radius'],
-                            requestData['description'],
-                            hostEmail
-                            )
+                        requestData["eventID"],
+                        requestData["eventName"],
+                        requestData["startTime"],
+                        requestData["duration"],
+                        requestData["locationLat"],
+                        requestData["locationLong"],
+                        requestData["radius"],
+                        requestData["description"],
+                        hostEmail,
+                    )
                     cursor.execute(addEventOne, eventDataOne)
                 else:
                     cursor.execute(addEventTwo, eventDataTwo)
                 cursor.execute(getEventID, eventDataTwo)
                 eventID = cursor.fetchall()[0][0]
-                emailArray = (requestData['emails'])
+                emailArray = requestData["emails"]
                 for email in emailArray:
-                    attendanceData = (
-                            email,
-                            eventID
-                            )
+                    attendanceData = (email, eventID)
                     cursor.execute(addAttendance, attendanceData)
                 conn.commit()
                 db.closeConnection(conn)
@@ -127,11 +123,11 @@ def createEvent():
             else:
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
-        else: 
-            return jsonify(error='missing parameters'), 400
-    except jwt.InvalidTokenError as e:
-        logging.info('User query attempted with invalid token')
-        return jsonify(error='invalid token'), 401
+        else:
+            return jsonify(error="missing parameters"), 400
+    except jwt.InvalidTokenError:
+        logging.info("User query attempted with invalid token")
+        return jsonify(error="invalid token"), 401
     except Error as e:
         logging.error(e)
-        return jsonify(error='database error'), 500
+        return jsonify(error="database error"), 500

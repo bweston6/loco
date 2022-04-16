@@ -1,16 +1,20 @@
 from datetime import datetime
 from datetime import timedelta
 from mariadb import Error
-import os, jwt, random, yagmail
+import os
+import jwt
+import random
+import yagmail
 
 
 # get encryption key from environment variables for testing this is set in bootstrap
 # todo - remove key from bootstrap to secure configuration
-SECRET_KEY = os.getenv('SECRET_KEY', None)
-EMAIL = os.getenv('EMAIL', None)
-KEY = os.getenv('KEY', None)
+SECRET_KEY = os.getenv("SECRET_KEY", None)
+EMAIL = os.getenv("EMAIL", None)
+KEY = os.getenv("KEY", None)
 
 OTPs = {}
+
 
 def generateToken(userOTP, userEmail):
     """Generates authentication token provided that ``userOTP`` and ``userEmail`` are valid. This is checked using the ``OTPs`` dictionary (see :func:`authenticateEmail`). ``userOTP`` must be under 1 hour old and ``userOTP`` and ``userEmail`` must match in the dictionary.
@@ -23,21 +27,15 @@ def generateToken(userOTP, userEmail):
     :return: An authentication token encoding the issued time and ``userEmail``
     :rtype: str
     """
-    if (OTPs[userEmail]['otp'] != userOTP):
+    if OTPs[userEmail]["otp"] != userOTP:
         raise ValueError
-    if ((datetime.utcnow() - OTPs[userEmail]['iat']) > timedelta(hours=1)):
+    if (datetime.utcnow() - OTPs[userEmail]["iat"]) > timedelta(hours=1):
         raise ValueError
     # delete OTP now it has been used
     del OTPs[userEmail]
-    payload = {
-            'iat' : datetime.utcnow(), # issued at
-            'sub' : userEmail # subject
-            }
-    return jwt.encode(
-            payload,
-            SECRET_KEY,
-            algorithm='HS256'
-            )
+    payload = {"iat": datetime.utcnow(), "sub": userEmail}  # issued at  # subject
+    return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
 
 def decodeToken(token):
     """Decodes ``token``
@@ -49,7 +47,8 @@ def decodeToken(token):
     :rtype: str
     """
     payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-    return payload['sub'] # subject (userEmail)
+    return payload["sub"]  # subject (userEmail)
+
 
 def authenticateEmail(userEmail):
     """Sends a one time password to the email ``userEmail``. The combination of OTP, ``userEmail`` and the issued time are saved in the dictionary ``OTPs``.
@@ -60,12 +59,14 @@ def authenticateEmail(userEmail):
     :rtype: bool
     """
     email = yagmail.SMTP(EMAIL, KEY)
-    OTPs[userEmail] = {
-            "otp": random.randint(100000, 999999),
-            "iat": datetime.utcnow()
-            }
-    email.send(to=userEmail, subject="Your OTP for Loco", contents=str(OTPs[userEmail]['otp']) + " is your one-time password.")
+    OTPs[userEmail] = {"otp": random.randint(100000, 999999), "iat": datetime.utcnow()}
+    email.send(
+        to=userEmail,
+        subject="Your OTP for Loco",
+        contents=str(OTPs[userEmail]["otp"]) + " is your one-time password.",
+    )
     return True
+
 
 def checkHostEmail(email, cursor):
     """Checks whether the user is a host from their email. The user must exist in the database or an exception will be thrown.
@@ -78,16 +79,17 @@ def checkHostEmail(email, cursor):
     :return: The ``hostFlag`` of the user identified by ``email``.
     :rtype: bool
     """
-    query1 = ("""SELECT host_flag
+    query1 = """SELECT host_flag
         FROM users
         WHERE email = ?
-    """)
-    cursor.execute(query1, (email, ))
+    """
+    cursor.execute(query1, (email,))
     hostFlag = cursor.fetchone()[0]
-    if hostFlag != None:
+    if hostFlag is not None:
         return hostFlag
     else:
         raise Error
+
 
 def checkHostToken(token, cursor):
     """Checks whether the user is a host from their token. The user must exist in the database or an exception will be thrown.

@@ -1,13 +1,15 @@
-#Gunan
-#mans on it still
+# Gunan
+# mans on it still
 
 from . import api
-from .. import auth, database as db
-from flask import jsonify, request
+from .. import database as db
+from flask import jsonify
+from flask import request
 from mariadb import Error
 import logging
 
-@api.route('/getAttendance', methods=['POST'])
+
+@api.route("/getAttendance", methods=["POST"])
 def getAttendance():
     """Returns attendance for a particular ``email`` and ``eventID`` combination. Hosts can see any user's attendance but attendees can only see their own attendance. If an attendee is not enrolled in the event an error message is returned.
 
@@ -25,21 +27,25 @@ def getAttendance():
     """
     try:
         requestData = request.get_json()
-        if ('token' in requestData and 'email' in requestData and 'eventID' in requestData):
-            q1 = (""" SELECT attendance_flag
+        if (
+            "token" in requestData
+            and "email" in requestData
+            and "eventID" in requestData
+        ):
+            q1 = """ SELECT attendance_flag
                 FROM attendance
                 WHERE email = ?
-            """)
+            """
             conn = db.openConnection()
             cursor = conn.cursor()
-            cursor.execute(q1, (requestData['email'], ))
+            cursor.execute(q1, (requestData["email"],))
             attendance = cursor.fetchone()[0]
-            
+
             return attendance
-        
+
         else:
-            return jsonify(error='missing parameters'), 400    
+            return jsonify(error="missing parameters"), 400
 
     except Error as e:
         logging.error(e)
-        return jsonify(error='database error'), 500
+        return jsonify(error="database error"), 500
