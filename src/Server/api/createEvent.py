@@ -1,5 +1,7 @@
 # being worked on by Noushin
 
+from lib2to3.pgen2 import token
+from tokenize import Token
 from flask import jsonify, request
 from mariadb import Error
 from . import api
@@ -120,6 +122,7 @@ def createEvent():
                     cursor.execute(addEventTwo, eventDataTwo)
                 cursor.execute(getEventID, eventDataTwo)
                 eventID = cursor.fetchone()[0],
+                print(eventID)
                 emailArray = (requestData['emails'])
                 for email in emailArray:
                     attendanceData = (
