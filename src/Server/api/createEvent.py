@@ -45,10 +45,7 @@ def createEvent():
                     WHERE token = ? AND host_flag IS TRUE
                     LIMIT 1)"""
                     )
-            getHostEmail = ("""SELECT email
-                FROM users
-                WHERE token = ?"""
-            )
+            hostEmail = auth.decodeToken(requestData['token'])
             addEventOne = ("""REPLACE INTO events (
                 event_ID,
                 event_name, 
@@ -112,8 +109,6 @@ def createEvent():
             tokenValid = cursor.fetchone()[0]
             print(tokenValid)
             if (tokenValid == 1):
-                cursor.execute(getHostEmail, (requestData['token'], ))
-                hostEmail = cursor.fetchone()[0]
                 if ('eventID' in requestData):
                     cursor.execute(addEventOne, eventDataOne)
                 else:
