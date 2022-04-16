@@ -95,9 +95,7 @@ def createEvent():
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData['token'], ))
-            print("token validated")
             tokenValid = cursor.fetchone()[0]
-            print(tokenValid)
             if (tokenValid == 1):
                 if ('eventID' in requestData):
                     eventDataOne = (
@@ -112,13 +110,10 @@ def createEvent():
                             hostEmail
                             )
                     cursor.execute(addEventOne, eventDataOne)
-                    print("eventID included")
                 else:
                     cursor.execute(addEventTwo, eventDataTwo)
-                    print("event created")
                 cursor.execute(getEventID, eventDataTwo)
-                print("eventID returned")
-                eventID = cursor.fetchone()[0],
+                eventID = cursor.fetchall()[0][0]
                 emailArray = (requestData['emails'])
                 for email in emailArray:
                     attendanceData = (
@@ -126,7 +121,6 @@ def createEvent():
                             eventID
                             )
                     cursor.execute(addAttendance, attendanceData)
-                    print("attendance added")
                 conn.commit()
                 db.closeConnection(conn)
                 return jsonify(eventID), 200
