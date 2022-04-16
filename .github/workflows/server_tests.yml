@@ -30,20 +30,23 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
-    - name: Install pipenv
-      uses: dschep/install-pipenv-action@v1
     - name: Installing mariadb connector
       run: |
         sudo apt-get update
         sudo apt-get install -y libmariadb-dev
+    - name: Setting up python venv
+      run: |
+        pip install --upgrade pip
+        python -m venv venv
+        source venv/bin/activate      
     - name: Installing python dependancies
-      run: pipenv sync --dev
+      run: pip install requirements.txt
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        pipenv run flake8 src/Server --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 src/Server --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        pipenv run flake8 src/Server --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 src/Server --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 #    - name: Test with pytest
 #      env:
 #          SECRET_KEY: ${{ secrets.SECRET_KEY }}
