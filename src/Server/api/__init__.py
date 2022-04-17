@@ -37,6 +37,7 @@ def webook():
         and requestData["workflow_run"]["conclusion"] == "success"
         and requestData["workflow_run"]["name"] == "server_tests"
     ):
+        Thread(target=compileDocs).start()
         Thread(target=update).start()
         return "updated to HEAD", 201
     return "request ignored", 200
@@ -49,7 +50,6 @@ def update():
     :rtype: bool
     """
     system("git fetch; git reset origin/base --hard; git pull --ff-only")
-    Thread(target=compileDocs).start()
     return True
 
 
