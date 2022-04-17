@@ -22,7 +22,6 @@ def createEvent():
     :<json float locationLat: The latitudinal coordinate of an event's location as a fixed point decimal in the format: ``±999.999999``
     :<json int radius: The radius around an event's coordinates where attendance is accepted in meters
     :<json str description: A description of the event for users. Maximum of 1000 characters
-    :<json str hostEmail: The email of the host of the event. This email must have an account created by using :http:post:`/api/createUser`
     :<json str[] emails: An array of emails to enrol in the event
     
     :>json str token: The authentication ``token`` for the new event
