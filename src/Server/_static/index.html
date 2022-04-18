@@ -6,27 +6,88 @@
 		<link rel="icon" href="/favicon.png" type="image/png">
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 		<style>
+:root {
+	--light-brand: hsl(120, 79%, 95%);
+	--alt-brand: hsl(0, 79%, 50%);
+}
 body {
 	font-family: sans-serif;
 	max-width: 700px;
 	margin: auto;
 	padding: 15px;
 }
-h1 {
-	color: #e41b1b;
+.logo {
+	display: inline-block;
+	height: 1em;
 }
-h2 {
-	color: #118811;
+a {
+	text-decoration: inherit;
+}
+nav > a {
+	color: inherit;
+}
+nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	border-bottom: black solid 1px;
+}
+nav h1 {
+	font-size: 2em;
+	display:inline-block;
+}
+nav ul, nav li {
+	display:inline-block;
+}
+.columns {
+	display: flex;
+	gap: 1em;
+	justify-content: space-around;
+}
+.column {
+	text-align: center;
+	flex-basis: 100%;
+	background-color: var(--light-brand);
+	padding: 1em;
+	border-radius: 1em;
+}
+.column img {
+	height: 67.5px;
+	display: block;
+	margin: 16px auto;
+}
+.column .words {
+	color: var(--alt-brand);
 }
 		</style>
 	</head>
 	<body>
-		<h1>Loco</h1>
+		<nav>
+			<a href="">
+				<h1>
+					<img class="logo" src="favicon.svg" alt="logo">
+					Loco
+				</h1>
+			</a>
+			<ul>
+				<li><a href="docs">Documentation</a></li>
+			</ul>
+		</nav>
 		<h2>the location based attendance app</h2>
-
-		<ul>
-			<li>Hate scanning QR codes?</li>
-			<li>Canvas quizzes with random words got you down?</li>
+		<div class="columns">
+			<div class="column">
+				<img alt="qr code" src="qr.svg">
+				Hate scanning QR codes?
+			</div>
+			<div class="column">
+				<p class="words">
+				Similar<br>
+				Sounding<br>
+				Words
+				</p>
+				Canvas quizzes with random words got you down?
+			</div>
+		</div>
 		</ul>
 		<p>Use our zero-interaction attendance app instead! Walk into a scheduled lecture and you'll be automatically marked in using GPS or Bluetooth.</p>
 		<p>We will never log your location outside of a scheduled lecture.</p>
