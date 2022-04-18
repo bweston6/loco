@@ -28,6 +28,7 @@ nav > a {
 }
 nav {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: baseline;
 	border-bottom: black solid 1px;
@@ -41,12 +42,14 @@ nav ul, nav li {
 }
 .columns {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 1em;
 	justify-content: space-around;
 }
 .column {
 	text-align: center;
-	flex-basis: 100%;
+	flex-basis: 200px;
+	flex-grow: 1;
 	background-color: var(--light-brand);
 	padding: 1em;
 	border-radius: 1em;
