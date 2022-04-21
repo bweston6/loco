@@ -6,6 +6,10 @@
 Welcome to Loco's documentation!
 ================================
 
+.. only:: html
+
+   You can also `download <https://loco.bweston.uk/downloads/loco.pdf>`_ this document as a PDF.
+
 .. toctree::
    :maxdepth: 4
    
