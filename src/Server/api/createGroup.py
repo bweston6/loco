@@ -25,7 +25,6 @@ def createGroup():
     :statuscode 200: Operation completed successfully
     :statuscode 400: JSON parameters are missing
     :statuscode 401: Invalid authentication token
-    :statuscode 403: Attendees not allowed to make groups
     :statuscode 500: Server database error
     """
     try:
