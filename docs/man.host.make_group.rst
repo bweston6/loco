@@ -2,8 +2,6 @@
 
 Making Groups
 =============
-The process for group creation and group editing.
-
 #. as a :term:`host<Host>` log in and go to the ``Groups`` page.
 
    .. figure:: https://via.placeholder.com/1125x2436
