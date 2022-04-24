@@ -2,7 +2,6 @@
 
 Viewing Attendance for an Event
 ===============================
-
 #. As a host you will have an option to view attendance in the events section. This will be a button at the bottom of the screen. 
 
    .. figure:: https://via.placeholder.com/1125x2436
