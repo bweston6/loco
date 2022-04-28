@@ -26,6 +26,10 @@ jobs:
           - /var/run/mysqld/:/var/run/mysqld
     steps:
     - uses: actions/checkout@v3
+    - name: test database socket
+      run: |
+        ls /var/run
+        ls /var/run/mysqld
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
