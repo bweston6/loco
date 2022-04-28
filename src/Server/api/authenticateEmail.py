@@ -5,6 +5,7 @@ from flask import Blueprint
 
 authenticateEmailBP = Blueprint("authenticateEmail", __name__)
 
+
 @authenticateEmailBP.route("/authenticateEmail", methods=["POST"])
 def authenticateEmail():
     """Emails a user with an one time password using :obj:`Server.auth.authenticateEmail`.

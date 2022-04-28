@@ -10,6 +10,7 @@ from flask import Blueprint
 
 createEventBP = Blueprint("createEvent", __name__)
 
+
 @createEventBP.route("/createEvent", methods=["POST"])
 def createEvent():
     """Creates an event, or updates an existing event if ``eventID`` is supplied.

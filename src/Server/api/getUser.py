@@ -11,6 +11,7 @@ from flask import Blueprint
 
 getUserBP = Blueprint("getUser", __name__)
 
+
 @getUserBP.route("/getUser", methods=["POST"])
 def getUser():
     """When used on an attendee, this returns the user's details and a list of enrolled events. The enrolled ``eventIDs`` are only returned if the ``email`` matches the ``token`` or if a *host* ``token`` is used. When used on a host, this returns the host's details, list of created ``groupIDs`` and list of created ``eventIDs``. The host ``groupIDs`` and ``eventIDs`` are only returned if the ``email`` matches the ``token``. An error is returned if the ``email`` is not registered.

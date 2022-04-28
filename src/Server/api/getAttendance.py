@@ -10,6 +10,7 @@ from flask import Blueprint
 
 getAttendanceBP = Blueprint("getAttendance", __name__)
 
+
 @getAttendanceBP.route("/getAttendance", methods=["POST"])
 def getAttendance():
     """Returns attendance for a particular ``email`` and ``eventID`` combination. Hosts can see any user's attendance but attendees can only see their own attendance. If an attendee is not enrolled in the event an error message is returned.

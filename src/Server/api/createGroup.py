@@ -11,6 +11,7 @@ from flask import Blueprint
 
 createGroupBP = Blueprint("createGroup", __name__)
 
+
 @createGroupBP.route("/createGroup", methods=["POST"])
 def createGroup():
     """Creates a group with a set of emails to allow for quicker repeating event creation.

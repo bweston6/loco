@@ -10,6 +10,7 @@ import logging
 
 setAttendanceBP = Blueprint("setAttendance", __name__)
 
+
 @setAttendanceBP.route("/setAttendance", methods=["POST"])
 def setAttendance():
     """Sets the enrolment status and attendance for a particular ``email`` and ``eventID``. Only successful if the ``email`` matches the ``token`` or if a *host* ``token`` is used.

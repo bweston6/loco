@@ -10,6 +10,7 @@ from flask import Blueprint
 
 getEventBP = Blueprint("getEvent", __name__)
 
+
 @getEventBP.route("/getEvent", methods=["POST"])
 def getEvent():
     """Retrieves the details of an event identified by ``eventID``. The attendees of an event will only be returned if a *host* ``token`` is used.

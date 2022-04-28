@@ -9,6 +9,7 @@ import json
 
 getUsersFromGroupBP = Blueprint("getUsersFromGroup", __name__)
 
+
 @getUsersFromGroupBP.route("/getUsersFromGroup", methods=["POST"])
 def getUsersFromGroup():
     """Returns the users from the selected group, provided that the ``email`` encoded in the ``token`` matches the ``hostEmail`` for the group.

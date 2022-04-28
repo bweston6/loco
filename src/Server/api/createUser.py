@@ -9,6 +9,7 @@ from flask import Blueprint
 
 createUserBP = Blueprint("createUser", __name__)
 
+
 @createUserBP.route("/createUser", methods=["POST"])
 def createUser():
     """Creates a user, generates an authentication token and adds the information to the database.
