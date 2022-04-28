@@ -1,10 +1,11 @@
 from flask import jsonify
 from flask import request
-from . import api
-from .. import auth
+from Server import auth
+from flask import Blueprint
 
+authenticateEmailBP = Blueprint("authenticateEmail", __name__)
 
-@api.route("/authenticateEmail", methods=["POST"])
+@authenticateEmailBP.route("/authenticateEmail", methods=["POST"])
 def authenticateEmail():
     """Emails a user with an one time password using :obj:`Server.auth.authenticateEmail`.
 

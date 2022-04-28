@@ -1,20 +1,27 @@
+from Server.api.authenticateEmail import authenticateEmailBP
+from Server.api.createEvent import createEventBP
+from Server.api.createGroup import createGroupBP
+from Server.api.createUser import createUserBP
+from Server.api.getAttendance import getAttendanceBP
+from Server.api.getEvent import getEventBP
+from Server.api.getUser import getUserBP
+from Server.api.getUsersFromGroup import getUsersFromGroupBP
+from Server.api.setAttendance import setAttendanceBP
 from flask import Blueprint
 from flask import request
 from os import system
 from threading import Thread
 
-
 api = Blueprint("api", __name__, url_prefix="/api")
-
-from . import authenticateEmail
-from . import createEvent
-from . import createGroup
-from . import createUser
-from . import getAttendance
-from . import getEvent
-from . import getUser
-from . import getUsersFromGroup
-from . import setAttendance
+api.register_blueprint(authenticateEmailBP)
+api.register_blueprint(createEventBP)
+api.register_blueprint(createGroupBP)
+api.register_blueprint(createUserBP)
+api.register_blueprint(getAttendanceBP)
+api.register_blueprint(getEventBP)
+api.register_blueprint(getUserBP)
+api.register_blueprint(getUsersFromGroupBP)
+api.register_blueprint(setAttendanceBP)
 
 
 @api.route("/webhook", methods=["POST"])

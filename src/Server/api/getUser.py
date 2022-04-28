@@ -1,16 +1,17 @@
 # being worked on by Ben
 # todo - remove this message
 
-from . import api
-from .. import auth, database as db
+from Server import auth, database as db
 from flask import jsonify
 from flask import request
 from mariadb import Error
 import logging
 import jwt
+from flask import Blueprint
 
+getUserBP = Blueprint("getUser", __name__)
 
-@api.route("/getUser", methods=["POST"])
+@getUserBP.route("/getUser", methods=["POST"])
 def getUser():
     """When used on an attendee, this returns the user's details and a list of enrolled events. The enrolled ``eventIDs`` are only returned if the ``email`` matches the ``token`` or if a *host* ``token`` is used. When used on a host, this returns the host's details, list of created ``groupIDs`` and list of created ``eventIDs``. The host ``groupIDs`` and ``eventIDs`` are only returned if the ``email`` matches the ``token``. An error is returned if the ``email`` is not registered.
 

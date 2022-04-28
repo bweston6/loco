@@ -1,15 +1,16 @@
 # Gunan
 # mans on it still
 
-from . import api
-from .. import database as db
+from Server import database as db
 from flask import jsonify
 from flask import request
 from mariadb import Error
 import logging
+from flask import Blueprint
 
+getAttendanceBP = Blueprint("getAttendance", __name__)
 
-@api.route("/getAttendance", methods=["POST"])
+@getAttendanceBP.route("/getAttendance", methods=["POST"])
 def getAttendance():
     """Returns attendance for a particular ``email`` and ``eventID`` combination. Hosts can see any user's attendance but attendees can only see their own attendance. If an attendee is not enrolled in the event an error message is returned.
 

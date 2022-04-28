@@ -1,15 +1,16 @@
 # Gunan
 # incomplete still
 
-from . import api
-from .. import database as db
+from flask import Blueprint
+from Server import database as db
 from flask import jsonify
 from flask import request
 from mariadb import Error
 import logging
 
+setAttendanceBP = Blueprint("setAttendance", __name__)
 
-@api.route("/setAttendance", methods=["POST"])
+@setAttendanceBP.route("/setAttendance", methods=["POST"])
 def setAttendance():
     """Sets the enrolment status and attendance for a particular ``email`` and ``eventID``. Only successful if the ``email`` matches the ``token`` or if a *host* ``token`` is used.
 

@@ -1,5 +1,5 @@
-from . import api
-from .. import database as db
+from flask import Blueprint
+from Server import database as db
 from flask import jsonify
 from flask import request
 from mariadb import Error
@@ -7,8 +7,9 @@ import logging
 import jwt
 import json
 
+getUsersFromGroupBP = Blueprint("getUsersFromGroup", __name__)
 
-@api.route("/getUsersFromGroup", methods=["POST"])
+@getUsersFromGroupBP.route("/getUsersFromGroup", methods=["POST"])
 def getUsersFromGroup():
     """Returns the users from the selected group, provided that the ``email`` encoded in the ``token`` matches the ``hostEmail`` for the group.
 

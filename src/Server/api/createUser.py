@@ -1,14 +1,15 @@
 # being worked on by Ben
 # todo - remove this message
 
-from . import api
-from .. import auth, database as db
+from Server import auth, database as db
 from flask import jsonify, request
 from mariadb import Error
 import logging
+from flask import Blueprint
 
+createUserBP = Blueprint("createUser", __name__)
 
-@api.route("/createUser", methods=["POST"])
+@createUserBP.route("/createUser", methods=["POST"])
 def createUser():
     """Creates a user, generates an authentication token and adds the information to the database.
 

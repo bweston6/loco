@@ -1,15 +1,16 @@
 # being worked on by timi
 
-from . import api
-from .. import database as db
+from Server import database as db
 from flask import jsonify
 from flask import request
 from mariadb import Error
 import logging
 import jwt
+from flask import Blueprint
 
+getEventBP = Blueprint("getEvent", __name__)
 
-@api.route("/getEvent", methods=["POST"])
+@getEventBP.route("/getEvent", methods=["POST"])
 def getEvent():
     """Retrieves the details of an event identified by ``eventID``. The attendees of an event will only be returned if a *host* ``token`` is used.
 

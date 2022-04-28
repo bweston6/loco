@@ -1,16 +1,17 @@
 # being worked on by Leon
 
-from . import api
-from .. import database as db
+from Server import database as db
 from flask import jsonify
 from flask import request
 from mariadb import Error
 import logging
 import jwt
 import json
+from flask import Blueprint
 
+createGroupBP = Blueprint("createGroup", __name__)
 
-@api.route("/createGroup", methods=["POST"])
+@createGroupBP.route("/createGroup", methods=["POST"])
 def createGroup():
     """Creates a group with a set of emails to allow for quicker repeating event creation.
 
