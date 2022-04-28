@@ -18,7 +18,7 @@ jobs:
       mariadb:
         image: mariadb:latest
         env:
-          MARIADB_USER: loco
+          MARIADB_USER: runner
           MARIADB_DATABASE: loco
           MARIADB_RANDOM_ROOT_PASSWORD: true
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
