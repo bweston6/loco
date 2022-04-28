@@ -1,9 +1,8 @@
+from Server import database as db
+from Server.api import api
+from Server.web import web
 from flask import Flask
-
 import logging
-from . import database as db
-from .api import api
-from .web import web
 
 # todo - set to WARNING for release
 logging.basicConfig(level=logging.INFO)
