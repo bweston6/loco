@@ -46,4 +46,4 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}
           KEY: ${{ secrets.KEY }}
       run: |
-        pipenv run pytest src/Server
+        pytest src/Server
