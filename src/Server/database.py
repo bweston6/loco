@@ -58,11 +58,11 @@ def openConnection():
     :rtype: mariadb.connection
     """
     # ideally use unix socket, fall back to root for testing only
-    if os.path.exists("/var/run/mysqld/mysqld.sock"):
+    if os.getenv("MARIADB_ROOT_PASSWORD", None) is None:
         return connect(unix_socket="/var/run/mysqld/mysqld.sock", database="loco")
     return connect(
         user="root",
-        password=os.getenv("MARIADB_ROOT_PASSWORD", None),
+        password=os.getenv("MARIADB_ROOT_PASSWORD"),
         unix_socket="/var/run/mysqld/mysqld.sock",
         database="loco"
     )
