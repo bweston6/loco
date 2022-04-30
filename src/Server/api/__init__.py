@@ -42,7 +42,7 @@ def webook():
         "conclusion" in requestData["workflow_run"]
         and "name" in requestData["workflow_run"]
         and requestData["workflow_run"]["conclusion"] == "success"
-        and requestData["workflow_run"]["name"] == "server lint"
+        and requestData["workflow_run"]["name"] == "server test"
     ):
         Thread(target=compileDocs).start()
         Thread(target=update).start()
