@@ -17,19 +17,14 @@ jobs:
     services:
       mariadb:
         image: mariadb:latest
+        ports:
+          - 3306
         env:
-          MARIADB_USER: runner
           MARIADB_DATABASE: loco
-          MARIADB_RANDOM_ROOT_PASSWORD: true
+          MARIADB_ROOT_PASSWORD: ${{ secrets.KEY }}
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-        volumes:
-          - /var/run/mysqld/:/var/run/mysqld
     steps:
     - uses: actions/checkout@v3
-    - name: test database socket
-      run: |
-        ls /var/run
-        ls /var/run/mysqld
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -46,8 +41,9 @@ jobs:
       run: pip install -r requirements.txt
     - name: Test with pytest
       env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           EMAIL: ${{ secrets.EMAIL }}
           KEY: ${{ secrets.KEY }}
+          MARIADB_ROOT_PASSWORD: ${{ secrets.KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         pytest src/Server

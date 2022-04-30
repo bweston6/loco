@@ -1,4 +1,5 @@
 from mariadb import connect
+import os
 
 TABLES = {}
 TABLES["users"] = (
@@ -56,8 +57,16 @@ def openConnection():
     :return: The connection to the database
     :rtype: mariadb.connection
     """
-    conn = connect(unix_socket="/var/run/mysqld/mysqld.sock", database="loco")
-    return conn
+    # ideally use unix socket, fall back to root for testing only
+    if os.path.exists("/var/run/mysqld/mysqld.sock"):
+        return connect(unix_socket="/var/run/mysqld/mysqld.sock", database="loco")
+    return connect(
+        user="root",
+        password=os.getenv("MARIADB_ROOT_PASSWORD", None),
+        host="localhost",
+        port=3306,
+        database="loco",
+    )
 
 
 def createTables(cursor):
