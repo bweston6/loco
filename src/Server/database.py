@@ -3,7 +3,7 @@ import os
 
 TABLES = {}
 TABLES["users"] = (
-    "CREATE TABLE `users` ("
+    "CREATE TABLE IF NOT EXISTS `users` ("
     "  `full_name` varchar(100) NOT NULL,"
     "  `email` varchar(100) NOT NULL,"
     "  `token` varchar(1000) NOT NULL,"
@@ -13,7 +13,7 @@ TABLES["users"] = (
 )
 
 TABLES["events"] = (
-    "CREATE TABLE `events` ("
+    "CREATE TABLE IF NOT EXISTS `events` ("
     "  `event_ID` int NOT NULL AUTO_INCREMENT,"
     "  `event_name` varchar(50) NOT NULL,"
     "  `start_time` bigint NOT NULL,"
@@ -29,7 +29,7 @@ TABLES["events"] = (
 )
 
 TABLES["groups"] = (
-    "CREATE TABLE `groups` ("
+    "CREATE TABLE IF NOT EXISTS `groups` ("
     "  `group_ID` int NOT NULL AUTO_INCREMENT,"
     "  `group_name` varchar(50) NOT NULL,"
     "  `hostEmail` varchar(100) NOT NULL,"
@@ -40,7 +40,7 @@ TABLES["groups"] = (
 )
 
 TABLES["attendance"] = (
-    "CREATE TABLE `attendance` ("
+    "CREATE TABLE IF NOT EXISTS `attendance` ("
     "  `email` varchar(100) NOT NULL,"
     "  `event_ID` int NOT NULL,"
     "  `attendance_flag` BOOLEAN NOT NULL,"
@@ -77,14 +77,8 @@ def createTables(cursor):
     :return: True if the function is successful
     :rtype: bool
     """
-    cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
     for tableName in TABLES:
-        dropTable = "DROP TABLE IF EXISTS " + tableName
-        tableDescription = TABLES[tableName]
-        # todo - remove me after table schema are finalised
-        cursor.execute(dropTable)
-        cursor.execute(tableDescription)
-    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
+        cursor.execute(TABLES[tableName])
     return True
 
 
