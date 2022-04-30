@@ -14,7 +14,7 @@ def test_decodeToken():
 
 
 def test_authenticateEmail():
-    testEmail = "***REMOVED***"
+    testEmail = "drop@bweston.uk"
     assert auth.authenticateEmail(testEmail) == True
 
 
