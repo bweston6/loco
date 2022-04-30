@@ -2,6 +2,5 @@ import Server.api
 
 
 def test_authenticateEmail(client):
-    testEmail = "test@bweston.uk"
-    response = client.post("/api/authenticateEmail", json={"email": testEmail})
+    response = client.post("/api/authenticateEmail", json={"email": "drop@bweston.uk"})
     assert response.json["success"] == True
