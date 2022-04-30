@@ -17,12 +17,12 @@ jobs:
     services:
       mariadb:
         image: mariadb:latest
-        ports:
-          - 3306
         env:
           MARIADB_DATABASE: loco
           MARIADB_ROOT_PASSWORD: ${{ secrets.KEY }}
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+        volumes:
+          - /var/run/mysqld/:/var/run/mysqld
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10

@@ -63,9 +63,8 @@ def openConnection():
     return connect(
         user="root",
         password=os.getenv("MARIADB_ROOT_PASSWORD", None),
-        host="127.0.0.1",
-        port=3306,
-        database="loco",
+        unix_socket="/var/run/mysqld/mysqld.sock",
+        database="loco"
     )
 
 
