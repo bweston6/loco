@@ -6,33 +6,107 @@
 This is the repository for Loco - the location based attendance app.
 
 
-## API Endpoint Plan
-See the latest build of the docs under releases on the sidebar. You can find downloads under the `assets` dropdown.
+## Documentation
+Go to [https://loco.bweston.uk/docs/](https://loco.bweston.uk/docs/) to see the documentation. This includes **user manuals** for attendees and hosts, as well as API documentation. A PDF download of this is also available at [https://loco.bweston.uk/downloads/loco.pdf](https://loco.bweston.uk/downloads/loco.pdf).
 
-## Installing Dependencies
-To install all project dependancies:
+## Installing the Server
+This installation guide is aimed at Debian based distros. Please refer to the package repositories for your particular distro for alternative package names (if required).
 
-1. Install `pipenv` (this requires python 3).
-1. Install the dependencies using `pipenv`:
+Before completing this installation, you should have an unprivileged system user that the Loco server can run under. You should download the source code to a location that this user has access to.
+
+### Installing System Dependancies
+The server requires the following programs to run:
+
+* pipenv (`pipenv`)
+* mariadb server (`mariadb-server`)
+* mariadb connector (`libmariadb-dev`)
+	* This may be included with the mariadb server on some distros.
+* texlive (optional - for PDF documentation) (`texlive-full`)
+
+You can install them with the following command:
+
+```
+$ sudo apt install pipenv libmariadb-dev mariadb-server texlive-full
+```
+
+### Setting Up the Database
+Debian based distros will automatically enable and start the mariadb service for you. Refer to the documentation for your distro if the server is not started.
+
+#### Securing the Database
+You can secure your mariadb install by running the following command:
+
+```
+sudo mysql_secure_installation
+```
+
+---
+
+You don't need to change the root password but you should accept the default for all other options by pressing enter.
+
+---
+
+#### Creating the Database and User
+You can run the following to create the database and user:
+
+```sql
+$ sudo mysql
+> CREATE DATABASE loco;
+> CREATE USER 'username'@'localhost' IDENTIFIED VIA 'unix_socket';
+> GRANT ALL PRIVILEGES ON loco.* TO 'username'@'localhost';
+```
+
+---
+
+You should replace `username` with the username of the unprivileged user the server will run under. This is required as the server uses unix socket authentication to log into the database.
+
+---
+
+To exit the mariadb prompt you can enter:
+
+```
+> quit
+```
+
+### Installing Python Dependancies
+Ensure you are in the root of the repository (where `Pipfile` is located) in your terminal. Enter the following to install the python dependancies in a virtual environment:
+
+```
+$ pipenv install
+```
+
+### Running the Server
+You should modify the environment variables in `bootstrap.sh` with your own information:
+
+1. `SECRET_KEY` encrypts the tokens genterated by your server. It should be different for each server and shouldn't change across the server's life.
 	
-	```
-	# you should be in the same folder as the `Pipfile`
-	$ pipenv install
-	```
-
-## Running the Server Locally
-To run the server you should have completed [Installing Dependencies](#installing-dependencies):
-
-1. Run the server using the `bootstrap.sh` script:
+	You can generate a suitable key with the following commands:
 	
+	```python
+	$ python
+	>>> import os
+	>>> os.urandom(24)
 	```
-	$ bootstrap.sh
+	
+	You can exit the python prompt with:
+	
+	```python
+	>>> exit()
 	```
+	
+1. `EMAIL` and `KEY` are the login details for a Gmail address. You can generate an authentication key on the [app passwords](https://myaccount.google.com/apppasswords) section of your google account.
+
+Once you have set these variables, you can run the server using this script:
+	
+```
+$ bootstrap.sh
+```
 	
 You can access the server from port 55580; it hosts from 0.0.0.0 so you can access it from all devices on your local network. If you want to connect to a local instance on your own computer you can use the address `127.0.0.1:55580`.
 
+There is also a systemd service file that you should modify with the location of your source code and the name of your unprivileged user. Refer to the systemd manuals on how to install this on your system. This will allow you to start the server on boot.
+
 ## Compiling Documentation
-To compile the documentation you should have completed [Installing Dependencies](#installing-dependencies):
+To compile the documentation you should have completed [Installing System Dependencies](#installing-system-dependencies) and [Installing Python Dependancies](#installing-python-dependancies):
 
 1. Enter the environment created by `pipenv`:
 
