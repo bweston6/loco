@@ -21,6 +21,7 @@ yagmail = "*"
 autopep8 = "*"
 black = "*"
 flake8 = "*"
+freezegun = "*"
 pytest = "*"
 
 [requires]
