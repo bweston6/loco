@@ -83,8 +83,14 @@ def createGroup():
                         cursor.fetchone()[0],
                         requestData["emails"],
                     )
+                    lastID = (
+                        "SELECT LAST_INSERT_ID()"
+                    )
                 cursor.execute(addGroup, groupData)
                 conn.commit()
+                if (not groupIDExists): 
+                    cursor.execute(lastID)
+                    groupData = cursor.fetchone() + groupData
                 db.closeConnection(conn)
                 return jsonify(groupData), 200
             else:
