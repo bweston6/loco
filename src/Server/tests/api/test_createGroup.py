@@ -18,9 +18,9 @@ def test_createGroup_withoutID(hostToken, groupName, hostEmail, emails, conn, cl
     cursor = conn.cursor()
     cursor.execute(groupID)
     groupID = cursor.fetchone()
-    conn.commit()
     cursor.execute(group, groupID)
     group = cursor.fetchone()
+    conn.commit()
     assert group[0] == groupID
     assert group[1] == groupName
     assert group[2] == hostEmail

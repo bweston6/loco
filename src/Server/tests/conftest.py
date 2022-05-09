@@ -8,6 +8,7 @@ import jwt
 import os
 import pytest
 import random
+import json
 
 """Variable Fixtures"""
 
@@ -225,12 +226,12 @@ def groupName():
 @pytest.fixture()
 def emails():
     return [
-        "leonlivkol@gmail.com",
-        "***REMOVED***",
-        "islamnoushin2001@gmail.com",
-        "gunansign2001@gmail.com",
-        "rostomFKnb@gmail.com",
-        "bellotimi54@gmail.com"
+        "a@gmail.com",
+        "b@gmail.com",
+        "c@gmail.com",
+        "d@gmail.com",
+        "e@gmail.com",
+        "f@gmail.com"
     ]
 
 @pytest.fixture()
@@ -267,10 +268,10 @@ def otherGroupName():
 @pytest.fixture()
 def otherEmails():
     return [
-        "NOTleonlivkol@gmail.com",
-        "NOT***REMOVED***",
-        "NOTislamnoushin2001@gmail.com",
-        "NOTgunansign2001@gmail.com",
-        "NOTrostomFKnb@gmail.com",
-        "NOTbellotimi54@gmail.com"
+        "g@gmail.com",
+        "h@gmail.com",
+        "i@gmail.com",
+        "j@gmail.com",
+        "k@gmail.com",
+        "l@gmail.com"
     ]
