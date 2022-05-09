@@ -3,6 +3,7 @@
 
 from Server import auth
 from freezegun import freeze_time
+import pytest
 
 
 @freeze_time("2000-09-06")
@@ -55,3 +56,37 @@ def test_createAttendee(
     assert user[1] == attendeeEmail
     assert user[2] == attendeeToken
     assert user[3] == False
+
+
+def test_createUser_missingParameters(client):
+    response = client.post(
+        "/api/createUser",
+        json={},
+    )
+    assert response.json["error"] == "missing parameters"
+
+
+def test_createUser_unauthenticatedEmail(host, hostOTP, client):
+    response = client.post(
+        "/api/createUser",
+        json={
+            "OTP": hostOTP,
+            "fullName": host["name"],
+            "email": host["email"],
+            "hostFlag": host["hostFlag"],
+        },
+    )
+    assert response.json["error"] == "email not authenticated"
+
+
+def test_createUser_invalidOTP(hostEmail, hostName, hostOTP, hostToken, client):
+    response = client.post(
+        "/api/createUser",
+        json={
+            "OTP": hostOTP - 1,
+            "fullName": hostName,
+            "email": hostEmail,
+            "hostFlag": True,
+        },
+    )
+    assert response.json["error"] == "invalid OTP"
