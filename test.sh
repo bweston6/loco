@@ -5,4 +5,4 @@ export SECRET_KEY="***REMOVED***"
 export EMAIL="***REMOVED***"
 export KEY="***REMOVED***"
 cd src
-pytest Server
+pytest $@ Server
