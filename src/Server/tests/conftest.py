@@ -1,8 +1,13 @@
 from Server import auth
 from Server import create_app
 from Server.auth import OTPs
+from datetime import datetime
+from freezegun import freeze_time
 import Server.database as db
+import jwt
+import os
 import pytest
+import random
 
 
 @pytest.fixture()
@@ -48,14 +53,38 @@ def attendeeName():
 
 @pytest.fixture()
 def hostOTP(hostEmail):
-    auth.authenticateEmail(hostEmail)
+    OTPs[hostEmail] = {"otp": random.randint(100000, 999999), "iat": datetime.utcnow()}
     return OTPs[hostEmail]["otp"]
 
 
 @pytest.fixture()
 def attendeeOTP(attendeeEmail):
-    auth.authenticateEmail(attendeeEmail)
+    OTPs[attendeeEmail] = {
+        "otp": random.randint(100000, 999999),
+        "iat": datetime.utcnow(),
+    }
     return OTPs[attendeeEmail]["otp"]
+
+
+@pytest.fixture()
+@freeze_time("2000-09-06")
+def hostToken(hostEmail, SECRET_KEY):
+    return jwt.encode(
+        {"iat": datetime.utcnow(), "sub": hostEmail}, SECRET_KEY, algorithm="HS256"
+    )
+
+
+@pytest.fixture()
+@freeze_time("2000-09-06")
+def attendeeToken(attendeeEmail, SECRET_KEY):
+    return jwt.encode(
+        {"iat": datetime.utcnow(), "sub": attendeeEmail}, SECRET_KEY, algorithm="HS256"
+    )
+
+
+@pytest.fixture()
+def SECRET_KEY():
+    return os.getenv("SECRET_KEY", None)
 
 
 @pytest.fixture()
