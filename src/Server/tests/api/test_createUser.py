@@ -1,9 +1,4 @@
-# being worked on by Ben
-# todo - remove this message
-
-from Server import auth
 from freezegun import freeze_time
-import pytest
 
 
 @freeze_time("2000-09-06")
