@@ -9,6 +9,16 @@ import os
 import pytest
 import random
 
+"""Variable Fixtures"""
+
+
+@pytest.fixture()
+def SECRET_KEY():
+    return os.getenv("SECRET_KEY", None)
+
+
+"""Flask Fixtures"""
+
 
 @pytest.fixture()
 def app():
@@ -31,14 +41,18 @@ def runner(app):
     return app.test_cli_runner()
 
 
-@pytest.fixture()
-def hostEmail():
-    return "drop@bweston.uk"
+"""Database Fixtures"""
 
 
 @pytest.fixture()
-def attendeeEmail():
-    return "dropdrop@bweston.uk"
+def conn():
+    connection = db.openConnection()
+    cursor = connection.cursor()
+    yield connection
+    db.closeConnection(connection)
+
+
+"""User Information Fixtures"""
 
 
 @pytest.fixture()
@@ -47,14 +61,32 @@ def hostName():
 
 
 @pytest.fixture()
-def attendeeName():
-    return "Attendee Smith"
+def hostEmail():
+    return "drop@bweston.uk"
 
 
 @pytest.fixture()
 def hostOTP(hostEmail):
     OTPs[hostEmail] = {"otp": random.randint(100000, 999999), "iat": datetime.utcnow()}
     return OTPs[hostEmail]["otp"]
+
+
+@pytest.fixture()
+@freeze_time("2000-09-06")
+def hostToken(hostEmail, SECRET_KEY):
+    return jwt.encode(
+        {"iat": datetime.utcnow(), "sub": hostEmail}, SECRET_KEY, algorithm="HS256"
+    )
+
+
+@pytest.fixture()
+def attendeeName():
+    return "Attendee Smith"
+
+
+@pytest.fixture()
+def attendeeEmail():
+    return "dropdrop@bweston.uk"
 
 
 @pytest.fixture()
@@ -68,14 +100,6 @@ def attendeeOTP(attendeeEmail):
 
 @pytest.fixture()
 @freeze_time("2000-09-06")
-def hostToken(hostEmail, SECRET_KEY):
-    return jwt.encode(
-        {"iat": datetime.utcnow(), "sub": hostEmail}, SECRET_KEY, algorithm="HS256"
-    )
-
-
-@pytest.fixture()
-@freeze_time("2000-09-06")
 def attendeeToken(attendeeEmail, SECRET_KEY):
     return jwt.encode(
         {"iat": datetime.utcnow(), "sub": attendeeEmail}, SECRET_KEY, algorithm="HS256"
@@ -83,13 +107,48 @@ def attendeeToken(attendeeEmail, SECRET_KEY):
 
 
 @pytest.fixture()
-def SECRET_KEY():
-    return os.getenv("SECRET_KEY", None)
+def otherHostName():
+    return "Other Host Smith"
 
 
 @pytest.fixture()
-def attendee(attendeeName, attendeeEmail, attendeeOTP):
-    conn = db.openConnection()
+def otherHostEmail():
+    return "dropother@bweston.uk"
+
+
+@pytest.fixture()
+def otherHostOTP(otherHostEmail):
+    OTPs[otherHostEmail] = {
+        "otp": random.randint(100000, 999999),
+        "iat": datetime.utcnow(),
+    }
+    return OTPs[otherHostEmail]["otp"]
+
+
+@pytest.fixture()
+def otherAttendeeName():
+    return "Other Attendee Smith"
+
+
+@pytest.fixture()
+def otherAttendeeEmail():
+    return "dropdropother@bweston.uk"
+
+
+@pytest.fixture()
+def otherAttendeeOTP(otherAttendeeEmail):
+    OTPs[otherAttendeeEmail] = {
+        "otp": random.randint(100000, 999999),
+        "iat": datetime.utcnow(),
+    }
+    return OTPs[otherAttendeeEmail]["otp"]
+
+
+"""User Creation Fixtures"""
+
+
+@pytest.fixture()
+def attendee(conn, attendeeName, attendeeEmail, attendeeOTP):
     cursor = conn.cursor()
     user = {"name": attendeeName, "email": attendeeEmail, "hostFlag": False}
     user["token"] = auth.generateToken(attendeeOTP, attendeeEmail)
@@ -103,13 +162,11 @@ def attendee(attendeeName, attendeeEmail, attendeeOTP):
     userData = (user["name"], user["email"], user["token"], user["hostFlag"])
     cursor.execute(addUser, userData)
     conn.commit()
-    db.closeConnection(conn)
     return user
 
 
 @pytest.fixture()
-def host(hostName, hostEmail, hostOTP):
-    conn = db.openConnection()
+def host(conn, hostName, hostEmail, hostOTP):
     cursor = conn.cursor()
     user = {"name": hostName, "email": hostEmail, "hostFlag": True}
     user["token"] = auth.generateToken(hostOTP, hostEmail)
@@ -123,13 +180,40 @@ def host(hostName, hostEmail, hostOTP):
     userData = (user["name"], user["email"], user["token"], user["hostFlag"])
     cursor.execute(addUser, userData)
     conn.commit()
-    db.closeConnection(conn)
     return user
 
 
 @pytest.fixture()
-def conn():
-    connection = db.openConnection()
-    cursor = connection.cursor()
-    yield connection
-    db.closeConnection(connection)
+def otherHost(conn, otherHostName, otherHostEmail, otherHostOTP):
+    cursor = conn.cursor()
+    user = {"name": otherHostName, "email": otherHostEmail, "hostFlag": True}
+    user["token"] = auth.generateToken(otherHostOTP, otherHostEmail)
+    addUser = """REPLACE INTO users (
+        full_name,
+        email,
+        token,
+        host_flag
+        )
+        VALUES (?, ?, ?, ?)"""
+    userData = (user["name"], user["email"], user["token"], user["hostFlag"])
+    cursor.execute(addUser, userData)
+    conn.commit()
+    return user
+
+
+@pytest.fixture()
+def otherAttendee(conn, otherAttendeeName, otherAttendeeEmail, otherAttendeeOTP):
+    cursor = conn.cursor()
+    user = {"name": otherAttendeeName, "email": otherAttendeeEmail, "hostFlag": False}
+    user["token"] = auth.generateToken(otherAttendeeOTP, otherAttendeeEmail)
+    addUser = """REPLACE INTO users (
+        full_name,
+        email,
+        token,
+        host_flag
+        )
+        VALUES (?, ?, ?, ?)"""
+    userData = (user["name"], user["email"], user["token"], user["hostFlag"])
+    cursor.execute(addUser, userData)
+    conn.commit()
+    return user
