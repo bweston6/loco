@@ -252,7 +252,7 @@ def group(conn, groupName, hostEmail, emails):
     groupData = (
         groupName,
         hostEmail,
-        emails
+        json.dumps(emails)
     )
     cursor.execute(addGroup, groupData)
     conn.commit()

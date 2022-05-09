@@ -13,7 +13,7 @@ def test_createGroup_withoutID(hostToken, groupName, hostEmail, emails, conn, cl
     group = (
         "SELECT * "
         "FROM groups "
-        "WHERE groupID = ?"
+        "WHERE group_ID = ?"
     )
     cursor = conn.cursor()
     cursor.execute(groupID)
@@ -39,7 +39,7 @@ def test_createGroup_withID(group, hostToken, otherGroupName, otherEmails, conn,
     group = (
         "SELECT * "
         "FROM groups "
-        "WHERE groupID = ?"
+        "WHERE group_ID = ?"
     )
     cursor = conn.cursor()
     cursor.execute(group, group["groupID"])

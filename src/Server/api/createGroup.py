@@ -31,12 +31,12 @@ def createGroup():
     """
     try:
         requestData = request.get_json()
-        requestData["emails"] = json.dumps(requestData["emails"])
         if (
             "token" in requestData
             and "groupName" in requestData
             and "emails" in requestData
         ):
+            requestData["emails"] = json.dumps(requestData["emails"])
             queryValidate = (
                 "SELECT EXISTS ( "
                 "SELECT * "
