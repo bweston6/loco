@@ -217,3 +217,60 @@ def otherAttendee(conn, otherAttendeeName, otherAttendeeEmail, otherAttendeeOTP)
     cursor.execute(addUser, userData)
     conn.commit()
     return user
+
+@pytest.fixture()
+def groupName():
+    return "COMP208"
+
+@pytest.fixture()
+def emails():
+    return [
+        "leonlivkol@gmail.com",
+        "***REMOVED***",
+        "islamnoushin2001@gmail.com",
+        "gunansign2001@gmail.com",
+        "rostomFKnb@gmail.com",
+        "bellotimi54@gmail.com"
+    ]
+
+@pytest.fixture()
+def group(conn, groupName, hostEmail, emails):
+    cursor = conn.cursor()
+    group = {"groupName": groupName, "hostEmail": hostEmail}
+    group["emails"] = json.dumps(emails)
+    addGroup = (
+        "INSERT INTO `groups` ("
+        "group_name, "
+        "hostEmail, "
+        "emails) "
+        "VALUES (?, ?, ?)"
+    )
+    lastID = (
+        "SELECT LAST_INSERT_ID()"
+    )
+    groupData = (
+        groupName,
+        hostEmail,
+        emails
+    )
+    cursor.execute(addGroup, groupData)
+    conn.commit()
+    cursor.execute(lastID)
+    group["groupID"] = cursor.fetchone()
+    conn.commit()
+    return group
+
+@pytest.fixture()
+def otherGroupName():
+    return "notCOMP208"
+
+@pytest.fixture()
+def otherEmails():
+    return [
+        "NOTleonlivkol@gmail.com",
+        "NOT***REMOVED***",
+        "NOTislamnoushin2001@gmail.com",
+        "NOTgunansign2001@gmail.com",
+        "NOTrostomFKnb@gmail.com",
+        "NOTbellotimi54@gmail.com"
+    ]
