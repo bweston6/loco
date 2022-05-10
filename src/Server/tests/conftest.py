@@ -252,8 +252,7 @@ def description():
 @pytest.fixture()
 def event(conn, eventName, startTime, duration, locationLat, locationLong, description, hostEmail, emails):
     cursor = conn.cursor()
-    event = {"eventName": eventName, "startTime": startTime, "duration": duration, "locationLat": locationLat, "locationLong": locationLong,
-    "radius": radius, "description": description, "hostEmail": hostEmail}
+    event = {"eventName": eventName, "startTime": startTime, "duration": duration, "locationLat": locationLat, "locationLong": locationLong, "radius": radius, "description": description, "hostEmail": hostEmail}
     event["emails"] = json.dumps(emails)
     addEvent = (
         "INSERT INTO `events` ("
