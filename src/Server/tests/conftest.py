@@ -250,10 +250,69 @@ def description():
     return "This is a Lecture."
 
 @pytest.fixture()
+def event(conn, eventName, startTime, duration, latitude, longitude, description, hostEmail, emails):
+    cursor = conn.cursor()
+    event = {"eventName": eventName, "startTime": startTime, "duration": duration, "latitude": latitude, "longitude": longitude,
+    "radius": radius, "description": description, "hostEmail": hostEmail}
+    event["emails"] = json.dumps(emails)
+    addEvent = (
+        "INSERT INTO `events` ("
+        "event_name, "
+        "start_time, "
+        "duration"
+        "latitude"
+        "longitude"
+        "radius"
+        "description"
+        "hostEmail) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    )
+    lastID = (
+        "SELECT LAST_INSERT_ID()"
+    )
+    eventData = (
+        event["eventName"],
+        event["startTime"],
+        event["duration"],
+        event["locationLat"],
+        event["locationLong"],
+        event["radius"],
+        event["description"],
+        event["hostEmail"],
+    )
+    cursor.execute(addEvent, eventData)
+    conn.commit()
+    cursor.execute(lastID)
+    event["eventID"] = cursor.fetchone()[0]
+    return event
+
+@pytest.fixture()
 def otherEventName():
     return "notLecture"
 
+@pytest.fixture()
+def otherStartTime():
+    return "1649329210"
 
+@pytest.fixture()
+def otherDuration():
+    return "3"
+
+@pytest.fixture()
+def otherLocationLong():
+    return "+52.737273"
+
+@pytest.fixture()
+def otherLocationLat():
+    return "+12.124364"
+
+@pytest.fixture()
+def otherRadius():
+    return "300"
+
+@pytest.fixture()
+def otherDescription():
+    return "This is not a Lecture."
 """Group Creation Fixtures"""
 
 @pytest.fixture()
