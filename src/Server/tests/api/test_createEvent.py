@@ -14,7 +14,7 @@ emails, hostEmail, conn, client):
             "locationLong": locationLong,
             "radius": radius,
             "description": description,
-            "emails": emails
+            "emails": emails,
         },
     )
     eventID = (
@@ -55,7 +55,7 @@ otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
             "locationLong": otherLocationLong,
             "radius": otherRadius,
             "description": otherDescription,
-            "emails": otherEmails
+            "emails": otherEmails,
         },
     )
     event = (
