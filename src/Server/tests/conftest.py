@@ -235,7 +235,7 @@ def duration():
 
 @pytest.fixture()
 def locationLong():
-    return "+34.737273"
+    return "34.737273"
 
 @pytest.fixture()
 def locationLat():
@@ -299,11 +299,11 @@ def otherDuration():
 
 @pytest.fixture()
 def otherLocationLong():
-    return "+52.737273"
+    return "52.737273"
 
 @pytest.fixture()
 def otherLocationLat():
-    return "+12.124364"
+    return "12.124364"
 
 @pytest.fixture()
 def otherRadius():
