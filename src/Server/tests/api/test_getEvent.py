@@ -9,6 +9,7 @@ def test_getEvent(host, events, client):
             "eventID": events["eventID"],
         }
     )
+    assert response.json["eventID"] == events["eventID"]
     assert response.json["eventName"] == events["eventName"]
     assert response.json["startTime"] == events["startTime"]
     assert response.json["duration"] == events["duration"]
@@ -16,7 +17,7 @@ def test_getEvent(host, events, client):
     assert response.json["locationLong"] == events["locationLong"]
     assert response.json["radius"] == events["radius"]
     assert response.json["description"] == events["description"]
-    assert response.json["email"] == host["email"]
+    assert response.json["email"] == events["hostEmail"]
     assert not "error" in response.json
    
 def test_getEvent_missingParameters(client):
