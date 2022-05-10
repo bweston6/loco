@@ -39,15 +39,14 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
     cursor.execute(event, eventID)
     eventDB = cursor.fetchone()
     conn.commit()
-    assert eventDB[0] == eventID
-    assert eventDB[1] == eventName
-    assert eventDB[2] == startTime
-    assert eventDB[3] == duration
-    assert eventDB[4] == locationLat
-    assert eventDB[5] == locationLong
-    assert eventDB[6] == radius
-    assert eventDB[7] == description
-    assert eventDB[8] == host["email"]
+    assert eventDB[0] == eventName
+    assert eventDB[1] == startTime
+    assert eventDB[2] == duration
+    assert eventDB[3] == locationLat
+    assert eventDB[4] == locationLong
+    assert eventDB[5] == radius
+    assert eventDB[6] == description
+    assert eventDB[7] == host["email"]
 
 def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     cursor = conn.cursor()
