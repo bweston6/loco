@@ -41,11 +41,11 @@ def test_createEvent_withoutID(hostToken, eventName, startTime, duration, locati
     assert event[7] == description
     assert event[8] == hostEmail
 
-def test_createEvent_withID(event, hostToken, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
+def test_createEvent_withID(events, hostToken, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     response = client.post(
         "/api/createEvent",
         json={
-            "eventID": event["eventID"],
+            "eventID": events["eventID"],
             "token": hostToken,
             "eventName": otherEventName,
             "startTime": otherStartTime,
@@ -63,10 +63,10 @@ def test_createEvent_withID(event, hostToken, otherEventName, otherStartTime, ot
         "WHERE event_ID = ?"
     )
     cursor = conn.cursor()
-    cursor.execute(event, event["eventID"])
+    cursor.execute(event, events["eventID"])
     event = cursor.fetchone()
     conn.commit()
-    assert event[0] == event["eventID"]
+    assert event[0] == events["eventID"]
     assert event[1] == otherEventName
     assert event[2] == otherStartTime
     assert event[3] == otherDuration
@@ -74,7 +74,7 @@ def test_createEvent_withID(event, hostToken, otherEventName, otherStartTime, ot
     assert event[5] == otherLocationLong
     assert event[6] == otherRadius
     assert event[7] == otherDescription
-    assert event[8] == event["hostEmail"]
+    assert event[8] == events["hostEmail"]
 
 def test_createEvent_missingParameters(client):
     response = client.post(
