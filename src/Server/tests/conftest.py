@@ -268,7 +268,7 @@ def events(conn, eventName, startTime, duration, locationLat, locationLong, radi
         longitude,
         radius,
         description,
-        hostEmail),
+        hostEmail)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
     )
     lastID = (
