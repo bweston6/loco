@@ -1,8 +1,8 @@
 from freezegun import freeze_time
 
 @freeze_time("2000-09-06")
-def test_createEvent_withoutID(hostToken, eventName, startTime, duration, locationLong, locationLat, radius, description, 
-emails, hostEmail, conn, client):
+
+def test_createEvent_withoutID(hostToken, eventName, startTime, duration, locationLong, locationLat, radius, description, emails, hostEmail, conn, client):
     response = client.post(
         "/api/createEvent",
         json={
@@ -41,8 +41,7 @@ emails, hostEmail, conn, client):
     assert event[7] == description
     assert event[8] == hostEmail
 
-def test_createEvent_withID(event, hostToken, otherEventName, otherStartTime, otherDuration, otherLocationLat, 
-otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
+def test_createEvent_withID(event, hostToken, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     response = client.post(
         "/api/createEvent",
         json={
