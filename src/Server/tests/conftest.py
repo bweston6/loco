@@ -49,6 +49,11 @@ def runner(app):
 def conn():
     connection = db.openConnection()
     cursor = connection.cursor()
+    dropAttendance = ("DROP TABLE IF EXISTS attendance"); cursor.execute(dropAttendance)
+    dropEvents = ("DROP TABLE IF EXISTS events"); cursor.execute(dropEvents)
+    dropGroups = ("DROP TABLE IF EXISTS `groups`"); cursor.execute(dropGroups)
+    dropUsers = ("DROP TABLE IF EXISTS users"); cursor.execute(dropUsers)
+    db.createTables(cursor)
     yield connection
     db.closeConnection(connection)
 
@@ -250,24 +255,24 @@ def description():
     return "This is a Lecture."
 
 @pytest.fixture()
-def events(conn, eventName, startTime, duration, locationLat, locationLong, radius, description, hostEmail, emails):
+def event(conn, eventName, startTime, duration, locationLat, locationLong, description, hostEmail, emails):
     cursor = conn.cursor()
     event = {"eventName": eventName, "startTime": startTime, "duration": duration, "locationLat": locationLat, "locationLong": locationLong, "radius": radius, "description": description, "hostEmail": hostEmail}
     event["emails"] = json.dumps(emails)
     addEvent = (
-        """INSERT INTO `events` (
-        event_name, 
-        start_time, 
-        duration,
-        latitude,
-        longitude,
-        radius,
-        description,
-        hostEmail) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
+        "INSERT INTO `events` ("
+        "event_name, "
+        "start_time, "
+        "duration"
+        "latitude"
+        "longitude"
+        "radius"
+        "description"
+        "hostEmail) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     )
     lastID = (
-        """SELECT LAST_INSERT_ID()"""
+        "SELECT LAST_INSERT_ID()"
     )
     eventData = (
         event["eventName"],
@@ -312,7 +317,6 @@ def otherRadius():
 @pytest.fixture()
 def otherDescription():
     return "This is not a Lecture."
-
 """Group Creation Fixtures"""
 
 @pytest.fixture()
