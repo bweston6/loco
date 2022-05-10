@@ -232,23 +232,23 @@ def eventName():
 
 @pytest.fixture()
 def startTime():
-    return "1649329200"
+    return 1649329200
 
 @pytest.fixture()
 def duration():
-    return "2"
+    return 2
 
 @pytest.fixture()
 def locationLong():
-    return "34.737273"
+    return 34.737273
 
 @pytest.fixture()
 def locationLat():
-    return "-22.124364"
+    return -22.124364
 
 @pytest.fixture()
 def radius():
-    return "200"
+    return 200
 
 @pytest.fixture()
 def description():
@@ -297,23 +297,23 @@ def otherEventName():
 
 @pytest.fixture()
 def otherStartTime():
-    return "1649329210"
+    return 1649329210
 
 @pytest.fixture()
 def otherDuration():
-    return "3"
+    return 3
 
 @pytest.fixture()
 def otherLocationLong():
-    return "52.737273"
+    return 52.737273
 
 @pytest.fixture()
 def otherLocationLat():
-    return "12.124364"
+    return 12.124364
 
 @pytest.fixture()
 def otherRadius():
-    return "300"
+    return 300
 
 @pytest.fixture()
 def otherDescription():
