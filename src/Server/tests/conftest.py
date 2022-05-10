@@ -219,13 +219,42 @@ def otherAttendee(conn, otherAttendeeName, otherAttendeeEmail, otherAttendeeOTP)
     conn.commit()
     return user
 
+"""Event Creation Fixtures"""
+
 @pytest.fixture()
 def eventName():
     return "Lecture"
 
 @pytest.fixture()
+def startTime():
+    return "1649329200"
+
+@pytest.fixture()
+def duration():
+    return "2"
+
+@pytest.fixture()
+def locationLong():
+    return "+34.737273"
+
+@pytest.fixture()
+def locationLat():
+    return "-22.124364"
+
+@pytest.fixture()
+def radius():
+    return "200"
+
+@pytest.fixture()
+def description():
+    return "This is a Lecture."
+
+@pytest.fixture()
 def otherEventName():
     return "notLecture"
+
+
+"""Group Creation Fixtures"""
 
 @pytest.fixture()
 def groupName():
