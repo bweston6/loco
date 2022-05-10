@@ -10,11 +10,11 @@ def test_getEvent(host, events, client):
             "eventID": events["eventID"],
         }
     )
-    assert response.json["eventName"] == events["eventName"]
-    assert response.json["startTime"] == events["startTime"]
+    assert response.json["name"] == events["eventName"]
+    assert response.json["time"] == events["startTime"]
     assert response.json["duration"] == events["duration"]
-    assert response.json["locationLat"] == events["locationLat"]
-    assert response.json["locationLong"] == events["locationLong"]
+    assert response.json["latitude"] == events["locationLat"]
+    assert response.json["longitude"] == events["locationLong"]
     assert response.json["radius"] == events["radius"]
     assert response.json["description"] == events["description"]
     assert response.json["email"] == host["email"]
