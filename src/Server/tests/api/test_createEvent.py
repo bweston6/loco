@@ -3,18 +3,10 @@ from freezegun import freeze_time
 @freeze_time("2000-09-06")
 
 def test_createEvent_withoutID(host, eventName, startTime, duration, locationLong, locationLat, radius, description, emails, conn, client):
-    cursor = conn.cursor()
-    token = ("""
-        SELECT token
-        FROM users
-        WHERE email = ?"""
-    )
-    cursor.execute(token, (host["email"],))
-    tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
         json={
-            "token": tokenH,
+            "token": host["token"],
             "eventName": eventName,
             "startTime": startTime,
             "duration": duration,
@@ -38,8 +30,7 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
     eventID = cursor.fetchone()
     cursor.execute(event, (eventID+1,))
     eventDB = cursor.fetchone()
-    conn.commit()
-    assert eventDB[0] == eventID
+    assert eventDB[0] == eventID+1
     assert eventDB[1] == eventName
     assert eventDB[2] == startTime
     assert eventDB[3] == duration
@@ -50,19 +41,11 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
     assert eventDB[8] == host["email"]
 
 def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
-    cursor = conn.cursor()
-    token = ("""
-        SELECT token
-        FROM users
-        WHERE email = ?"""
-    )
-    cursor.execute(token, (host["email"],))
-    tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
         json={
             "eventID": events["eventID"],
-            "token": tokenH,
+            "token": host["token"],
             "eventName": otherEventName,
             "startTime": otherStartTime,
             "duration": otherDuration,
@@ -78,9 +61,9 @@ def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherD
         FROM events
         WHERE event_ID = ?"""
     )
-    cursor.execute(event, events["eventID"])
+    cursor = conn.cursor()
+    cursor.execute(event, (events["eventID"], ))
     eventDB = cursor.fetchone()
-    conn.commit()
     assert eventDB[0] == events["eventID"]
     assert eventDB[1] == otherEventName
     assert eventDB[2] == otherStartTime
@@ -89,7 +72,7 @@ def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherD
     assert eventDB[5] == otherLocationLong
     assert eventDB[6] == otherRadius
     assert eventDB[7] == otherDescription
-    assert eventDB[8] == host["email"]
+    assert eventDB[8] == events["hostEmail"]
 
 def test_createEvent_missingParameters(client):
     response = client.post(
@@ -102,7 +85,7 @@ def test_createEvent_invalidToken(eventName, startTime, duration, locationLat, l
     response = client.post(
         "/api/createEvent",
         json={
-            "token": "idk",
+            "token": "test",
             "eventName": eventName,
             "startTime": startTime,
             "duration": duration,
