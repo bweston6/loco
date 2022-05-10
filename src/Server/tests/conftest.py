@@ -319,6 +319,7 @@ def otherRadius():
 @pytest.fixture()
 def otherDescription():
     return "This is not a Lecture."
+    
 """Group Creation Fixtures"""
 
 @pytest.fixture()

@@ -72,7 +72,7 @@ def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherD
     assert eventDB[5] == otherLocationLong
     assert eventDB[6] == otherRadius
     assert eventDB[7] == otherDescription
-    assert eventDB[8] == events["hostEmail"]
+    assert eventDB[8] == host["email"]
 
 def test_createEvent_missingParameters(client):
     response = client.post(
