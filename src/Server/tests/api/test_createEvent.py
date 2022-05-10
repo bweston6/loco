@@ -1,6 +1,3 @@
-from freezegun import freeze_time
-
-@freeze_time("2000-09-06")
 def test_createEvent_withoutID(hostToken, eventName, startTime, duration, locationLong, locationLat, radius, description, 
 emails, hostEmail, conn, client):
     response = client.post(
