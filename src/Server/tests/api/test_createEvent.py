@@ -2,14 +2,14 @@ from freezegun import freeze_time
 
 @freeze_time("2000-09-06")
 
-def test_createEvent_withoutID(eventName, startTime, duration, locationLong, locationLat, radius, description, emails, hostEmail, conn, client):
+def test_createEvent_withoutID(host, eventName, startTime, duration, locationLong, locationLat, radius, description, emails, hostEmail, conn, client):
     cursor = conn.cursor()
     token = ("""
         SELECT token
         FROM users
         WHERE hostEmail = ?"""
     )
-    cursor.execute(token, hostEmail)
+    cursor.execute(token, (host["hostEmail"]))
     tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
@@ -47,16 +47,16 @@ def test_createEvent_withoutID(eventName, startTime, duration, locationLong, loc
     assert eventDB[5] == locationLong
     assert eventDB[6] == radius
     assert eventDB[7] == description
-    assert eventDB[8] == hostEmail
+    assert eventDB[8] == host["hostEmail"]
 
-def test_createEvent_withID(events, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, hostEmail, conn, client):
+def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, hostEmail, conn, client):
     cursor = conn.cursor()
     token = ("""
         SELECT token
         FROM users
         WHERE hostEmail = ?"""
     )
-    cursor.execute(token, hostEmail)
+    cursor.execute(token, (host["hostEmail"]))
     tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
@@ -89,7 +89,7 @@ def test_createEvent_withID(events, otherEventName, otherStartTime, otherDuratio
     assert eventDB[5] == otherLocationLong
     assert eventDB[6] == otherRadius
     assert eventDB[7] == otherDescription
-    assert eventDB[8] == events["hostEmail"]
+    assert eventDB[8] == host["hostEmail"]
 
 def test_createEvent_missingParameters(client):
     response = client.post(
