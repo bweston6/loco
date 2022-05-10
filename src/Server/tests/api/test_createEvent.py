@@ -18,7 +18,7 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
         },
     )
     eventID = (
-        """SELECT LAST_INSERT_ID()"""
+        "SELECT LAST_INSERT_ID()"
     )
     event = (
         """SELECT * 
