@@ -2,7 +2,7 @@ from freezegun import freeze_time
 
 @freeze_time("2000-09-06")
 
-def test_createEvent_withoutID(host, eventName, startTime, duration, locationLong, locationLat, radius, description, emails, hostEmail, conn, client):
+def test_createEvent_withoutID(host, eventName, startTime, duration, locationLong, locationLat, radius, description, emails, conn, client):
     cursor = conn.cursor()
     token = ("""
         SELECT token
@@ -49,7 +49,7 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
     assert eventDB[7] == description
     assert eventDB[8] == host["hostEmail"]
 
-def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, hostEmail, conn, client):
+def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     cursor = conn.cursor()
     token = ("""
         SELECT token
