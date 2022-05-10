@@ -25,7 +25,7 @@ def test_getEvent_missingParameters(client):
     )
     assert response.json["error"] == "missing parameters"
 
- def test_createEvent_invalidToken(host, events, client):
+def test_createEvent_invalidToken(host, events, client):
     response = client.post(
         "/api/getEvent",
         json={
