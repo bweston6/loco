@@ -24,8 +24,16 @@ class LocoUITests: XCTestCase {
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        //This method is called after the invocation of each test method in the class.
         super.tearDown()
+            func test1() {
+        let user = UserModel(id: 0,)
+        sut.add(user)
+
+        XCTAssertEqual(1, sut.list.count)
+        XCTAssertEqual(player, sut.list.first)
+    }
+            
     }
     
     func testExample() {
