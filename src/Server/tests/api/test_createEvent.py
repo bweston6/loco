@@ -3,12 +3,13 @@ from freezegun import freeze_time
 @freeze_time("2000-09-06")
 
 def test_createEvent_withoutID(eventName, startTime, duration, locationLong, locationLat, radius, description, emails, hostEmail, conn, client):
+    cursor = conn.cursor()
     token = ("""
         SELECT token
         FROM users
         WHERE hostEmail = ?"""
     )
-    cursor.execute(event, hostEmail)
+    cursor.execute(token, hostEmail)
     tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
@@ -49,12 +50,13 @@ def test_createEvent_withoutID(eventName, startTime, duration, locationLong, loc
     assert eventDB[8] == hostEmail
 
 def test_createEvent_withID(events, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
+    cursor = conn.cursor()
     token = ("""
         SELECT token
         FROM users
         WHERE hostEmail = ?"""
     )
-    cursor.execute(event, hostEmail)
+    cursor.execute(token, hostEmail)
     tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
@@ -76,7 +78,6 @@ def test_createEvent_withID(events, otherEventName, otherStartTime, otherDuratio
         FROM events
         WHERE event_ID = ?"""
     )
-    cursor = conn.cursor()
     cursor.execute(event, events["eventID"])
     eventDB = cursor.fetchone()
     conn.commit()
