@@ -258,7 +258,6 @@ def group(conn, groupName, hostEmail, emails):
     conn.commit()
     cursor.execute(lastID)
     group["groupID"] = cursor.fetchone()
-    conn.commit()
     return group
 
 @pytest.fixture()
