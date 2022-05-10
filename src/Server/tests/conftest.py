@@ -287,6 +287,7 @@ def events(conn, eventName, startTime, duration, locationLat, locationLong, radi
     cursor.execute(addEvent, eventData)
     conn.commit()
     cursor.execute(lastID)
+    event["emails"] = json.loads(event["emails"])
     event["eventID"] = cursor.fetchone()[0]
     return event
 
