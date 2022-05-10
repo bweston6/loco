@@ -27,7 +27,7 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
     )
     cursor = conn.cursor()
     cursor.execute(eventID)
-    eventID = cursor.fetchone()
+    eventID = cursor.fetchone()[0]
     cursor.execute(event, (eventID+1,))
     eventDB = cursor.fetchone()
     assert eventDB[0] == eventID+1
