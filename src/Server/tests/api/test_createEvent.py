@@ -33,10 +33,10 @@ emails, hostEmail, conn, client):
     conn.commit()
     assert event[0] == eventID
     assert event[1] == eventName
-    assert event[2] == hostEmail
-    assert event[3] == startTime
-    assert event[4] == locationLong
-    assert event[5] == locationLat
+    assert event[2] == startTime
+    assert event[3] == duration
+    assert event[4] == locationLat
+    assert event[5] == locationLong
     assert event[6] == radius
     assert event[7] == description
     assert event[8] == hostEmail
@@ -68,13 +68,13 @@ otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     event = cursor.fetchone()
     conn.commit()
     assert event[0] == event["eventID"]
-    assert event[1] == eventName
-    assert event[2] == hostEmail
-    assert event[3] == startTime
-    assert event[4] == locationLong
-    assert event[5] == locationLat
-    assert event[6] == radius
-    assert event[7] == description
+    assert event[1] == otherEventName
+    assert event[2] == otherStartTime
+    assert event[3] == otherDuration
+    assert event[4] == otherLocationLat
+    assert event[5] == otherLocationLong
+    assert event[6] == otherRadius
+    assert event[7] == otherDescription
     assert event[8] == event["hostEmail"]
 
 
