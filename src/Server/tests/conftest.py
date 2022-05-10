@@ -220,6 +220,14 @@ def otherAttendee(conn, otherAttendeeName, otherAttendeeEmail, otherAttendeeOTP)
     return user
 
 @pytest.fixture()
+def eventName():
+    return "Lecture"
+
+@pytest.fixture()
+def otherEventName():
+    return "notLecture"
+
+@pytest.fixture()
 def groupName():
     return "COMP208"
 
