@@ -1,7 +1,6 @@
 from freezegun import freeze_time
 
 @freeze_time("2000-09-06")
-
 def test_getEvent(host, events, client):
     response = client.post(
         "/api/getEvent",
@@ -10,11 +9,11 @@ def test_getEvent(host, events, client):
             "eventID": events["eventID"],
         }
     )
-    assert response.json["name"] == events["eventName"]
-    assert response.json["time"] == events["startTime"]
+    assert response.json["eventName"] == events["eventName"]
+    assert response.json["startTime"] == events["startTime"]
     assert response.json["duration"] == events["duration"]
-    assert response.json["latitude"] == events["locationLat"]
-    assert response.json["longitude"] == events["locationLong"]
+    assert response.json["locationLat"] == events["locationLat"]
+    assert response.json["locationLong"] == events["locationLong"]
     assert response.json["radius"] == events["radius"]
     assert response.json["description"] == events["description"]
     assert response.json["email"] == host["email"]
@@ -31,7 +30,7 @@ def test_getEvent_invalidToken(host, events, client):
     response = client.post(
         "/api/getEvent",
         json={
-            "token": "test",
+            "token": "",
             "eventID": events["eventID"],
         },
     )
@@ -42,7 +41,7 @@ def test_getEvent_invalidEventID(host, events, client):
         "/api/getEvent",
         json={
             "token": host["token"],
-            "eventID": 000000,
+            "eventID": 0000000000000,
         },
     )
     assert response.json["error"] == "invalid token"
