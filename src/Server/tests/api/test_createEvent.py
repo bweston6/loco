@@ -82,7 +82,7 @@ def test_createEvent_invalidToken(host, client):
     response = client.post(
         "/api/createEvent",
         json={
-            "token": "",
+            "token": "idk",
             "email": host["email"],
         },
     )
