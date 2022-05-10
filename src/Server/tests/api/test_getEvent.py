@@ -9,14 +9,14 @@ def test_getEvent(host, events, client):
             "eventID": events["eventID"],
         }
     )
-    assert response.json[""] == events["eventName"]
-    assert response.json[""] == events["startTime"]
-    assert response.json[""] == events["duration"]
-    assert response.json[""] == events["locationLat"]
-    assert response.json[""] == events["locationLong"]
-    assert response.json[""] == events["radius"]
-    assert response.json[""] == events["description"]
-    assert response.json[""] == host["email"]
+    assert response.json["eventName"] == events["eventName"]
+    assert response.json["startTime"] == events["startTime"]
+    assert response.json["duration"] == events["duration"]
+    assert response.json["locationLat"] == events["locationLat"]
+    assert response.json["locationLong"] == events["locationLong"]
+    assert response.json["radius"] == events["radius"]
+    assert response.json["description"] == events["description"]
+    assert response.json["email"] == host["email"]
    
 def test_getEvent_missingParameters(client):
     response = client.post(
@@ -25,7 +25,7 @@ def test_getEvent_missingParameters(client):
     )
     assert response.json["error"] == "missing parameters"
 
-def test_createEvent_invalidToken(host, events, client):
+def test_getEvent_invalidToken(host, events, client):
     response = client.post(
         "/api/getEvent",
         json={
