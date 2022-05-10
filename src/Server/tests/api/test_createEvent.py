@@ -18,12 +18,12 @@ def test_createEvent_withoutID(hostToken, eventName, startTime, duration, locati
         },
     )
     eventID = (
-        "SELECT LAST_INSERT_ID()"
+        """SELECT LAST_INSERT_ID()"""
     )
     event = (
-        "SELECT * "
-        "FROM events "
-        "WHERE event_ID = ?"
+        """SELECT * 
+        FROM events
+        WHERE event_ID = ?"""
     )
     cursor = conn.cursor()
     cursor.execute(eventID)
@@ -58,9 +58,9 @@ def test_createEvent_withID(events, hostToken, otherEventName, otherStartTime, o
         },
     )
     event = (
-        "SELECT * "
-        "FROM events "
-        "WHERE event_ID = ?"
+        """SELECT *
+        FROM events
+        WHERE event_ID = ?"""
     )
     cursor = conn.cursor()
     cursor.execute(event, events["eventID"])
