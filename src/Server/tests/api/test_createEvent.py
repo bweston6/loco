@@ -9,7 +9,7 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
         FROM users
         WHERE hostEmail = ?"""
     )
-    cursor.execute(token, (host["hostEmail"]))
+    cursor.execute(token, (host["email"]))
     tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
@@ -47,7 +47,7 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
     assert eventDB[5] == locationLong
     assert eventDB[6] == radius
     assert eventDB[7] == description
-    assert eventDB[8] == host["hostEmail"]
+    assert eventDB[8] == host["email"]
 
 def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     cursor = conn.cursor()
@@ -56,7 +56,7 @@ def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherD
         FROM users
         WHERE hostEmail = ?"""
     )
-    cursor.execute(token, (host["hostEmail"]))
+    cursor.execute(token, (host["email"]))
     tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
@@ -89,7 +89,7 @@ def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherD
     assert eventDB[5] == otherLocationLong
     assert eventDB[6] == otherRadius
     assert eventDB[7] == otherDescription
-    assert eventDB[8] == host["hostEmail"]
+    assert eventDB[8] == host["email"]
 
 def test_createEvent_missingParameters(client):
     response = client.post(

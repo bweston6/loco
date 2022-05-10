@@ -255,10 +255,11 @@ def description():
     return "This is a Lecture."
 
 @pytest.fixture()
-def events(conn, eventName, startTime, duration, locationLat, locationLong, radius, description, hostEmail, emails):
+def events(conn, eventName, startTime, duration, locationLat, locationLong, radius, description, host, emails):
     cursor = conn.cursor()
-    event = {"eventName": eventName, "startTime": startTime, "duration": duration, "locationLat": locationLat, "locationLong": locationLong, "radius": radius, "description": description, "hostEmail": hostEmail}
+    event = {"eventName": eventName, "startTime": startTime, "duration": duration, "locationLat": locationLat, "locationLong": locationLong, "radius": radius, "description": description}
     event["emails"] = json.dumps(emails)
+    event["hostEmail"] = json.dumps(host["email"])
     addEvent = (
         """INSERT INTO `events` (
         event_name, 
@@ -282,7 +283,7 @@ def events(conn, eventName, startTime, duration, locationLat, locationLong, radi
         event["locationLong"],
         event["radius"],
         event["description"],
-        event["hostEmail"]
+        event[host["email"]]
     )
     cursor.execute(addEvent, eventData)
     conn.commit()
