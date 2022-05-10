@@ -16,8 +16,8 @@ def test_createEvents(conn):
     schema = cursor.fetchall()
     assert ('event_ID', 'int(11)', 'NO', 'PRI', None, 'auto_increment') == schema[0]
     assert ('event_name', 'varchar(50)', 'NO', '', None, '') == schema[1]
-    assert ('start_time', 'bigint', 'NO', '', None, '') == schema[2]
-    assert ('duration', 'bigint', 'NO', '', None, '') == schema[3]
+    assert ('start_time', 'bigint(20)', 'NO', '', None, '') == schema[2]
+    assert ('duration', 'bigint(20)', 'NO', '', None, '') == schema[3]
     assert ('latitude', 'decimal(8,6)', 'NO', '', None, '') == schema[4]
     assert ('longitude', 'decimal(9,6)', 'NO', '', None, '') == schema[5]
     assert ('radius', 'int(11)', 'NO', '', None, '') == schema[6]
@@ -32,7 +32,7 @@ def test_createGroups(conn):
     assert ('group_ID', 'int(11)', 'NO', 'PRI', None, 'auto_increment') == schema[0]
     assert ('group_name', 'varchar(50)', 'NO', '', None, '') == schema[1]
     assert ('hostEmail', 'varchar(100)', 'NO', 'MUL', None, '') == schema[2]
-    assert ('emails', 'json', 'NO', '', None, '') == schema[3]
+    assert ('emails', 'longtext', 'NO', '', None, '') == schema[3]
 
 def test_createUsers(conn):
     cursor = conn.cursor()
