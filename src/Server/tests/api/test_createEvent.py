@@ -29,17 +29,17 @@ def test_createEvent_withoutID(hostToken, eventName, startTime, duration, locati
     cursor.execute(eventID)
     eventID = cursor.fetchone()
     cursor.execute(event, eventID)
-    event = cursor.fetchone()
+    eventDB = cursor.fetchone()
     conn.commit()
-    assert event[0] == eventID
-    assert event[1] == eventName
-    assert event[2] == startTime
-    assert event[3] == duration
-    assert event[4] == locationLat
-    assert event[5] == locationLong
-    assert event[6] == radius
-    assert event[7] == description
-    assert event[8] == hostEmail
+    assert eventDB[0] == eventID
+    assert eventDB[1] == eventName
+    assert eventDB[2] == startTime
+    assert eventDB[3] == duration
+    assert eventDB[4] == locationLat
+    assert eventDB[5] == locationLong
+    assert eventDB[6] == radius
+    assert eventDB[7] == description
+    assert eventDB[8] == hostEmail
 
 def test_createEvent_withID(events, hostToken, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     response = client.post(
@@ -64,17 +64,17 @@ def test_createEvent_withID(events, hostToken, otherEventName, otherStartTime, o
     )
     cursor = conn.cursor()
     cursor.execute(event, events["eventID"])
-    event = cursor.fetchone()
+    eventDB = cursor.fetchone()
     conn.commit()
-    assert event[0] == events["eventID"]
-    assert event[1] == otherEventName
-    assert event[2] == otherStartTime
-    assert event[3] == otherDuration
-    assert event[4] == otherLocationLat
-    assert event[5] == otherLocationLong
-    assert event[6] == otherRadius
-    assert event[7] == otherDescription
-    assert event[8] == events["hostEmail"]
+    assert eventDB[0] == events["eventID"]
+    assert eventDB[1] == otherEventName
+    assert eventDB[2] == otherStartTime
+    assert eventDB[3] == otherDuration
+    assert eventDB[4] == otherLocationLat
+    assert eventDB[5] == otherLocationLong
+    assert eventDB[6] == otherRadius
+    assert eventDB[7] == otherDescription
+    assert eventDB[8] == events["hostEmail"]
 
 def test_createEvent_missingParameters(client):
     response = client.post(
