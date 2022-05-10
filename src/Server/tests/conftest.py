@@ -283,7 +283,7 @@ def events(conn, eventName, startTime, duration, locationLat, locationLong, radi
         event["locationLong"],
         event["radius"],
         event["description"],
-        event[host["email"]]
+        event["hostEmail"]
     )
     cursor.execute(addEvent, eventData)
     conn.commit()
