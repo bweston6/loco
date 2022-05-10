@@ -66,7 +66,6 @@ def test_createGroup_invalidToken(host, groupName, emails, client):
             "emails": emails
         },
     )
-    print(response.json)
     assert response.json["error"] == "invalid token"
 
 # def test_createGroup_databaseError(host, conn, client):
