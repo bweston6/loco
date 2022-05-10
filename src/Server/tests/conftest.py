@@ -250,7 +250,7 @@ def description():
     return "This is a Lecture."
 
 @pytest.fixture()
-def events(conn, eventName, startTime, duration, locationLat, locationLong, description, hostEmail, emails):
+def events(conn, eventName, startTime, duration, locationLat, locationLong, radius, description, hostEmail, emails):
     cursor = conn.cursor()
     event = {"eventName": eventName, "startTime": startTime, "duration": duration, "locationLat": locationLat, "locationLong": locationLong, "radius": radius, "description": description, "hostEmail": hostEmail}
     event["emails"] = json.dumps(emails)
