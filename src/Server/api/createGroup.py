@@ -70,17 +70,18 @@ def createGroup():
             tokenValid = cursor.fetchone()[0]
             if tokenValid == 1:
                 cursor.execute(getHostEmail, (requestData["token"],))
+                requestData["hostEmail"] = cursor.fetchone()[0]
                 if groupIDExists:
                     groupData = (
                         requestData["groupID"],
                         requestData["groupName"],
-                        cursor.fetchone()[0],
+                        requestData["hostEmail"],
                         requestData["emails"],
                     )
                 else:
                     groupData = (
                         requestData["groupName"],
-                        cursor.fetchone()[0],
+                        requestData["hostEmail"],
                         requestData["emails"],
                     )
                     lastID = (
@@ -90,8 +91,14 @@ def createGroup():
                 conn.commit()
                 if (not groupIDExists): 
                     cursor.execute(lastID)
-                    groupData = cursor.fetchone() + groupData
+                    requestData["groupID"] = cursor.fetchone()[0]
                 db.closeConnection(conn)
+                groupData = (
+                    requestData["groupID"],
+                    requestData["groupName"],
+                    requestData["hostEmail"],
+                    json.loads(requestData["emails"])
+                )
                 return jsonify(groupData), 200
             else:
                 db.closeConnection(conn)
