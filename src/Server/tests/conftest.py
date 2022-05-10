@@ -358,6 +358,7 @@ def group(conn, groupName, hostEmail, emails):
     cursor.execute(addGroup, groupData)
     conn.commit()
     cursor.execute(lastID)
+    group["emails"] = json.loads(group["emails"])
     group["groupID"] = cursor.fetchone()[0]
     return group
 
