@@ -3,6 +3,7 @@ from Server import create_app
 from Server.auth import OTPs
 from datetime import datetime
 from freezegun import freeze_time
+from decimal import *
 import Server.database as db
 import jwt
 import os
