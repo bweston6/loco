@@ -7,7 +7,7 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
     token = ("""
         SELECT token
         FROM users
-        WHERE hostEmail = ?"""
+        WHERE email = ?"""
     )
     cursor.execute(token, (host["email"],))
     tokenH = cursor.fetchall()[0][0]
@@ -54,7 +54,7 @@ def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherD
     token = ("""
         SELECT token
         FROM users
-        WHERE hostEmail = ?"""
+        WHERE email = ?"""
     )
     cursor.execute(token, (host["email"],))
     tokenH = cursor.fetchall()[0][0]
