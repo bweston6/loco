@@ -250,7 +250,7 @@ def description():
     return "This is a Lecture."
 
 @pytest.fixture()
-def event(conn, eventName, startTime, duration, latitude, longitude, description, hostEmail, emails):
+def event(conn, eventName, startTime, duration, locationLat, locationLong, description, hostEmail, emails):
     cursor = conn.cursor()
     event = {"eventName": eventName, "startTime": startTime, "duration": duration, "locationLat": locationLat, "locationLong": locationLong,
     "radius": radius, "description": description, "hostEmail": hostEmail}
