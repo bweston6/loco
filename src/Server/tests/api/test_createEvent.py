@@ -9,7 +9,7 @@ def test_createEvent_withoutID(eventName, startTime, duration, locationLong, loc
         FROM users
         WHERE hostEmail = ?"""
     )
-    cursor.execute(token, (hostEmail,))
+    cursor.execute(token, hostEmail)
     tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
@@ -56,7 +56,7 @@ def test_createEvent_withID(events, otherEventName, otherStartTime, otherDuratio
         FROM users
         WHERE hostEmail = ?"""
     )
-    cursor.execute(token, (hostEmail,))
+    cursor.execute(token, hostEmail)
     tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
