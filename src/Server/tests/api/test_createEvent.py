@@ -40,7 +40,7 @@ def test_createEvent_withoutID(host, eventName, startTime, duration, locationLon
     assert eventDB[7] == description
     assert eventDB[8] == host["email"]
 
-def test_createEvent_withID(events, host, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
+def test_createEvent_withID(host, events, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     response = client.post(
         "/api/createEvent",
         json={
