@@ -240,11 +240,11 @@ def duration():
 
 @pytest.fixture()
 def locationLong():
-    return 34.737273
+    return Decimal('34.737273')
 
 @pytest.fixture()
 def locationLat():
-    return -22.124364
+    return Decimal('-22.124364')
 
 @pytest.fixture()
 def radius():
@@ -305,11 +305,11 @@ def otherDuration():
 
 @pytest.fixture()
 def otherLocationLong():
-    return 52.737273
+    return Decimal('52.737273')
 
 @pytest.fixture()
 def otherLocationLat():
-    return 12.124364
+    return Decimal('12.124364')
 
 @pytest.fixture()
 def otherRadius():
