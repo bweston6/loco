@@ -25,7 +25,7 @@ def test_createGroup_withoutID(host, groupName, emails, conn, client):
     assert group[0] == groupID+1
     assert group[1] == groupName
     assert group[2] == host["email"]
-    assert json.loads(group[3].decode("UTF-8")) == emails
+    assert json.loads(group[3]) == emails
 
 def test_createGroup_withID(host, group, otherGroupName, otherEmails, conn, client):
     response = client.post(
@@ -48,7 +48,7 @@ def test_createGroup_withID(host, group, otherGroupName, otherEmails, conn, clie
     assert groupGet[0] == group["groupID"]
     assert groupGet[1] == otherGroupName
     assert groupGet[2] == group["hostEmail"]
-    assert json.loads(groupGet[3].decode("UTF-8")) == otherEmails
+    assert json.loads(groupGet[3]) == otherEmails
 
 def test_createGroup_missingParameters(client):
     response = client.post(
