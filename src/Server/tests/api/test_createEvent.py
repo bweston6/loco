@@ -77,21 +77,29 @@ otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
     assert event[7] == otherDescription
     assert event[8] == event["hostEmail"]
 
-
-def test_createEvent_invalidToken(host, client):
-    response = client.post(
-        "/api/createEvent",
-        json={
-            "token": "idk",
-            "email": host["email"],
-        },
-    )
-    assert response.json["error"] == "invalid token"
-
 def test_createEvent_missingParameters(client):
     response = client.post(
         "/api/createEvent",
         json={},
     )
     assert response.json["error"] == "missing parameters"
+
+def test_createEvent_invalidToken(host, client):
+    response = client.post(
+        "/api/createEvent",
+        json={
+            "token": "idk",
+            "eventName": otherEventName,
+            "startTime": otherStartTime,
+            "duration": otherDuration,
+            "locationLat": otherLocationLat,
+            "locationLong": otherLocationLong,
+            "radius": otherRadius,
+            "description": otherDescription,
+            "emails": otherEmails
+        },
+    )
+    assert response.json["error"] == "invalid token"
+
+
 
