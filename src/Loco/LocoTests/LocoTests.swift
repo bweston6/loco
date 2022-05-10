@@ -2,8 +2,6 @@
 //  LocoTests.swift
 //  LocoTests
 //
-//  Created by Rostom bnehamada on 4/8/22.
-//  Copyright © 2022 Rostom bnehamada. All rights reserved.
 //
 
 import XCTest
@@ -11,15 +9,7 @@ import XCTest
 
 class LocoTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
     
     func testExample() {
         // This is an example of a functional test case.
@@ -27,9 +17,14 @@ class LocoTests: XCTestCase {
     }
     
     func testPerformanceExample() {
-        // This is an example of a performance test case.
+        // Performance tests for running speeds and elapsed times.
         self.measure {
-            // Put the code you want to measure the time of here.
+            metrics: [
+      XCTClockMetric(), 
+      XCTCPUMetric(),
+      XCTStorageMetric(), 
+      XCTMemoryMetric()
+    ]
         }
     }
     
