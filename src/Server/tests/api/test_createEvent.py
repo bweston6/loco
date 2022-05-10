@@ -87,7 +87,6 @@ def test_createEvent_invalidToken(host, client):
         },
     )
     assert response.json["error"] == "invalid token"
-    assert True
 
 def test_createEvent_missingParameters(client):
     response = client.post(
