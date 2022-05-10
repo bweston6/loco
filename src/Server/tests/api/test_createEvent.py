@@ -2,11 +2,18 @@ from freezegun import freeze_time
 
 @freeze_time("2000-09-06")
 
-def test_createEvent_withoutID(hostToken, eventName, startTime, duration, locationLong, locationLat, radius, description, emails, hostEmail, conn, client):
+def test_createEvent_withoutID(eventName, startTime, duration, locationLong, locationLat, radius, description, emails, hostEmail, conn, client):
+    token = ("""
+        SELECT token
+        FROM users
+        WHERE hostEmail = ?"""
+    )
+    cursor.execute(event, hostEmail)
+    tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
         json={
-            "token": hostToken,
+            "token": tokenH,
             "eventName": eventName,
             "startTime": startTime,
             "duration": duration,
@@ -41,12 +48,19 @@ def test_createEvent_withoutID(hostToken, eventName, startTime, duration, locati
     assert eventDB[7] == description
     assert eventDB[8] == hostEmail
 
-def test_createEvent_withID(events, hostToken, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
+def test_createEvent_withID(events, otherEventName, otherStartTime, otherDuration, otherLocationLat, otherLocationLong, otherRadius, otherDescription, otherEmails, conn, client):
+    token = ("""
+        SELECT token
+        FROM users
+        WHERE hostEmail = ?"""
+    )
+    cursor.execute(event, hostEmail)
+    tokenH = cursor.fetchall()[0][0]
     response = client.post(
         "/api/createEvent",
         json={
             "eventID": events["eventID"],
-            "token": hostToken,
+            "token": tokenH,
             "eventName": otherEventName,
             "startTime": otherStartTime,
             "duration": otherDuration,
