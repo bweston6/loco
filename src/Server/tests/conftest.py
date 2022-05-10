@@ -250,14 +250,14 @@ def group(conn, groupName, hostEmail, emails):
         "SELECT LAST_INSERT_ID()"
     )
     groupData = (
-        groupName,
-        hostEmail,
-        json.dumps(emails)
+        group["groupName"],
+        group["hostEmail"],
+        group["emails"]
     )
     cursor.execute(addGroup, groupData)
     conn.commit()
     cursor.execute(lastID)
-    group["groupID"] = cursor.fetchone()
+    group["groupID"] = cursor.fetchone()[0]
     return group
 
 @pytest.fixture()
