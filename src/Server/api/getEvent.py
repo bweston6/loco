@@ -52,6 +52,11 @@ def getEvent():
                 FROM events
                 WHERE event_ID = ?
             """
+            
+            query3 = """SELECT email
+                FROM attendance
+                WHERE email = ?
+            """
 
             conn = db.openConnection()
             cursor = conn.cursor()
@@ -61,6 +66,8 @@ def getEvent():
             if tokenValid == 1:
                 cursor.execute(query2, (requestData["eventID"],))
                 event = cursor.fetchone()
+                cursor.execute(query3, (requestData["email"],))
+                event["emails"] = cursor.fetchall()
                 if event is None:
                     return jsonify(error="invalid event ID"), 400
                 if auth.checkHostToken(requestData["token"], cursor):
@@ -75,7 +82,7 @@ def getEvent():
                         "radius": event[6],
                         "description": event[7],
                         "hostEmail": event[8],
-                        # "emails": event[9], // not valid, you'll have to query attendance
+                        "emails": event[9],
                     }
                 else:
                     # if requesting attendee
