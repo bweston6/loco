@@ -1,5 +1,4 @@
 # Gunan
-# mans on it still
 
 from Server import database as db
 from flask import jsonify
