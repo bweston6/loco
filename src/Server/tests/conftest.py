@@ -416,6 +416,8 @@ def otherEmails():
     ]
 
 """Attendance Fixtures"""
+
+@pytest.fixture()
 def attendances(conn, eventID, attendeeEmail):
     cursor = conn.cursor()
     attendance = {"eventID": eventID, "attendeeEmail": attendeeEmail}
