@@ -432,5 +432,5 @@ def attendances(conn, events, attendee):
     cursor.execute(setAttendance, attendanceData)
     conn.commit()
     cursor.execute(getAttendance, attendanceData)
-    attendance["attendanceFlag"] = cursor.fetchone()[0]
+    attendance["attendanceFlag"] = cursor.fetchone()[0][0]
     return attendance
