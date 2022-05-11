@@ -41,7 +41,7 @@ def getEvent():
             # validation of token
             query1 = """SELECT EXISTS (
                 SELECT *
-                FROM events
+                FROM users
                 WHERE token = ?
                 LIMIT 1
             )
