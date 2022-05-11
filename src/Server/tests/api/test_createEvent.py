@@ -1,7 +1,3 @@
-from freezegun import freeze_time
-
-
-@freeze_time("2000-09-06")
 def test_createEvent_withoutID(
     host,
     eventName,
