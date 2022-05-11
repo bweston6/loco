@@ -9,7 +9,7 @@ def test_getEvent(host, events, client):
             "eventID": events["eventID"],
         }
     )
-    assert response.json["eventID"] == events["eventID"]
+    assert response.json["eventId"] == events["eventID"]
     assert response.json["eventName"] == events["eventName"]
     assert response.json["startTime"] == events["startTime"]
     assert response.json["duration"] == events["duration"]
