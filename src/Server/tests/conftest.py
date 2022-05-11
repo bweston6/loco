@@ -418,13 +418,19 @@ def otherEmails():
 """Attendance Fixtures"""
 
 @pytest.fixture()
-def attendances(conn, events, attendeeEmail):
+def attendances(conn, events, attendee):
     cursor = conn.cursor()
-    attendance = {"eventID": events["eventID"], "attendeeEmail": attendeeEmail}
+    attendance = {"eventID": events["eventID"], "attendeeEmail": attendee["email"]}
     setAttendance = """ UPDATE attendance
                 SET attendance_flag = "True"
                 WHERE event_ID = ? AND email = ?"""
-    attendanceData = (events["eventID"], attendance["attendeeEmail"])
+    getAttendance = """ SELECT attendance_flag
+                FROM attendance
+                WHERE event_ID = ? AND email = ?
+            """
+    attendanceData = (attendance["eventID"], attendance["email"])
     cursor.execute(setAttendance, attendanceData)
     conn.commit()
+    cursor.execute(getAttendance, attendanceData)
+    attendance["attendanceFlag"] = cursor.fetchone()[0]
     return attendance
