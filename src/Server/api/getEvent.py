@@ -1,6 +1,6 @@
 # being worked on by timi
 
-from Server import database as db
+from Server import auth, database as db
 from flask import jsonify
 from flask import request
 from mariadb import Error
@@ -60,8 +60,33 @@ def getEvent():
             if tokenValid == 1:
                 cursor.execute(query2, (requestData["eventID"],))
                 event = cursor.fetchone()
-                event = {"eventID": event[0]}
-
+                if event is None:
+                    return jsonify(error="event ID does not exist"), 400
+                if auth.checkHostEmail(requestData["email"], cursor):
+                    # if requesting host
+                    event = {
+                    "eventID": event[0],
+                    "eventName": event[1],
+                    "startTime": event[2],
+                    "duration": event[3],
+                    "locationLat": event[4],
+                    "locationLong": event[5],
+                    "radius": event[6],
+                    "description": event[7],
+                    #"email": event[8],
+                }
+                else:
+                    # if requesting attendee
+                    event = {
+                    "eventID": event[0],
+                    "eventName": event[1],
+                    "startTime": event[2],
+                    "duration": event[3],
+                    "locationLat": event[4],
+                    "locationLong": event[5],
+                    "radius": event[6],
+                    "description": event[7],
+                }
                 return jsonify(event), 200
 
             else:
