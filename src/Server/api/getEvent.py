@@ -67,7 +67,7 @@ def getEvent():
                 cursor.execute(query2, (requestData["eventID"],))
                 event = cursor.fetchone()
                 cursor.execute(query3, (requestData["email"],))
-                event["emails"] = cursor.fetchall()
+                event = cursor.fetchall()
                 if event is None:
                     return jsonify(error="invalid event ID"), 400
                 if auth.checkHostToken(requestData["token"], cursor):
