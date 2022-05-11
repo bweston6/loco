@@ -37,7 +37,7 @@ def getEvent():
     """
     try:
         requestData = request.get_json()
-        if "eventId" in requestData and "token" in requestData:
+        if "eventID" in requestData and "token" in requestData:
             # validation of token
             query1 = """SELECT EXISTS (
                 SELECT *
@@ -49,7 +49,7 @@ def getEvent():
 
             query2 = """SELECT *
                 FROM events
-                WHERE eventId = ?
+                WHERE event_ID = ?
             """
 
             conn = db.openConnection()
@@ -58,9 +58,9 @@ def getEvent():
             tokenValid = cursor.fetchone()[0]
 
             if tokenValid == 1:
-                cursor.execute(query2, (requestData["eventId"],))
+                cursor.execute(query2, (requestData["eventID"],))
                 event = cursor.fetchone()
-                event = {"eventId": event[0]}
+                event = {"eventID": event[0]}
 
                 return jsonify(event), 200
 
