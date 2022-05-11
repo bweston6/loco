@@ -414,3 +414,16 @@ def otherEmails():
         "k@gmail.com",
         "l@gmail.com",
     ]
+
+"""Attendance Fixtures"""
+def attendance(conn, eventID, attendeeEmail):
+    cursor = conn.cursor()
+    attendance = {"eventID": eventID, "attendeeEmail": attendeeEmail}
+    setAttendance = """ UPDATE attendance
+                SET attendance_flag = "True"
+                WHERE eventID = ? AND email = ?
+            """
+    attendanceData = (attendance["eventID"], attendance["hostEmail"], attendance["attendeeEmail"])
+    cursor.execute(setAttendance, attendanceData)
+    conn.commit()
+    return attendance
