@@ -418,9 +418,9 @@ def otherEmails():
 """Attendance Fixtures"""
 
 @pytest.fixture()
-def attendances(conn, eventID, attendeeEmail):
+def attendances(conn, events, attendeeEmail):
     cursor = conn.cursor()
-    attendance = {"eventID": eventID, "attendeeEmail": attendeeEmail}
+    attendance = {"eventID": events["eventID"], "attendeeEmail": attendeeEmail}
     setAttendance = """ UPDATE attendance
                 SET attendance_flag = "True"
                 WHERE eventID = ? AND email = ?"""
