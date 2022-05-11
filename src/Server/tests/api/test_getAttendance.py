@@ -1,13 +1,13 @@
-def test_getAttendance(host, attendee, events, attendances, client):
-    response = client.post(
-        "/api/getAttendance",
-        json={
-            "token": attendee["token"],
-            "email": attendee["email"],
-            "event_ID": events["eventID"],
-        },
-    )
-    assert response.json["attendanceFlag"] == attendances["attendanceFlag"]
+#def test_getAttendance(host, attendee, events, attendances, client):
+#    response = client.post(
+#        "/api/getAttendance",
+#        json={
+#            "token": attendee["token"],
+#            "email": attendee["email"],
+#            "event_ID": events["eventID"],
+#        },
+#    )
+#    assert response.json["attendanceFlag"] == attendances["attendanceFlag"] 
     
 def test_getAttendance_missingParameters(client):
     response = client.post(
