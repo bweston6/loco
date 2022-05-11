@@ -423,7 +423,7 @@ def attendance(conn, eventID, attendeeEmail):
                 SET attendance_flag = "True"
                 WHERE eventID = ? AND email = ?
             """
-    attendanceData = (attendance["eventID"], attendance["hostEmail"], attendance["attendeeEmail"])
+    attendanceData = (attendance["eventID"], attendance["attendeeEmail"])
     cursor.execute(setAttendance, attendanceData)
     conn.commit()
     return attendance
