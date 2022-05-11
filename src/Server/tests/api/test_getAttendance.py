@@ -1,4 +1,4 @@
-def test_getAttendance(attendee, events, attendances, client):
+def test_getAttendance(host, attendee, events, attendances, client):
     response = client.post(
         "/api/getAttendance",
         json={
@@ -16,7 +16,7 @@ def test_getAttendance_missingParameters(client):
     )
     assert response.json["error"] == "missing parameters"
 
-def test_getAttendance_invalidToken(attendee, events, attendances, client):
+def test_getAttendance_invalidToken(host, attendee, events, attendances, client):
     response = client.post(
         "/api/getAttendance",
         json={
@@ -27,7 +27,7 @@ def test_getAttendance_invalidToken(attendee, events, attendances, client):
     )
     assert response.json["error"] == "invalid token"
 
-def test_getAttendance_invalidEventID(attendee, events, attendances, client):
+def test_getAttendance_invalidEventID(host, attendee, events, attendances, client):
     response = client.post(
         "/api/getEvent",
         json={
@@ -38,7 +38,7 @@ def test_getAttendance_invalidEventID(attendee, events, attendances, client):
     )
     assert response.json["error"] == "invalid event ID"
 
-def test_getAttendance_invalidEmail(attendee, host, events, attendances, client):
+def test_getAttendance_invalidEmail(host, attendee, events, attendances, client):
     response = client.post(
         "/api/getAttendance",
         json={
