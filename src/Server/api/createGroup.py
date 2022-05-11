@@ -84,12 +84,10 @@ def createGroup():
                         requestData["hostEmail"],
                         requestData["emails"],
                     )
-                    lastID = (
-                        "SELECT LAST_INSERT_ID()"
-                    )
+                    lastID = "SELECT LAST_INSERT_ID()"
                 cursor.execute(addGroup, groupData)
                 conn.commit()
-                if (not groupIDExists): 
+                if not groupIDExists:
                     cursor.execute(lastID)
                     requestData["groupID"] = cursor.fetchone()[0]
                 db.closeConnection(conn)
@@ -97,7 +95,7 @@ def createGroup():
                     requestData["groupID"],
                     requestData["groupName"],
                     requestData["hostEmail"],
-                    json.loads(requestData["emails"])
+                    json.loads(requestData["emails"]),
                 )
                 return jsonify(groupData), 200
             else:

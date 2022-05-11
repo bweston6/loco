@@ -50,10 +50,14 @@ def runner(app):
 def conn():
     connection = db.openConnection()
     cursor = connection.cursor()
-    dropAttendance = ("DROP TABLE IF EXISTS attendance"); cursor.execute(dropAttendance)
-    dropEvents = ("DROP TABLE IF EXISTS events"); cursor.execute(dropEvents)
-    dropGroups = ("DROP TABLE IF EXISTS `groups`"); cursor.execute(dropGroups)
-    dropUsers = ("DROP TABLE IF EXISTS users"); cursor.execute(dropUsers)
+    dropAttendance = "DROP TABLE IF EXISTS attendance"
+    cursor.execute(dropAttendance)
+    dropEvents = "DROP TABLE IF EXISTS events"
+    cursor.execute(dropEvents)
+    dropGroups = "DROP TABLE IF EXISTS `groups`"
+    cursor.execute(dropGroups)
+    dropUsers = "DROP TABLE IF EXISTS users"
+    cursor.execute(dropUsers)
     db.createTables(cursor)
     yield connection
     db.closeConnection(connection)
@@ -225,43 +229,71 @@ def otherAttendee(conn, otherAttendeeName, otherAttendeeEmail, otherAttendeeOTP)
     conn.commit()
     return user
 
+
 """Event Creation Fixtures"""
+
 
 @pytest.fixture()
 def eventName():
     return "Lecture"
 
+
 @pytest.fixture()
 def startTime():
     return 1649329200
+
 
 @pytest.fixture()
 def duration():
     return 2
 
+
 @pytest.fixture()
 def locationLong():
-    return Decimal('34.737273')
+    return Decimal("34.737273")
+
 
 @pytest.fixture()
 def locationLat():
-    return Decimal('-22.124364')
+    return Decimal("-22.124364")
+
 
 @pytest.fixture()
 def radius():
     return 200
 
+
 @pytest.fixture()
 def description():
     return "This is a Lecture."
 
+
 @pytest.fixture()
-def events(conn, eventName, startTime, duration, locationLat, locationLong, radius, description, hostEmail, emails):
+def events(
+    conn,
+    eventName,
+    startTime,
+    duration,
+    locationLat,
+    locationLong,
+    radius,
+    description,
+    hostEmail,
+    emails,
+):
     cursor = conn.cursor()
-    event = {"eventName": eventName, "startTime": startTime, "duration": duration, "locationLat": locationLat, "locationLong": locationLong, "radius": radius, "description": description, "hostEmail": hostEmail}
+    event = {
+        "eventName": eventName,
+        "startTime": startTime,
+        "duration": duration,
+        "locationLat": locationLat,
+        "locationLong": locationLong,
+        "radius": radius,
+        "description": description,
+        "hostEmail": hostEmail,
+    }
     event["emails"] = json.dumps(emails)
-    addEvent = (
-        """INSERT INTO `events` (
+    addEvent = """INSERT INTO `events` (
         event_name, 
         start_time, 
         duration,
@@ -271,10 +303,7 @@ def events(conn, eventName, startTime, duration, locationLat, locationLong, radi
         description,
         hostEmail)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)"""
-    )
-    lastID = (
-        "SELECT LAST_INSERT_ID()"
-    )
+    lastID = "SELECT LAST_INSERT_ID()"
     eventData = (
         event["eventName"],
         event["startTime"],
@@ -283,7 +312,7 @@ def events(conn, eventName, startTime, duration, locationLat, locationLong, radi
         event["locationLong"],
         event["radius"],
         event["description"],
-        event["hostEmail"]
+        event["hostEmail"],
     )
     cursor.execute(addEvent, eventData)
     conn.commit()
@@ -292,39 +321,49 @@ def events(conn, eventName, startTime, duration, locationLat, locationLong, radi
     event["eventID"] = cursor.fetchone()[0]
     return event
 
+
 @pytest.fixture()
 def otherEventName():
     return "notLecture"
+
 
 @pytest.fixture()
 def otherStartTime():
     return 1649329210
 
+
 @pytest.fixture()
 def otherDuration():
     return 3
 
+
 @pytest.fixture()
 def otherLocationLong():
-    return Decimal('52.737273')
+    return Decimal("52.737273")
+
 
 @pytest.fixture()
 def otherLocationLat():
-    return Decimal('12.124364')
+    return Decimal("12.124364")
+
 
 @pytest.fixture()
 def otherRadius():
     return 300
 
+
 @pytest.fixture()
 def otherDescription():
     return "This is not a Lecture."
-    
+
+
 """Group Creation Fixtures"""
+
 
 @pytest.fixture()
 def groupName():
     return "COMP208"
+
 
 @pytest.fixture()
 def emails():
@@ -334,8 +373,9 @@ def emails():
         "c@gmail.com",
         "d@gmail.com",
         "e@gmail.com",
-        "f@gmail.com"
+        "f@gmail.com",
     ]
+
 
 @pytest.fixture()
 def group(conn, groupName, hostEmail, emails):
@@ -349,14 +389,8 @@ def group(conn, groupName, hostEmail, emails):
         "emails) "
         "VALUES (?, ?, ?)"
     )
-    lastID = (
-        "SELECT LAST_INSERT_ID()"
-    )
-    groupData = (
-        group["groupName"],
-        group["hostEmail"],
-        group["emails"]
-    )
+    lastID = "SELECT LAST_INSERT_ID()"
+    groupData = (group["groupName"], group["hostEmail"], group["emails"])
     cursor.execute(addGroup, groupData)
     conn.commit()
     cursor.execute(lastID)
@@ -364,9 +398,11 @@ def group(conn, groupName, hostEmail, emails):
     group["groupID"] = cursor.fetchone()[0]
     return group
 
+
 @pytest.fixture()
 def otherGroupName():
     return "notCOMP208"
+
 
 @pytest.fixture()
 def otherEmails():
@@ -376,5 +412,5 @@ def otherEmails():
         "i@gmail.com",
         "j@gmail.com",
         "k@gmail.com",
-        "l@gmail.com"
+        "l@gmail.com",
     ]

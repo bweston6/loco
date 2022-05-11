@@ -1,5 +1,6 @@
 from freezegun import freeze_time
 
+
 @freeze_time("2000-09-06")
 def test_getEvent(host, events, client):
     response = client.post(
@@ -7,7 +8,7 @@ def test_getEvent(host, events, client):
         json={
             "token": host["token"],
             "eventID": events["eventID"],
-        }
+        },
     )
     assert response.json["eventID"] == events["eventID"]
     assert response.json["eventName"] == events["eventName"]
@@ -17,13 +18,15 @@ def test_getEvent(host, events, client):
     assert response.json["locationLong"] == events["locationLong"]
     assert response.json["radius"] == events["radius"]
     assert response.json["description"] == events["description"]
-   
+
+
 def test_getEvent_missingParameters(client):
     response = client.post(
         "/api/getEvent",
         json={},
     )
     assert response.json["error"] == "missing parameters"
+
 
 def test_getEvent_invalidToken(host, events, client):
     response = client.post(
@@ -34,6 +37,7 @@ def test_getEvent_invalidToken(host, events, client):
         },
     )
     assert response.json["error"] == "invalid token"
+
 
 def test_getEvent_invalidEventID(host, events, client):
     response = client.post(
