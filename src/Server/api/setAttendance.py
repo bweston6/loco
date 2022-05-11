@@ -5,6 +5,7 @@ from Server import database as db
 from flask import jsonify
 from flask import request
 from mariadb import Error
+import jwt
 import logging
 
 setAttendanceBP = Blueprint("setAttendance", __name__)
