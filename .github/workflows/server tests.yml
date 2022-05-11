@@ -46,4 +46,4 @@ jobs:
           MARIADB_ROOT_PASSWORD: ${{ secrets.KEY }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
-        pytest src/Server
+        pytest -x src/Server
