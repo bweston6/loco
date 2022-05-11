@@ -1,5 +1,4 @@
 # Gunan
-# incomplete still
 
 from flask import Blueprint
 from Server import database as db
