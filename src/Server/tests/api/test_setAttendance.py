@@ -7,7 +7,7 @@ def test_setAttendance(host, attendee, events, client, attendance):
             "eventID": events["eventID"]
         },
     )
-    assert attendance["attendance_flag"] == True
+    assert attendance["attendanceFlag"] == True
     
 def test_setAttendance_missingParameters(client):
     response = client.post(
