@@ -65,28 +65,28 @@ def getEvent():
                 if auth.checkHostEmail(requestData["email"], cursor):
                     # if requesting host
                     event = {
-                    "eventID": event[0],
-                    "eventName": event[1],
-                    "startTime": event[2],
-                    "duration": event[3],
-                    "locationLat": event[4],
-                    "locationLong": event[5],
-                    "radius": event[6],
-                    "description": event[7],
-                    #"email": event[8],
-                }
+                        "eventID": event[0],
+                        "eventName": event[1],
+                        "startTime": event[2],
+                        "duration": event[3],
+                        "locationLat": event[4],
+                        "locationLong": event[5],
+                        "radius": event[6],
+                        "description": event[7],
+                        #"email": [],
+                    }
                 else:
                     # if requesting attendee
                     event = {
-                    "eventID": event[0],
-                    "eventName": event[1],
-                    "startTime": event[2],
-                    "duration": event[3],
-                    "locationLat": event[4],
-                    "locationLong": event[5],
-                    "radius": event[6],
-                    "description": event[7],
-                }
+                        "eventID": event[0],
+                        "eventName": event[1],
+                        "startTime": event[2],
+                        "duration": event[3],
+                        "locationLat": event[4],
+                        "locationLong": event[5],
+                        "radius": event[6],
+                        "description": event[7],
+                    }
                 return jsonify(event), 200
 
             else:
