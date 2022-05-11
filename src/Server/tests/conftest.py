@@ -428,7 +428,7 @@ def attendances(conn, events, attendee):
                 FROM attendance
                 WHERE event_ID = ? AND email = ?
             """
-    attendanceData = (attendance["eventID"], attendance["email"])
+    attendanceData = (attendance["eventID"], attendance["attendeeEmail"])
     cursor.execute(setAttendance, attendanceData)
     conn.commit()
     cursor.execute(getAttendance, attendanceData)
