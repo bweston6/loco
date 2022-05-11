@@ -28,22 +28,33 @@ def getAttendance():
     """
     try:
         requestData = request.get_json()
-        if (
-            "token" in requestData
-            and "email" in requestData
-            and "eventID" in requestData
-        ):
+        if ("token" in requestData and "email" in requestData and "eventID" in requestData):
+            queryValidate = """SELECT EXISTS (
+                    SELECT *
+                    FROM users
+                    WHERE token = ? AND host_flag IS TRUE
+                    LIMIT 1)"""
+                    
             q1 = """ SELECT attendance_flag
                 FROM attendance
-                WHERE email = ?
+                WHERE event_ID = ? AND email = ?
             """
+            attendanceData = (
+                        requestData["eventID"],
+                        requestData["email"],
+                    )
             conn = db.openConnection()
             cursor = conn.cursor()
-            cursor.execute(q1, (requestData["email"],))
-            attendance = cursor.fetchone()[0]
-
-            return attendance
-
+            cursor.execute(queryValidate, (requestData["token"],))
+            tokenValid = cursor.fetchone()[0]
+            if tokenValid == 1:
+                cursor.execute(q1, attendanceData)
+                attendanceFlag = cursor.fetchall()[0][0]
+                db.closeConnection(conn)
+                return attendanceFlag, 200
+            else:
+                db.closeConnection(conn)
+                raise jwt.InvalidTokenError
         else:
             return jsonify(error="missing parameters"), 400
 
