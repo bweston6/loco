@@ -416,14 +416,13 @@ def otherEmails():
     ]
 
 """Attendance Fixtures"""
-def attendance(conn, eventID, attendeeEmail):
+def attendances(conn, eventID, attendeeEmail):
     cursor = conn.cursor()
-    attendances = {"eventID": eventID, "attendeeEmail": attendeeEmail}
+    attendance = {"eventID": eventID, "attendeeEmail": attendeeEmail}
     setAttendance = """ UPDATE attendance
                 SET attendance_flag = "True"
-                WHERE eventID = ? AND email = ?
-            """
+                WHERE eventID = ? AND email = ?"""
     attendanceData = (attendance["eventID"], attendance["attendeeEmail"])
     cursor.execute(setAttendance, attendanceData)
     conn.commit()
-    return attendances
+    return attendance
