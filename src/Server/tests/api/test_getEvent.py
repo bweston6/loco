@@ -18,7 +18,6 @@ def test_getEvent(host, events, client):
     assert response.json["radius"] == events["radius"]
     assert response.json["description"] == events["description"]
     assert response.json["email"] == events["hostEmail"]
-    assert not "error" in response.json
    
 def test_getEvent_missingParameters(client):
     response = client.post(
@@ -31,7 +30,7 @@ def test_getEvent_invalidToken(host, events, client):
     response = client.post(
         "/api/getEvent",
         json={
-            "token": "",
+            "token": "test",
             "eventID": events["eventID"],
         },
     )
@@ -45,4 +44,4 @@ def test_getEvent_invalidEventID(host, events, client):
             "eventID": 0000000000000,
         },
     )
-    assert response.json["error"] == "invalid token"
+    assert response.json["error"] == "invalid event ID"
