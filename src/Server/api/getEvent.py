@@ -73,7 +73,7 @@ def getEvent():
                         "locationLong": event[5],
                         "radius": event[6],
                         "description": event[7],
-                        #"email": [],
+                        "hostEmail": event[8],
                     }
                 else:
                     # if requesting attendee
@@ -88,7 +88,6 @@ def getEvent():
                         "description": event[7],
                     }
                 return jsonify(event), 200
-
             else:
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
