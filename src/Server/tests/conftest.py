@@ -430,7 +430,7 @@ def attendances(conn, events, attendee):
             """
     attendanceData = (attendance["eventID"], attendance["attendeeEmail"])
     cursor.execute(setAttendance, attendanceData)
-    cursor.execute(getAttendance, attendanceData)
-    attendance["attendanceFlag"] = cursor.fetchone()[0][0]
     conn.commit()
+    cursor.execute(getAttendance, attendanceData)
+    attendance["attendanceFlag"] = cursor.fetchall()[0][0]
     return attendance
