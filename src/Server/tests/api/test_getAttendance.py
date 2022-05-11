@@ -37,3 +37,14 @@ def test_getAttendance_invalidEventID(attendee, host, events, attendances, clien
         },
     )
     assert response.json["error"] == "invalid event ID"
+
+def test_getAttendance_invalidEmail(attendee, host, events, attendances, client):
+    response = client.post(
+        "/api/getAttendance",
+        json={
+            "token": attendee["token"],
+            "email": "test@bweston.uk",
+            "eventID": events["eventID"],
+        },
+    )
+    assert response.json["error"] == "email is not registered"

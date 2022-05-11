@@ -423,7 +423,7 @@ def attendances(conn, events, attendeeEmail):
     attendance = {"eventID": events["eventID"], "attendeeEmail": attendeeEmail}
     setAttendance = """ UPDATE attendance
                 SET attendance_flag = "True"
-                WHERE eventID = ? AND email = ?"""
+                WHERE event_ID = ? AND email = ?"""
     attendanceData = (events["eventID"], attendance["attendeeEmail"])
     cursor.execute(setAttendance, attendanceData)
     conn.commit()
