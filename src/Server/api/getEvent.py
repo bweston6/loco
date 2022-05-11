@@ -62,7 +62,7 @@ def getEvent():
                 event = cursor.fetchone()
                 if event is None:
                     return jsonify(error="event ID does not exist"), 400
-                if auth.checkHostEmail(requestData["email"], cursor):
+                if auth.checkHostToken(requestData["token"], cursor):
                     # if requesting host
                     event = {
                         "eventID": event[0],
