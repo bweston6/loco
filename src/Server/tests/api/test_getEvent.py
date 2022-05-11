@@ -17,7 +17,6 @@ def test_getEvent(host, events, client):
     assert response.json["locationLong"] == events["locationLong"]
     assert response.json["radius"] == events["radius"]
     assert response.json["description"] == events["description"]
-    assert response.json["email"] == events["hostEmail"]
    
 def test_getEvent_missingParameters(client):
     response = client.post(
