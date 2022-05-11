@@ -61,7 +61,7 @@ def getEvent():
                 cursor.execute(query2, (requestData["eventID"],))
                 event = cursor.fetchone()
                 if event is None:
-                    return jsonify(error="event ID does not exist"), 400
+                    return jsonify(error="invalid event ID"), 400
                 if auth.checkHostToken(requestData["token"], cursor):
                     # if requesting host
                     event = {
