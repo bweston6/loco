@@ -75,7 +75,7 @@ def getEvent():
                         "radius": event[6],
                         "description": event[7],
                         "hostEmail": event[8],
-                        "emails": event[9],
+                        # "emails": event[9], // not valid, you'll have to query attendance
                     }
                 else:
                     # if requesting attendee
