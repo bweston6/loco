@@ -3,7 +3,7 @@ from Server import create_app
 from Server.auth import OTPs
 from datetime import datetime
 from freezegun import freeze_time
-from decimal import *
+#from decimal import *
 import Server.database as db
 import jwt
 import os
@@ -241,11 +241,13 @@ def duration():
 
 @pytest.fixture()
 def locationLong():
-    return Decimal('34.737273')
+#    return Decimal('34.737273')
+    return '34.737273'
 
 @pytest.fixture()
 def locationLat():
-    return Decimal('-22.124364')
+#    return Decimal('-22.124364')
+    return '-22.124364'
 
 @pytest.fixture()
 def radius():
@@ -306,11 +308,13 @@ def otherDuration():
 
 @pytest.fixture()
 def otherLocationLong():
-    return Decimal('52.737273')
+#    return Decimal('52.737273')
+    return '52.737273'
 
 @pytest.fixture()
 def otherLocationLat():
-    return Decimal('12.124364')
+#    return Decimal('12.124364')
+    return '12.124364'
 
 @pytest.fixture()
 def otherRadius():
