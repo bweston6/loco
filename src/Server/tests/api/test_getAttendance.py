@@ -7,7 +7,7 @@ def test_getAttendance(attendee, host, events, attendances, client):
             "eventID": events["eventID"],
         },
     )
-    assert response.json["attendance"] == attendance["attendance_flag"]
+    assert response.json["attendance"] == attendances["attendance_flag"]
     
 def test_getAttendance_missingParameters(attendee, host, events, attendances, client):
     response = client.post(
