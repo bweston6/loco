@@ -1,12 +1,13 @@
 # being worked on by timi
 
 from Server import auth, database as db
+from flask import Blueprint
 from flask import jsonify
 from flask import request
 from mariadb import Error
-import logging
 import jwt
-from flask import Blueprint
+import logging
+import simplejson as sjson
 
 getEventBP = Blueprint("getEvent", __name__)
 
@@ -87,7 +88,11 @@ def getEvent():
                         "radius": event[6],
                         "description": event[7],
                     }
-                return jsonify(event), 200
+                return (
+                    sjson.dumps(event),
+                    200,
+                    {"Content-Type": "application/json; charset=utf-8"},
+                )
             else:
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
