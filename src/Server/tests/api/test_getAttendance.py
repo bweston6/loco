@@ -2,7 +2,7 @@ def test_getAttendance(host, attendee, events, attendances, client):
     response = client.post(
         "/api/getAttendance",
         json={
-            "token": attendee["token"],
+            "token": host["token"],
             "email": attendee["email"],
             "event_ID": events["eventID"],
         },
@@ -31,7 +31,7 @@ def test_getAttendance_missingParameters(client):
 #    response = client.post(
 #        "/api/getEvent",
 #        json={
-#            "token": attendee["token"],
+#            "token": host["token"],
 #            "email": attendee["email"],
 #            "eventID": 0000000000000,
 #        },
@@ -42,7 +42,7 @@ def test_getAttendance_missingParameters(client):
 #    response = client.post(
 #        "/api/getAttendance",
 #        json={
-#            "token": attendee["token"],
+#            "token": host["token"],
 #            "email": "test@bweston.uk",
 #            "eventID": events["eventID"],
 #        },

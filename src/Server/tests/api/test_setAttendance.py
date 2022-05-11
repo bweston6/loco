@@ -2,7 +2,7 @@ def test_setAttendance(host, attendee, events, client, attendance):
     response = client.post(
         "/api/setAttendance",
         json={
-            "token": attendee["token"],
+            "token": host["token"],
             "email": attendee["email"],
             "eventID": events["eventID"]
         },
@@ -31,7 +31,7 @@ def test_setAttendance_invalidEventID(host, attendee, events, attendances, clien
     response = client.post(
         "/api/setAttendance",
         json={
-            "token": attendee["token"],
+            "token": host["token"],
             "email": attendee["email"],
             "eventID": 0000000000000,
         },
@@ -42,7 +42,7 @@ def test_setAttendance_invalidEmail(host, attendee, events, attendances, client)
     response = client.post(
         "/api/setAttendance",
         json={
-            "token": attendee["token"],
+            "token": host["token"],
             "email": "test@bweston.uk",
             "eventID": events["eventID"],
         },

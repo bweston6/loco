@@ -418,7 +418,7 @@ def otherEmails():
 """Attendance Fixtures"""
 @pytest.fixture()
 def flag():
-    return True
+    return False
 
 @pytest.fixture()
 def attendances(conn, events, flag, attendee):
