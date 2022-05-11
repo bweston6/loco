@@ -1,4 +1,4 @@
-def test_getAttendance(host,attendee,events, attendance, client):
+def test_getAttendance(attendee, events, attendance, client):
     response = client.post(
         "/api/getAttendance",
         json={
