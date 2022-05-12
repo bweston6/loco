@@ -34,6 +34,7 @@ def setAttendance():
             "token" in requestData
             and "email" in requestData
             and "eventID" in requestData
+            and "attended" in requestData
         ):
             queryValidate = """SELECT EXISTS (
                     SELECT *
@@ -41,13 +42,13 @@ def setAttendance():
                     WHERE token = ? AND host_flag IS TRUE
                     LIMIT 1)"""
 
-            q1 = """ UPDATE attendance
-                SET attendance_flag = "True"
-                WHERE event_ID = ? AND email = ?
+            q1 = """REPLACE INTO attendance
+                VALUES (?, ?, ?)
             """
             attendanceData = (
-                requestData["eventID"],
                 requestData["email"],
+                requestData["eventID"],
+                requestData["attended"],
             )
             conn = db.openConnection()
             cursor = conn.cursor()
@@ -55,15 +56,18 @@ def setAttendance():
             tokenValid = cursor.fetchone()[0]
             if tokenValid == 1:
                 cursor.execute(q1, attendanceData)
-                attendanceFlag = cursor.fetchall()[0][0]
+                conn.commit()
                 db.closeConnection(conn)
-                return attendanceFlag, 200
+                return jsonify(success=True), 200
             else:
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
         else:
             return jsonify(error="missing parameters"), 400
-
+    except jwt.InvalidTokenError:
+        logging.info("Attendance set attempted with invalid token")
+        return jsonify(error="invalid token"), 401
     except Error as e:
         logging.error(e)
+        db.closeConnection(conn)
         return jsonify(error="database error"), 500
