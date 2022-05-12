@@ -45,7 +45,7 @@ def setAttendance():
             validateID = """SELECT EXISTS (
                     SELECT *
                     FROM events
-                    WHERE eventID = ?
+                    WHERE event_ID = ?
                     LIMIT 1)"""
 
             q1 = """REPLACE INTO attendance
