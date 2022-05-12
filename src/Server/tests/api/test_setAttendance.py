@@ -5,7 +5,7 @@ def test_setAttendance(host, attendeeEmail, events, client, conn):
             "token": host["token"],
             "email": attendeeEmail,
             "eventID": events["eventID"],
-            "attendanceFlag": True
+            "attended": True
         },
     )
     cursor = conn.cursor()
