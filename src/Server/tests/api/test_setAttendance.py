@@ -5,16 +5,18 @@ def test_setAttendance(host, attendee, events, client, conn):
             "token": host["token"],
             "email": attendee["email"],
             "eventID": events["eventID"],
-            "attended": True
+            "attendanceFlag": True
         },
     )
     cursor = conn.cursor()
-    query = """SELECT attendance_flag
+    attendance = """SELECT *
                 FROM attendance
                 WHERE email=? AND event_ID=?
     """
-    cursor.execute(query, (attendee["email"], events["eventID"]))
-    assert cursor.fetchone()[0] == True
+    cursor.execute(attendance, (attendee["email"], events["eventID"]))
+    assert attendance[0] == attendee["email"]
+    assert attendance[1] == events["eventID"]
+    assert attendance[2] == True
 
 
 def test_setAttendance_missingParameters(client):
