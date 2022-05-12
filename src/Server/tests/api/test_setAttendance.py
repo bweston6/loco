@@ -14,6 +14,7 @@ def test_setAttendance(host, attendeeEmail, events, client, conn):
                 WHERE email=? AND event_ID=?
     """
     cursor.execute(attendance, (attendeeEmail, events["eventID"]))
+    attendance = cursor.fetchone()
     assert attendance[0] == attendeeEmail
     assert attendance[1] == events["eventID"]
     assert attendance[2] == True
