@@ -54,15 +54,21 @@ def getAttendance():
             tokenValid = cursor.fetchone()[0]
             if tokenValid == 1:
                 cursor.execute(q1, attendanceData)
-                attendanceFlag = cursor.fetchall()[0][0]
+                attendanceFlag = cursor.fetchone()
                 db.closeConnection(conn)
-                return attendanceFlag, 200
+                if attendanceFlag is None:
+                    logging.info("Attendance query attempted with non-existent ID")
+                    return jsonify(error="invalid email or eventID"), 400
+                attendanceFlag = attendanceFlag[0]
+                return jsonify(attendanceFlag=bool(attendanceFlag)), 200
             else:
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
         else:
             return jsonify(error="missing parameters"), 400
-
+    except jwt.InvalidTokenError:
+        logging.info("Attendance query attempted with invalid token")
+        return jsonify(error="invalid token"), 401
     except Error as e:
         logging.error(e)
         return jsonify(error="database error"), 500
