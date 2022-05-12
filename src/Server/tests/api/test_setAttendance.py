@@ -37,9 +37,6 @@ def test_setAttendance_invalidToken(host, attendee, events, attendance, client):
     )
     assert response.json["error"] == "invalid token"
 
-## You should implement a check in setAttendance so that using invalid eventIDs doesn't
-## produce a database error
-
 def test_setAttendance_invalidEventID(host, attendee, events, attendance, client):
     response = client.post(
         "/api/setAttendance",
@@ -50,19 +47,5 @@ def test_setAttendance_invalidEventID(host, attendee, events, attendance, client
             "attended": True
         },
     )
-    assert response.json["error"] == "invalid event ID"
+    assert response.json["error"] == "invalid eventID"
 
-## Using invalid emails is a valid usecase as it allows for registration before someone
-## has made their account
-
-# def test_setAttendance_invalidEmail(host, attendee, events, attendance, client):
-#     response = client.post(
-#         "/api/setAttendance",
-#         json={
-#             "token": host["token"],
-#             "email": "test@bweston.uk",
-#             "eventID": events["eventID"],
-#             "attended": True
-#         },
-#     )
-#     assert response.json["error"] == "email is not registered"

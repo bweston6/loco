@@ -42,6 +42,12 @@ def setAttendance():
                     WHERE token = ? AND host_flag IS TRUE
                     LIMIT 1)"""
 
+            validateID = """SELECT EXISTS (
+                    SELECT *
+                    FROM events
+                    WHERE eventID = ?
+                    LIMIT 1)"""
+
             q1 = """REPLACE INTO attendance
                 VALUES (?, ?, ?)
             """
@@ -55,10 +61,17 @@ def setAttendance():
             cursor.execute(queryValidate, (requestData["token"],))
             tokenValid = cursor.fetchone()[0]
             if tokenValid == 1:
-                cursor.execute(q1, attendanceData)
-                conn.commit()
-                db.closeConnection(conn)
-                return jsonify(success=True), 200
+                cursor.execute(validateID, (requestData["eventID"],))
+                eventIDValid = cursor.fetchone()[0]
+                if eventIDValid  == 1:
+                    cursor.execute(q1, attendanceData)
+                    conn.commit()
+                    db.closeConnection(conn)
+                    return jsonify(success=True), 200
+                else:
+                    db.closeConnection(conn)
+                    logging.info("Attendance query attempted with non-existent ID")
+                    return jsonify(error="invalid eventID"), 400
             else:
                 db.closeConnection(conn)
                 raise jwt.InvalidTokenError
