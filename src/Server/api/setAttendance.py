@@ -30,7 +30,11 @@ def setAttendance():
     """
     try:
         requestData = request.get_json()
-        if ("token" in requestData and "email" in requestData and "eventID" in requestData):
+        if (
+            "token" in requestData
+            and "email" in requestData
+            and "eventID" in requestData
+        ):
             queryValidate = """SELECT EXISTS (
                     SELECT *
                     FROM users
@@ -42,9 +46,9 @@ def setAttendance():
                 WHERE event_ID = ? AND email = ?
             """
             attendanceData = (
-                        requestData["eventID"],
-                        requestData["email"],
-                    )
+                requestData["eventID"],
+                requestData["email"],
+            )
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData["token"],))

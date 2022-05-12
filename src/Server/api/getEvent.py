@@ -52,7 +52,7 @@ def getEvent():
                 FROM events
                 WHERE event_ID = ?
             """
-            
+
             query3 = """SELECT email
                 FROM `attendance`
                 WHERE email = ?

@@ -29,21 +29,25 @@ def getAttendance():
     """
     try:
         requestData = request.get_json()
-        if ("token" in requestData and "email" in requestData and "eventID" in requestData):
+        if (
+            "token" in requestData
+            and "email" in requestData
+            and "eventID" in requestData
+        ):
             queryValidate = """SELECT EXISTS (
                     SELECT *
                     FROM users
                     WHERE token = ? AND host_flag IS TRUE
                     LIMIT 1)"""
-                    
+
             q1 = """ SELECT attendance_flag
                 FROM attendance
                 WHERE event_ID = ? AND email = ?
             """
             attendanceData = (
-                        requestData["eventID"],
-                        requestData["email"],
-                    )
+                requestData["eventID"],
+                requestData["email"],
+            )
             conn = db.openConnection()
             cursor = conn.cursor()
             cursor.execute(queryValidate, (requestData["token"],))
