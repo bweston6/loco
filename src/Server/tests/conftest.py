@@ -420,7 +420,7 @@ def otherEmails():
 
 
 @pytest.fixture()
-def attendances(conn, events, attendee):
+def attendance(conn, events, attendee):
     cursor = conn.cursor()
     attendance = {
         "eventID": events["eventID"],
