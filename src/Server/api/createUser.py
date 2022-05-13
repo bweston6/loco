@@ -1,6 +1,3 @@
-# being worked on by Ben
-# todo - remove this message
-
 from Server import auth, database as db
 from flask import jsonify, request
 from mariadb import Error
@@ -94,4 +91,5 @@ def createUser():
         return jsonify(error="invalid OTP"), 401
     except Error as e:
         logging.error(e)
+        db.closeConnection(conn)
         return jsonify(error="database error"), 500

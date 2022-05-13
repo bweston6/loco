@@ -63,7 +63,7 @@ def setAttendance():
             if tokenValid == 1:
                 cursor.execute(validateID, (requestData["eventID"],))
                 eventIDValid = cursor.fetchone()[0]
-                if eventIDValid  == 1:
+                if eventIDValid == 1:
                     cursor.execute(q1, attendanceData)
                     conn.commit()
                     db.closeConnection(conn)

@@ -1,5 +1,3 @@
-# being worked on by timi
-
 from Server import auth, database as db
 from flask import Blueprint
 from flask import jsonify
@@ -114,4 +112,5 @@ def getEvent():
         return jsonify(error="invalid token"), 401
     except Error as e:
         logging.error(e)
+        db.closeConnection(conn)
         return jsonify(error="database error"), 500

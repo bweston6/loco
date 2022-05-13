@@ -1,5 +1,3 @@
-# being worked on by Leon
-
 from Server import database as db
 from flask import jsonify
 from flask import request
@@ -108,4 +106,5 @@ def createGroup():
         return jsonify(error="invalid token"), 401
     except Error as e:
         logging.error(e)
+        db.closeConnection(conn)
         return jsonify(error="database error"), 500

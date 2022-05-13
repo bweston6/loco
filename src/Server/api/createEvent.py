@@ -1,5 +1,3 @@
-# being worked on by Noushin
-
 from flask import jsonify, request
 from mariadb import Error
 from Server import auth
@@ -134,4 +132,5 @@ def createEvent():
         return jsonify(error="invalid token"), 401
     except Error as e:
         logging.error(e)
+        db.closeConnection(conn)
         return jsonify(error="database error"), 500

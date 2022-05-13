@@ -55,13 +55,9 @@ def test_createGroup_invalidToken(host, groupName, emails, client):
     assert response.json["error"] == "invalid token"
 
 
-# def test_createGroup_databaseError(host, conn, client):
-#     response = client.post(
-#         "/api/createGroup",
-#         json={
-#             "token": host["token"],
-#             "groupName": None,
-#             "emails": None
-#         },
-#     )
-#     assert response.json["error"] == "database error"
+def test_createGroup_databaseError(host, conn, client):
+    response = client.post(
+        "/api/createGroup",
+        json={"token": host["token"], "groupName": None, "emails": None},
+    )
+    assert response.json["error"] == "database error"

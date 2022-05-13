@@ -1,6 +1,3 @@
-# being worked on by Ben
-# todo - remove this message
-
 from Server import auth, database as db
 from flask import jsonify
 from flask import request
@@ -105,4 +102,5 @@ def getUser():
         return jsonify(error="invalid token"), 401
     except Error as e:
         logging.error(e)
+        db.closeConnection(conn)
         return jsonify(error="database error"), 500
