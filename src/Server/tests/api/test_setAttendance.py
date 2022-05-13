@@ -5,7 +5,7 @@ def test_setAttendance(host, attendeeEmail, events, client, conn):
             "token": host["token"],
             "email": attendeeEmail,
             "eventID": events["eventID"],
-            "attended": True
+            "attended": True,
         },
     )
     cursor = conn.cursor()
@@ -35,10 +35,11 @@ def test_setAttendance_invalidToken(host, attendeeEmail, events, attendance, cli
             "token": "test",
             "email": attendeeEmail,
             "eventID": events["eventID"],
-            "attended": True
+            "attended": True,
         },
     )
     assert response.json["error"] == "invalid token"
+
 
 def test_setAttendance_invalidEventID(host, attendeeEmail, events, attendance, client):
     response = client.post(
@@ -47,8 +48,7 @@ def test_setAttendance_invalidEventID(host, attendeeEmail, events, attendance, c
             "token": host["token"],
             "email": attendeeEmail,
             "eventID": 0000000000000,
-            "attended": True
+            "attended": True,
         },
     )
     assert response.json["error"] == "invalid eventID"
-

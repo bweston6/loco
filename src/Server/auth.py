@@ -7,8 +7,6 @@ import random
 import yagmail
 
 
-# get encryption key from environment variables for testing this is set in bootstrap
-# todo - remove key from bootstrap to secure configuration
 SECRET_KEY = os.getenv("SECRET_KEY", None)
 EMAIL = os.getenv("EMAIL", None)
 KEY = os.getenv("KEY", None)

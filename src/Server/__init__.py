@@ -4,9 +4,6 @@ from Server.web import web
 from flask import Flask
 import logging
 
-# todo - set to WARNING for release
-logging.basicConfig(level=logging.INFO)
-
 
 def create_app():
     """Creates the database tables using :obj:`Server.database.createTables`, creates the flask instance ``app`` and registers all blueprints under that instance.
