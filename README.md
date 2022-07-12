@@ -3,8 +3,14 @@
 ![Server lint badge](https://github.com/bweston6/group69_comp208/actions/workflows/server%20lint.yml/badge.svg)
 ![Server tests badge](https://github.com/bweston6/group69_comp208/actions/workflows/server%20tests.yml/badge.svg)
 
-This is the repository for Loco - the location based attendance app.
+This is the repository for Loco - the location based attendance app. This was produced as part of a group project at the University of Liverpool. The sever is written in Python and is fully functional, the app is written for iOS and is a work in progress. Group members are:
 
+* Oluwatimileyin (Timi) Bello
+* Rostom Benhamada
+* Noushin Islam
+* Gunan Singh
+* Leon Szabo
+* Ben Weston
 
 ## Documentation
 Go to [https://loco.bweston.uk/docs/](https://loco.bweston.uk/docs/) to see the documentation. This includes **user manuals** for attendees and hosts, as well as API documentation. A PDF download of this is also available at [https://loco.bweston.uk/downloads/loco.pdf](https://loco.bweston.uk/downloads/loco.pdf).
